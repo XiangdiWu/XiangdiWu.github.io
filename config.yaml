@@ -71,10 +71,10 @@ params:
   about_me: true
 
   giscus:
-    data-repo: XiangdiWu/hugo-blog
-    data-repo-id: R_kgDOPz8iLA
+    data-repo: XiangdiWu/XiangdiWu.github.io
+    data-repo-id: R_kgDOP0pDUQ
     data-category: Announcements
-    data-category-id: DIC_kwDOPz8iLM4Cvtaa
+    data-category-id: DIC_kwDOP0pDUc4CvwjG
     data-mapping: pathname
     data-strict: 0
     data-reactions-enabled: 1
