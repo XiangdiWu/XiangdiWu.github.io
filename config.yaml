@@ -1,0 +1,151 @@
+---
+baseurl: 'https://XiangdiWu.github.io'
+title: Xiangdi Blog
+theme: hugo-theme-cleanwhite
+languageCode: en-us
+
+# disqusShortname: bernicewu
+googleAnalytics: G-R757MDJ6Y6
+
+preserveTaxonomyNames: true
+pagination:
+  pagerSize: 10
+hasCJKLanguage: true
+outputs:
+  home:
+    - HTML
+    - RSS
+    - Algolia
+outputFormats:
+  Algolia:
+    baseName: algolia
+    isPlainText: true
+    mediaType: application/json
+    notAlternative: true
+markup:
+  tableOfContents:
+    endLevel: 2
+    startLevel: 1
+  highlight:
+    style: dracula
+  goldmark:
+    renderer:
+      unsafe: true
+    extensions:
+      passthrough:
+        enable: true
+        delimiters:
+          block: [['\[', '\]'], ['$$', '$$']]
+          inline: [['\(', '\)']]
+
+params:
+  header_image: /img/antarctic-glaciers.jpeg
+  SEOTitle: 吴湘菂的博客 | Xiangdi Blog
+  description: '吴湘菂，研究员, 开源爱好者，生活探险家 | 这里是 吴湘菂 的博客，与你一起发现更大的世界。'
+  keyword: >-
+    吴湘菂, WuXiangdi, XiangdiWu, 吴湘菂的网络日志, 吴湘菂的博客, Xiangdi Blog, 博客,
+    个人网站, Quant, 量化投资, 金融, 投资, 理财, 股票, 期货, 基金, 期权, 外汇, 比特币
+  slogan: ""
+  image_404: img/404-bg.jpeg
+  title_404: '你来到了没有知识的荒原 :('
+  page_view_conter: false
+
+  leancloud_app_id: xOQCagBBUeTMCI3diMs4thLV-gzGzoHsz
+  leancloud_app_key: 4tZpbHMwxACBiYDfkdORAzLZ
+
+  algolia_search: true
+  algolia_appId: S80KCW04JJ
+  algolia_indexName: hugo_blog_search
+  algolia_index_file: public/index.json
+  algolia_apiKey: 96613c04000f6fb9bea888c6f8f6adec
+
+  sidebar_about_description: 'Quant strategist, alpha hunter @Top-Tier Hedge Fund, creator of high-frequency signals, open-source quantlib architect, data alchemist and volatility surfer.'
+  sidebar_avatar: img/XiangdiWu.jpg
+
+  featured_tags: true
+  featured_condition_size: 5
+  reward: false
+  reward_guide: 嗯，这篇文章对我有用，鼓励一下...
+  friends: false
+  bookmarks: true
+  about_me: true
+
+  giscus:
+    data-repo: XiangdiWu/hugo-blog
+    data-repo-id: R_kgDOPz8iLA
+    data-category: Announcements
+    data-category-id: DIC_kwDOPz8iLM4Cvtaa
+    data-mapping: pathname
+    data-strict: 0
+    data-reactions-enabled: 1
+    data-emit-metadata: 0
+    data-input-position: top
+    data-theme: light
+    data-lang: en
+    crossorigin: anonymous
+
+  # We need a proxy to access Disqus api in China
+  # disqus_proxy : 'https://disqusapi.zhaohuabing.com'
+  # disqus_site : 'https://zhaohuabing.com'
+
+  social:
+    rss: true
+    email: bernicewu2000@outlook.com
+    # twitter: 'https://twitter.com/zhaohuabing'
+    # linkedin: 'https://www.linkedin.com/in/zhaohuabing'
+    github: 'https://github.com/xiangdiwu'
+    wechat: 'img/wechat_qrcode.jpg'
+    # medium: 'https://medium.com/@zhaohuabing'
+
+  friend_link:
+    - title: Linda的博客
+      href: 'https://zhaozhihan.com'
+    - title: Istio Operation Bible
+      href: 'https://unsplash.com/'
+
+  bookmark_link:
+    - title: GetAstockFactors
+      href: 'https://www.factorwar.com/data/factor-models/'
+    - title: whale-quant
+      href: 'https://datawhalechina.github.io/whale-quant/#/'
+    - title: unsplash
+      href: 'https://unsplash.com/'
+    - title: pexels
+      href: 'https://www.pexels.com'
+    - title: excalidraw
+      href: 'https://excalidraw.com/'
+    - title: Markdown Editor
+      href: 'https://doocs.github.io/md'
+    - title: xiaomark
+      href: 'https://xiaomark.com/'
+
+  publications:
+    title: PUBLICATIONS
+    items:
+      - title: 用 Qlib 学量化
+        image: /img/qlib-learn.jpg
+      
+
+  additional_menus:
+    - title: Quant
+      href: /quant/
+    - title: READING
+      href: /reading/
+    - title: TRAVEL
+      href: /travel/
+    - title: ARCHIVE
+      href: /archive/
+    - title: ABOUT
+      href: /about/
+
+  algolia:
+    vars:
+      - title
+      - summary
+      - date
+      - publishdate
+      - expirydate
+      - permalink
+    params:
+      - categories
+      - tags
