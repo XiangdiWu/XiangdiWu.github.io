@@ -121,7 +121,7 @@ params:
     data_repo_id: R_kgDOP0pDUQ
     data_category: Announcements
     data_category_id: DIC_kwDOP0pDUc4CvwjG
-    data_mapping: pathname  
+    data_mapping: pathname
     data_reactions_enabled: '1'
     data_emit_metadata: '0' 
     data_input_position: top

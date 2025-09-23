@@ -2,7 +2,7 @@
 layout:     post
 title:      "量化 Python 基础"
 subtitle:   "Quant Python Basics"
-date:       2025-07-05
+date:       2021-07-05
 author:     "Xiangdi Wu"
 image:      "/img/background.webp"
 description : "本文介绍了量化分析中最常用的 Python 数据类型和结构，以及常用的编程逻辑。"
@@ -10,7 +10,7 @@ tags:
     - Quant
 
 categories: [ Tech ]
-URL: "/2025/07/06/quant-python-basics/"
+URL: "/2021/07/06/quant-python-basics/"
 ---
 
 ## 一、Python 基本数据类型
