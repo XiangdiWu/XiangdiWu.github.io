@@ -16,8 +16,6 @@ She loves open source and has been contributing to various open source projects.
 
 She also has strong interests in various technical topics such as Artificial Intelligence, high-frequency trading, multi-factor models, and machine learning applications in quantitative finance. Additionally, she is passionate about building distributed systems, high-performance computing, and open-source quantitative platforms. She loves sharing her ideas about these things in her blog.
 
-Xiangdi holds a BSc in Architecture from Shanghai University in China. She also holds a MSc in MFE from the University of Oxford.
-
 Currently, Xiangdi works as a junior quant researcher at Hilbert Quant and also wears the hat of Hilbert Quant Community Manager. She is also the co-founder of the QuantML-Qlib open source project. For now, her main focus is to build a quant research platform for the open source community.
 
 While she is free, she likes writing technical blog posts, watching movies, swimming, hiking, travelling and learning languages.
