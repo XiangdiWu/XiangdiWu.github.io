@@ -45,8 +45,8 @@ markup:
         enable: true
     renderer:
       unsafe: true
-  highlight:
-    style: tango
+  # highlight:
+    # style: tango
 
 params:
   header_image: /img/antarctic-glaciers.jpeg
@@ -81,11 +81,27 @@ params:
   about_me: true
 
   merimaid: true
+  
   math: true
   katex:
     enable: true
     html_dom_element: document.body
+    html_dom_element: document.body
     options:
+      delimiters:
+      - display: true
+        left: $$
+        right: $$
+      - display: false
+        left: $
+        right: $
+      - display: false
+        left: \(
+        right: \)
+      - display: true
+        left: \[
+        right: \]
+      errorColor: '#CD5C5C'
       delimiters:
       - display: true
         left: $$
