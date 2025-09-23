@@ -1,5 +1,5 @@
 
-# 常规目录结构
+# Hugo Blog 常规目录结构
 .<br>
 ├── archetypes # 存放生成博客的模版<br>
 ├── assets # 存放被 Hugo Pipes 处理的文件<br>
@@ -128,6 +128,26 @@ config.yaml 配置：<br>
     hugo server
 
     ```
+**还有什么其他需要配置的内容？**
+
+✅ 设置 google analytics：<br>
+    - 注册 google analytics 账号<br>
+    - google analytics：https://analytics.google.com/<br>
+    - 添加网站和数据流<br>
+    - condig.yaml 设置 google analytics 的 id<br>
+
+✅ 清空或删除文件内容： static/ads.txt<br>
+
+## Hugo 博客内显示 LaTex 公式和 Mermaid 图表
+
+❌ 修复 Latex 和 KaTeX 的显示问题：<br>
+    - 理解 static/js/katex.min.js 文件的作用<br>
+
+✅ mermaid 图表：<br>
+    - layouts/partials/mermaid.html 文件的作用<br>
+    - layouts/post/single.html 文件的作用<br>
+
+## 托管、部署和修改域名
 
 ✅ 设置博客托管<br>
     - 这个项目是用什么托管的？<br>
@@ -143,25 +163,6 @@ config.yaml 配置：<br>
     - 在阿里云管理域名：控制台-->进入域名管理界面-->邮箱验证-->模版实名认证-->域名实名认证-->等待平台审核-->等待注册局审核-->查看审核结果
     - 进入解析添加记录：CNAME、@、默认、记录值：xiangdiwu.github.io
     - 
-
-**还有什么其他需要配置的内容？**
-
-✅ 设置 google analytics：<br>
-    - 注册 google analytics 账号<br>
-    - google analytics：https://analytics.google.com/<br>
-    - 添加网站和数据流<br>
-    - condig.yaml 设置 google analytics 的 id<br>
-
-✅ 清空或删除文件内容： static/ads.txt<br>
-
-## hugo 博客内显示 LaTex 公式和 mermaid 图表
-
-❌ 修复 Latex 和 KaTeX 的显示问题：<br>
-    - 理解 static/js/katex.min.js 文件的作用<br>
-
-✅ mermaid 图表：<br>
-    - layouts/partials/mermaid.html 文件的作用<br>
-    - layouts/post/single.html 文件的作用<br>
 
 ## 添加文章以及博客本地预览
 

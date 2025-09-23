@@ -7,7 +7,8 @@ author:      "Xiangdi Wu"
 image:       ""
 tags:        ["tag1", "tag2"]
 categories:  ["Tech" ]
-mermaid:     true
+params:
+    mermaid:	true
 ---
 
 ### 书写一个公式

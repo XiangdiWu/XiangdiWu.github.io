@@ -70,12 +70,12 @@ params:
   featured_condition_size: 5
   reward: false
   reward_guide: 嗯，这篇文章对我有用，鼓励一下...
-  friends: false
+  friends: true
   bookmarks: true
   about_me: true
 
   giscus:
-    data-repo: XiangdiWu/xiangdiwu.github.io
+    data-repo: XiangdiWu/XiangdiWu.github.io
     data-repo-id: R_kgDOP0pDUQ
     data-category: Announcements
     data-category-id: DIC_kwDOP0pDUc4CvwjG
@@ -101,16 +101,14 @@ params:
     # medium: 'https://medium.com/@zhaohuabing'
 
   friend_link:
-    - title: Linda的博客
-      href: 'https://zhaozhihan.com'
-    - title: Istio Operation Bible
-      href: 'https://unsplash.com/'
-
-  bookmark_link:
     - title: GetAstockFactors
       href: 'https://www.factorwar.com/data/factor-models/'
     - title: whale-quant
       href: 'https://datawhalechina.github.io/whale-quant/#/'
+    - title: 知予 AI
+      herf: 'https://knove-ai.github.io/'
+
+  bookmark_link:
     - title: unsplash
       href: 'https://unsplash.com/'
     - title: pexels
