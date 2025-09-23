@@ -169,10 +169,10 @@ params:
         image: /img/qlib-learn.jpg
   
   additional_menus:
-    - title: Quant
-      href: /quant/
-    - title: READING
-      href: /reading/
+    #- title: Quant
+    #  href: /quant/
+    - title: Vibe
+      href: /vibe/
     - title: TRAVEL
       href: /travel/
     - title: ARCHIVE
