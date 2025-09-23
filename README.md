@@ -15,7 +15,7 @@
 ## 项目git配置
 
 ✅ 通过git clone获取项目<br>
-git clone https://github.com/XiangdiWu/hugo-blog.git<br>
+git clone https://github.com/XiangdiWu/xiangdiwu.github.io.git<br>
 
 ✅ 理解通过git同步内容<br>
     - 理解 .gitignore 文件<br>
@@ -43,7 +43,7 @@ git clone https://github.com/XiangdiWu/hugo-blog.git<br>
 
     ```
 
-✅ 设置 git 子模块：<br>
+✅ 设置 git 子模块（可选）：<br>
 
     ```bash
     git submodule add https://github.com/appernetic/hugo-nederburg-theme themes/hugo-nederburg-theme
@@ -57,7 +57,7 @@ git clone https://github.com/XiangdiWu/hugo-blog.git<br>
     ```
 ❗️ 先提交子模块内容，再提交父项目内容：<br>
 
-## 构建 Make 管理文件方式
+## 构建 Make 管理文件方式（可选）
 
 ✅ 配置 Make 环境（MacOs）：
     
@@ -132,12 +132,15 @@ config.yaml 配置：<br>
 ✅ 设置博客托管<br>
     - 这个项目是用什么托管的？<br>
     - 如何设置托管？<br>
-    - 如何修改托管？<br>
-    - 如何修改域名？<br>
     - 为什么托管不成功？<br>
     - Github pages：https://hugo.opendocs.io/zh-cn/hosting-and-deployment/hosting-on-github/<br>
     - Netlify pages：https://hugo.opendocs.io/zh-cn/hosting-and-deployment/hosting-on-netlify/<br>
     - Cloudflare Pages：https://www.heyjude.blog/zh-cn/posts/deploy-hugo-to-cloudflare/<br>
+
+✅ 修改域名<br>
+    - 注册阿里云或腾讯云账号，任选一家购买域名
+    - 实名认证，等待审核
+    - 在阿里云管理域名：控制台-->进入域名管理界面-->
 
 **还有什么其他需要配置的内容？**
 
@@ -147,39 +150,29 @@ config.yaml 配置：<br>
     - 添加网站和数据流<br>
     - condig.yaml 设置 google analytics 的 id<br>
 
-✅ 已清空文件内容： static/ads.txt<br>
+✅ 清空或删除文件内容： static/ads.txt<br>
 
-❌ 设置 leancloud：<br>
-    - ✅ 搜索leancloud，注册一个账号<br>
-    - ✅ leancloud：https://leancloud.cn/<br>
-    - leanengine
-    - 设置 leancloud 的 appid 和 appkey<br>
-
-❌ 配置 netlify.toml：<br>
-    - 理解 netlify 的部署流程<br>
-    - 修改 netlify.toml 文件<br>
-
-❌ 其他配置：<br>
-    - 理解 static/download 文件夹中内容，是否需要修改？<br>
-    - 理解 static/mindmap 文件夹内容，是否需要修改？<br>
-    - 理解 static/misc 文件夹内容，是否需要修改？<br>
-
-## 待解决问题
+## hugo 博客内显示 LaTex 公式和 mermaid 图表
 
 ❌ 修复 Latex 和 KaTeX 的显示问题：<br>
     - 理解 static/js/katex.min.js 文件的作用<br>
 
+✅ mermaid 图表：<br>
+    - layouts/partials/mermaid.html 文件的作用<br>
+    - layouts/post/single.html 文件的作用<br>
+
 ## 添加文章以及博客本地预览
 
 ✅ 添加博客文章：<br>
+    - 添加文章(post文件夹，layout：post，categories：[Life]，导航栏会出现 Life)<br>
     - 修改 about 页面<br>
     - 修改 reading 页面<br>
     - 修改 travel 页面<br>
 
-❗️ 在日后，我们每一次增添文章或修改文章后，都要进行下面步骤：<br>
+❗️ 调试项目时，每一次增添文章或修改文章后，都要进行下面步骤：<br>
     - （可选）删除 public<br>
     - 生成页面和索引文件：hugo<br>
     - 将索引文件上传：npm run algolia<br>
     - 在网页查看博客：hugo server<br>
-
+❗️ 待完成部署后只需要 git 即可：<br>
 ❗️ 先提交子模块内容，再提交父项目内容：<br>

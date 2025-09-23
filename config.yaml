@@ -1,5 +1,5 @@
 ---
-baseurl: 'https://XiangdiWu.github.io'
+baseurl: 'https://xiangdiwu.top'
 title: Xiangdi Blog
 theme: hugo-theme-cleanwhite
 languageCode: en-us
@@ -33,10 +33,14 @@ markup:
       unsafe: true
     extensions:
       passthrough:
-        enable: true
         delimiters:
-          block: [['\[', '\]'], ['$$', '$$']]
-          inline: [['\(', '\)']]
+          block:
+          - - $$
+            - $$
+          inline:
+          - - $
+            - $
+        enable: true
 
 params:
   header_image: /img/antarctic-glaciers.jpeg
@@ -59,7 +63,7 @@ params:
   algolia_index_file: public/index.json
   algolia_apiKey: 96613c04000f6fb9bea888c6f8f6adec
 
-  sidebar_about_description: 'Quant strategist, alpha hunter @Top-Tier Hedge Fund, creator of high-frequency signals, open-source quantlib architect, data alchemist and volatility surfer.'
+  sidebar_about_description: 'Quant strategist, alpha hunter @Hilbert Quant, creator of high-frequency signals, open-source quantlib architect, data alchemist and volatility surfer.'
   sidebar_avatar: img/xiangdiwu2.jpg
 
   featured_tags: true
@@ -71,12 +75,11 @@ params:
   about_me: true
 
   giscus:
-    data-repo: XiangdiWu/XiangdiWu.github.io
+    data-repo: XiangdiWu/xiangdiwu.github.io
     data-repo-id: R_kgDOP0pDUQ
     data-category: Announcements
     data-category-id: DIC_kwDOP0pDUc4CvwjG
     data-mapping: pathname
-    data-strict: 0
     data-reactions-enabled: 1
     data-emit-metadata: 0
     data-input-position: top

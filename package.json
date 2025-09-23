@@ -1,5 +1,5 @@
 {
-  "name": "xiangdiwu.github.io",
+  "name": "xiangdiwu.top",
   "version": "1.0.0",
   "description": "My hugo blog",
   "main": "index.js",
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xiangdiwu/XiangdiWu.github.io.git"
+    "url": "git+https://github.com/xiangdiwu/xiangdiwu.github.io.git"
   },
   "author": "Xiangdi Wu",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/XiangdiWu/XiangdiWu.github.io/issues"
+    "url": "https://github.com/XiangdiWu/xiangdiwu.github.io/issues"
   },
-  "homepage": "https://github.com/XiangdiWu/XiangdiWu.github.io#readme",
+  "homepage": "https://github.com/XiangdiWu/xiangdiwu.github.io#readme",
   "dependencies": {
     "atomic-algolia": "^0.3.19"
   }

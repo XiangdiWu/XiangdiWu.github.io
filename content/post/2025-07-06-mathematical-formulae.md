@@ -23,7 +23,7 @@ display engine to render mathematical markup to HTML at build time.
 With this server side rendering of formulae, the same output is produced,
 regardless of your browser or your environment.  
 
-[\(\LaTeX\)](https://www.latex-project.org/) is a high-quality typesetting
+[\(LaTeX\)](https://www.latex-project.org/) is a high-quality typesetting
 system for the production of technical and scientific documentation. Due to its
 excellent math typesetting capabilities, \(\TeX\) became the de facto standard
 for the communication and publication of scientific documents, especially if
@@ -127,7 +127,7 @@ mediaTypes:
 
 
 With the `passthrough` extension enabled and the media types defined, support
-of \(\KaTeX\) is automatically enabled when you author a `math` code block on
+of \(KaTeX\) is automatically enabled when you author a `math` code block on
 your page or when you add a mathematical formula to your page using one of the
 passthrough delimiter pairs defined above.
 
