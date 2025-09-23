@@ -29,17 +29,24 @@ markup:
   highlight:
     style: dracula
   goldmark:
+    extensions:
+      passthrough:
+        delimiters:
+          block:
+          - - \[
+            - \]
+          - - $$
+            - $$
+          inline:
+          - - \(
+            - \)
+          - - $
+            - $
+        enable: true
     renderer:
       unsafe: true
-    extensions:
-        passthrough:
-          enable: true
-          delimiters:
-            block:
-              - ["[", "]"]
-              - ["$$", "$$"]
-            inline:
-              - ["(", ")"]
+  highlight:
+    style: tango
 
 params:
   header_image: /img/antarctic-glaciers.jpeg
@@ -77,23 +84,23 @@ params:
   math: true
   katex:
     enable: true
-    html_dom_element: "document.body"
+    html_dom_element: document.body
     options:
-      throwOnError: false
-      errorColor: "#CD5C5C"
       delimiters:
-        - left: "$$"
-          right: "$$"
-          display: true
-        - left: "$"
-          right: "$"
-          display: false
-        - left: "\\("
-          right: "\\)"
-          display: false
-        - left: "\\["
-          right: "\\]"
-          display: true
+      - display: true
+        left: $$
+        right: $$
+      - display: false
+        left: $
+        right: $
+      - display: false
+        left: \(
+        right: \)
+      - display: true
+        left: \[
+        right: \]
+      errorColor: '#CD5C5C'
+      throwOnError: false
 
   giscus:
     data_repo: XiangdiWu/XiangdiWu.github.io

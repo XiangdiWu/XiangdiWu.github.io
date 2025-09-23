@@ -5,3 +5,4 @@ resources
 .env
 *.log
 **/.DS_Store
+bin/hugo

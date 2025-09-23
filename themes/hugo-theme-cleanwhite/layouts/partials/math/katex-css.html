@@ -1,4 +1,4 @@
-{{ $cssFile := cond hugo.IsProduction "katex.min.css" "katex.css" -}}
+<!-- {{ $cssFile := cond hugo.IsProduction "katex.min.css" "katex.css" -}}
 {{ $cssUrl := printf "https://unpkg.com/katex@latest/dist/%s" $cssFile -}}
 {{ with try (resources.GetRemote $cssUrl) -}}
   {{ with .Err -}}
@@ -11,4 +11,4 @@
   {{ else -}}
     {{ errorf "Could not retrieve css file %q from CDN. Reason: invalid KaTeX version %q." $cssUrl "latest" -}}
   {{ end -}}
-{{ end -}}
+{{ end -}} -->
