@@ -45,8 +45,6 @@ markup:
         enable: true
     renderer:
       unsafe: true
-  # highlight:
-    # style: tango
 
 params:
   header_image: /img/antarctic-glaciers.jpeg

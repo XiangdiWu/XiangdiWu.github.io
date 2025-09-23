@@ -1,4 +1,5 @@
 ---
+layout:      post
 title:       "Latex and Mermaid Test"
 subtitle:    ""
 description: "一个公式和图表显示的测试文章"
@@ -9,11 +10,13 @@ tags:        ["tag1", "tag2"]
 categories:  ["Tech" ]
 params:
     mermaid:	true
+draft:       true
 ---
 
 ### 书写一个公式
 
-这是一个行内公式  $a_1v_1+a_2v_2+\cdots+a_nv_n$
+这是一个行内公式 $s=\sqrt{\frac{1}{n-1} \sum_{i=1}^{n} (x_i - \bar{x})^2}$
+
 
 这是一个行间公式：
 $$y_i=\frac{x_i-\bar{x}}{s}$$
