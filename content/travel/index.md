@@ -2,7 +2,7 @@
 title: "旅行日志"
 layout: top
 showTOC: true
-draft:   true
+# draft:   true
 ---
 
 > “Do not go gentle into that good night” 
@@ -31,29 +31,29 @@ Santa Cruz 是加州最著名的冲浪胜地之一，这对情侣正在准备下
 
 ![](/img/travel/PXL_20240527_172201795.jpg)
 
-# 金门大桥 - 旧金山，美国，2023.11
-
-巨大的红色桥塔横跨在桥面上，如同一个昂首阔步的巨人。
-
-![](/img/travel/2023-11-golden-gate-bridge.jpg)
-
-# 唐人街 - 旧金山，美国，2023.11
-
-传奇武术大师李小龙在旧金山留下的印记至今仍然清晰可见。
-
-![](/img/travel/2023-11-san-francisco.jpg)
-
-# 芝加哥 - 芝加哥，美国，2023.11
-
-芝加哥是美国很少的几个有摩天大楼的城市之一，这里的建筑风格独具特色，具有强烈的现代感。
-
-![](/img/travel/2023-11-chicago.jpg)
-
 # 雅女湖 - 四川，眉山 2024.01
 
 清晨的湖面平静如镜，湖边的树木和远处的瓦屋山倒影在湖中，如同一幅水墨画。
 
 ![](/img/travel/2023-雅女湖.jpeg)
+
+# 金门大桥 - 旧金山，美国，2022.11
+
+巨大的红色桥塔横跨在桥面上，如同一个昂首阔步的巨人。
+
+![](/img/travel/2023-11-golden-gate-bridge.jpg)
+
+# 唐人街 - 旧金山，美国，2022.11
+
+传奇武术大师李小龙在旧金山留下的印记至今仍然清晰可见。
+
+![](/img/travel/2023-11-san-francisco.jpg)
+
+# 芝加哥 - 芝加哥，美国，2022.11
+
+芝加哥是美国很少的几个有摩天大楼的城市之一，这里的建筑风格独具特色，具有强烈的现代感。
+
+![](/img/travel/2023-11-chicago.jpg)
 
 # 穿藏族服装的少女 - 理塘，甘孜，2022.08
 
@@ -118,12 +118,6 @@ Best moment at the dawn, the reflection of trees shattered by the waves of a boa
 # 情人海 - 金川，阿坝，2018.10
 
 ![](/img/travel/2018-情人海.jpeg)
-
-# 船上的小孩 - 马来西亚，2018.10
-
-其实还没有机会去马来西亚，这是一个马来西亚网友发给我的，觉得构图很不错。
-
-![](/img/travel/2018-no-name.jpeg)
 
 # 某寺庙 - 香港，2015.4
 

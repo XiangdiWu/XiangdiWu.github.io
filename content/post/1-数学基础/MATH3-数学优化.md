@@ -1,8 +1,8 @@
 ---
 layout:      post
 title:       "量化数学基础：数学优化"
-subtitle:    "副标题"
-description: "文章概要"
+subtitle:    "Foundations of Quantitative Mathematics: Mathematical Optimisation"
+description: "本文主要介绍数学优化问题，包括数学优化问题的类型、凸优化基础、优化算法、拉格朗日乘数法与KKT条件。"
 author:      "XiangdiWu"
 date:        2020-09-25
 image:       "/img/background.webp"
@@ -20,9 +20,9 @@ params:
 
 <b>数学优化(mathematical optimization)</b>问题也叫最优化问题，指在一定约束条件下，求解一个目标函数的最大值或最小值问题。数学优化问题的定义为：给定一个目标函数(也叫代价函数)$f:A\rightarrow\mathbb R$，寻找一个变量$\boldsymbol x^* \in \mathcal D$，使得对于所有$\mathcal D$中的$\boldsymbol x$，$$f(\boldsymbol{x}^{*}) \leqslant f(\boldsymbol{x})$$(最小化)；或者$f(\boldsymbol{x}^{*}) \geqslant f(\boldsymbol{x})$(最大化)，其中$\mathcal D$为变量$\boldsymbol x$的**约束集**，也叫**可行域**；$\mathcal D$中的变量被称为**可行解**。
 
-### 数学优化的类型
+# 数学优化的类型
 
-#### 离散优化和连续优化
+## 离散优化和连续优化
 
 <b>离散优化(discrete optimization)</b>问题是目标函数的输入变量为离散变量，比如为整数或有限集合中的元素。离散优化问题主要有两个分支：
 
@@ -34,7 +34,7 @@ params:
 
 <b>连续优化(continuous optimization)</b>目标函数的输入变量为连续变量$\boldsymbol x \in \mathbb R^d$，即目标函数为实函数。机器学习中的优化问题主要是连续优化问题。
 
-#### 无约束优化和约束优化
+## 无约束优化和约束优化
 
 在连续优化问题中，根据是否有变量的约束条件，可以将优化问题分为无约束优化问题和约束优化问题。
 
@@ -46,7 +46,7 @@ $$
 
 **约束优化(constrained optimization)** 问题中变量$ \boldsymbol x $需要满足一些等式或不等式的约束。约束优化问题通常使用**拉格朗日乘数法**来进行求解。 
 
-#### 线性优化和非线性优化
+## 线性优化和非线性优化
 
 若目标函数和所有的约束函数都为线性函数，则该问题称为<b>线性规划(linear programming)</b>问题。相反，如果木变函数或任何一个约束函数为非线性函数，则该问题为 <b>非线性规划(nonlinear programming)</b>问题。
 
@@ -56,9 +56,9 @@ f(\alpha \boldsymbol{x}+(1-\alpha) \boldsymbol{y}) \leq \alpha f(\boldsymbol{x})
 $$
 凸优化问题是一种特殊的约束优化问题，需满足目标函数为凸函数，并且等式约束函数为线性函数，不等式约束函数为凸函数。
 
-### 凸优化基础
+# 凸优化基础
 
-#### 凸集
+## 凸集
 
 对于集合$C$，如果对任意$x,y \in C,\theta \in \mathbb R,0 \leqslant \theta \leqslant 1$，有$\theta x + (1-\theta)y \in C$，则集合$C$为**凸集(convex set)**。下图中，左边为凸集，右边为非凸集：
 
@@ -84,7 +84,7 @@ $\theta x+(1-\theta)y$称为点$x$和$y$的凸组合。凸集有以下实例：
 <img src="/Kimages/1/image-20200608210431723.png" style="zoom:35%;" />
 </div>
 
-#### 凸函数
+## 凸函数
 
 若函数$f:\mathbb R^n \rightarrow \mathbb R$为**凸函数(convex function)**，则其定义域$\mathcal D(f)$为凸集，且对所有$x,y \in \mathcal D(f),\theta \in [0,1]$，有$f(\theta x+(1-\theta) y) \leqslant \theta f(x)+(1-\theta) f(y)$。
 
@@ -106,11 +106,11 @@ f(\mathbb{E}[x]) \leqslant \mathbb{E}[f(x)]
 $$
 上式被称为**Jensen不等式(Jensen inequality)**。
 
-### 优化算法
+# 优化算法
 
 优化问题一般都是通过**迭代**的方式来求解，即通过猜测一个初始的估计，然后不断迭代产生新的估计，最终收敛到期望的最优解。一个好的优化算法应该能在一定的时间或空间复杂度下能够快速准确地找到最优解。同时，好的优化算法**受初始猜测点的影响较小**，通过迭代能稳定地找到最优解的邻域，然后迅速收敛于最优解。
 
-#### 全局最优和局部最优
+## 全局最优和局部最优
 
 对于很多非线性优化问题，会存在若干个局部的极小值。局部极小值，或局部最优解$$\boldsymbol x^*$$定义为：存在一个$\delta>0$，对于所有的满足$\| \boldsymbol x - \boldsymbol x^* \| \leqslant \delta$的$\boldsymbol x$，公式$$f(\boldsymbol X^*) \leqslant f(\boldsymbol X)$$成立。也就是说，在  $$\boldsymbol x^*$$的附近区域内，所有的函数值都会大于或者等于$f(\boldsymbol x^*)$。
 
@@ -122,7 +122,7 @@ $$
 
 **局部最优解的二阶必要条件**如下：如果$$\boldsymbol x^*$$为局部最优解并且函数*f*在$$\boldsymbol x^*$$的邻域内二阶可微，则$$\nabla f\left(\boldsymbol{x}^{*}\right)=0$$，且$$\nabla^2f(\boldsymbol x^*)$$为半正定矩阵。
 
-#### 梯度下降法
+## 梯度下降法
 
 **梯度下降法(gradient descent method)**经常用来求解无约束优化的极小值问题。对于函数$f(\boldsymbol x)$，如果$f(\boldsymbol x)$在点$\boldsymbol x_t$附近是连续可微的，那么$f(\boldsymbol x)$下降最快的方向是$f(\boldsymbol x)$在点$\boldsymbol x_t$梯度方向的**反方向**。
 
@@ -194,7 +194,7 @@ plt.plot(xs, values, color='red')
 plt.show()
 ```
 
-### 拉格朗日乘数法与KKT条件
+# 拉格朗日乘数法与KKT条件
 
 <b>拉格朗日乘数法(Lagrange multiplier)</b>是约束优化问题的一种有效求解方法。**约束优化问题**可以表示为：
 $$
@@ -209,7 +209,7 @@ $$
 $$
 其中$\operatorname{dom}(f)$是函数$f$的定义域。
 
-#### 等式约束优化问题
+## 等式约束优化问题
 
 如果**约束问题只有等式约束(而没有不等式约束)**，我们可以构造一个拉格朗日函数$\Lambda(\boldsymbol{x}, \lambda)$：
 $$
@@ -230,7 +230,7 @@ $$
 <img src="/Kimages/1/image-20200526164541279.png" style="zoom:35%;" />
 </div>
 
-#### 不等式约束优化问题
+## 不等式约束优化问题
 
 对于一般的约束优化问题，其**广义拉格朗日函数**为：
 $$
@@ -305,7 +305,7 @@ print("optimal value: ", prob.value)  # 1.0
 print("optimal variables: ", x.value, y.value)  # 1.0 1.570086213240983e-22
 ```
 
-### 参考资料
+# 参考资料
 
 - 李航. 统计学习方法. 北京: 清华大学出版社, 2019.
 

@@ -1,8 +1,8 @@
 ---
 layout:      post
 title:       "量化数学基础：微积分"
-subtitle:    "副标题"
-description: "文章概要"
+subtitle:    "Foundations of Quantitative Mathematics: Calculus"
+description: "本文主要介绍微积分的基础知识，包括导数、积分、矩阵微积分等。"
 author:      "XiangdiWu"
 date:        2020-09-24
 image:       "/img/background.webp"
