@@ -140,8 +140,8 @@ config.yaml 配置：<br>
 
 ## Hugo 博客内显示 LaTex 公式和 Mermaid 图表
 
-❌ 修复 Latex 和 KaTeX 的显示问题：<br>
-    - 理解 static/js/katex.min.js 文件的作用<br>
+✅ 修复 Latex 和 KaTeX 的显示问题：<br>
+    - 感谢朋友 ahKevinXy 的帮助<br>
 
 ✅ mermaid 图表：<br>
     - layouts/partials/mermaid.html 文件的作用<br>
