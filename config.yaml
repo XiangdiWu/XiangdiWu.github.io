@@ -147,8 +147,6 @@ params:
       href: 'https://www.factorwar.com/data/factor-models/'
     - title: whale-quant
       href: 'https://datawhalechina.github.io/whale-quant/#/'
-    - title: 知予 AI
-      herf: 'https://knove-ai.github.io/'
 
   bookmark_link:
     - title: unsplash
@@ -162,11 +160,11 @@ params:
     - title: xiaomark
       href: 'https://xiaomark.com/'
 
-  publications:
-    title: PUBLICATIONS
-    items:
-      - title: 用 Qlib 学量化
-        image: /img/qlib-learn.jpg
+  # publications:
+    # title: PUBLICATIONS
+    # items:
+      # - title: 用 Qlib 学量化
+        # image: /img/publications/qlib-learn.jpg
   
   additional_menus:
     #- title: Quant
