@@ -4,10 +4,7 @@ layout: top
 showTOC: true
 ---
 
-
 > “Do not go gentle into that good night” 
-
-尘埃落地之前，去看看这世界。
 
 # In-N-Out Burger - Milpitas, USA, 2024.05
 

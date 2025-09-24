@@ -30,7 +30,7 @@ $ git init
 ```
 其目录结构如下：
 
-```
+```plain text
 ├── branches             不这么重要，暂不用管
 ├── config               git配置信息，包括用户名，email，remote repository的地址，本地branch和remote
 |                        branch的follow关系
@@ -72,7 +72,7 @@ $ git commit -sm "init commit"
 ```
 从打印输出可以看到，上面的命令创建了一个commit对象，该commit包含两个文件。 查看.git/objects目录，可以看到该目录下增加了5个子目录 06，3b， 82， b7， ca，每个子目录下有一个以一长串字母数字命令的文件。
 
-```
+```plain text
 .git/objects
 ├── 06
 │   └── 5bcad11008c5e958ff743f2445551e05561f59
@@ -96,7 +96,7 @@ $ git commit -sm "init commit"
 
 当前分支的对象引用保存在HEAD文件中，可以查看该文件得到当前HEAD对应的branch，并通过branch查到对应的commit对象。
 
-```hash
+```bash
 $ cat .git/HEAD
 ref: refs/heads/master
 cat .git/refs/heads/master
@@ -145,7 +145,7 @@ hello world
 
 从上面的实验我们可以得知，git中存储了三种类型的对象，commit，tree和blob。分别对应git commit，此commit中的目录和文件。这些对象之间的关系如下图所示。
 
-```
+```plain text
 HEAD---> refs/heads/master--> b767d7(commit)
                                     +
                                     |
@@ -231,7 +231,8 @@ $ git cat-file -p 9aeacd
 可以看到该tree对象中包含了该版本的所有文件和目录，由于README没有变化，还是指向的065bca这个blob对象。Makefile是一个新建的blob对象，src和file1.txt则指向了新版本的对象。
 
 增加了这次commit后，git中各个对象的关系如下图所示：
-```
+
+```plain text
                                           (parent)
 HEAD--> refs/heads/work--> 4f7399(commit) +-------> b767d7(commit)<---refs/heads/master
                               +                             +
@@ -466,7 +467,7 @@ Date:   Mon Jan 21 15:25:16 2019 +0800
 
 如果你不想保留修改的文件，可以使用--hard参数直接回退到指定的commit，该参数会将HEAD指向该commit，并且工作区中的文件也会和该comit保持一致，该commit后的修改会被直接丢弃。
 
-```
+```plain text
 $ git reset HEAD --hard
 HEAD is now at 4f73993 some change
 $ git status

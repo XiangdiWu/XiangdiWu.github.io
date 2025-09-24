@@ -80,7 +80,7 @@ While terms like "high-frequency," "T+0," and "price-volume" are often used to d
         
     2. **In China's Stock Market:** Due to the T+1 settlement rule and stamp duty, truly high-quality HF strategies have **very limited capacity** . They are generally unsuitable for managing external investor capital via asset management products. Consequently, HF represents a small portion of the market and is not a mainstream strategy. Discussions about foreign HF quant impact primarily focus on the **futures market** (which operates T+0), not stocks. Foreign HF players, like Jump Trading, hold significant advantages in hardware, strategy, and technology in China's futures market.
         
-    3. **Important Distinction:** A stock quant strategy with an annual turnover of ~100x implies an average holding period of ~5 days. This is actually **medium-frequency** , not high-frequency.
+    3. **Important Distinction:** A stock quant strategy with an annual turnover of ~100x implies an average holding period of ~5 days. This is actually **medium-frequency**, not high-frequency.
         
 2. **Statistical Arbitrage (Stat Arb) Strategies:**
     
@@ -171,7 +171,7 @@ High-frequency trading (HFT), algorithmic trading (Algo), and market making all 
 **Key Similarities & Differences:**
 
 | Feature           | High-Frequency Trading (HFT)                   | Algorithmic Trading (Algo)       | Market Making                           |
-| ----------------- | ---------------------------------------------- | -------------------------------- | --------------------------------------- |
+| :---: | :---: | :---: | :---: |
 | **Core Purpose**  | Profit from ultra-short-term inefficiencies    | Optimize trade execution         | Provide liquidity & earn spread/rebates |
 | **Primary Goal**  | Direct profit generation                       | Efficient order execution        | Facilitate trades & earn spread/rebates |
 | **Time Horizon**  | Extremely short (<5 min)                       | Varies (can be short or long)    | Continuous quoting                      |
@@ -443,19 +443,19 @@ Driven by client demand for better absolute returns, leading quant hedge funds h
 
 **Key Differentiators & Advantages:**
 
-|                                 |                                                       |                                                                                                        |
-| ------------------------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| Feature                         | Index Enhancement (e.g., CSI 500 Enh)                 | All-Market Stock Selection                                                                             |
+| Feature                     | Index Enhancement (e.g., CSI 500 Enh)             | All-Market Stock Selection                                                                         |
+| :---: | :---:| :---: |
 | **Benchmark**                   | Strictly tracks a specific index (e.g., CSI 500)      | **No benchmark constraint**                                                                            |
 | **Stock Universe**              | Primarily constituents of the target index            | **Entire A-share market**                                                                              |
 | **Key Constraint**              | **Tracking Error** (limits deviation from index)      | **No Tracking Error Constraint**                                                                       |
-| **Style/Industry Exp.**         | Generally constrained to match index characteristics  | **Unconstrained** (can deviate freely)                                                                 |
-| **Primary Goal**                | Beta + Maximize Alpha _within index constraints_      | **Maximize Absolute Return** (Unconstrained)                                                           |
+| **Style/Industry Exposure**     | Generally constrained to match index characteristics  | **Unconstrained** (can deviate freely)                                                                 |
+| **Primary Goal**                | Beta + Maximize Alpha *within index constraints*      | **Maximize Absolute Return** (Unconstrained)                                                           |
 | **Alpha Source**                | Alpha signals primarily applied within index universe | Alpha signals applied across **all stocks**                                                            |
 | **Liquidity Focus**             | Driven by index liquidity & constraints               | **Direct focus on stock liquidity**                                                                    |
 | **Flexibility**                 | Lower                                                 | **Highest**                                                                                            |
 | **Theoretical Alpha Potential** | Limited by constraints                                | **Higher** (Can access alpha signals anywhere)                                                         |
 | **Volatility Impact**           | Dictated by index + alpha                             | **Not significantly higher than QLO** (Empirical evidence shows marginal increase in vol/MDD is small) |
+
 
 **Why Unconstrained is More "Natural" and Often Better:**
 
@@ -525,11 +525,9 @@ In today's market characterized by significant stock dispersion (opportunities e
 - Both aim to capture **market return (Beta) + generate excess return (Alpha)** through active quantitative management.
     
 - They serve **different investor needs and risk preferences** , offering distinct allocation value:
-    
 
-|   |   |   |   |
-|---|---|---|---|
 |Consideration|Index Enhancement (e.g., CSI 500 Enh)|All-Market Stock Selection|Recommendation|
+| :---: | :---: | :---: | :---: |
 |**Strong Conviction in a Specific Index**|✓ (e.g., if CSI 500 is expected to strongly outperform)|✗ (May underperform a surging specific index)|Choose Index Enhancement|
 |**High Sensitivity to Alpha Volatility**|✓ (Tracking error constraint dampens _relative_ vol)|✗ (Absolute return vol may feel higher)|Choose Index Enhancement|
 |**Primary Goal: Maximize Long-Term Absolute Return**|✗ (Constrained Alpha potential)|✓ (Unconstrained Alpha potential)|**Choose All-Market Selection**|
@@ -685,7 +683,7 @@ Quantitative market-neutral products retain allocation value. However, given the
 
 # Q12: What is Annualized Volatility? How Does it Differ from Maximum Drawdown?
 
-**■ Distinguishing and Understanding Annualized Volatility vs. Maximum Drawdown**
+**Distinguishing and Understanding Annualized Volatility vs. Maximum Drawdown** 
 
 - **Annualized Volatility:** A core component of the **Sharpe Ratio** (Sharpe Ratio = (Annualized Return - Annualized Risk-Free Rate) / Annualized Volatility). This key fund evaluation metric reflects **risk-adjusted return** : how much excess return a fund generates per unit of risk taken. All returns come with associated risk; volatility quantifies the uncertainty of asset returns, reflecting the risk level of a financial asset.
     
@@ -694,7 +692,7 @@ Quantitative market-neutral products retain allocation value. However, given the
     - _Example:_ A fund launches on Nov 1, 2021. Its NAV reaches a short-term high of 1.2 on Jan 4, 2022. After a market crash, the NAV drops to 0.9 by Apr 26, 2022. The worst-case scenario for an investor buying at the peak (Jan 4) and selling at the trough (Apr 26) would be a loss of 25%: `(1.2 - 0.9) / 1.2 * 100%`. The fund's maximum drawdown during this holding period is 25%.
         
 
-**■ Annualized Volatility Measures Statistical Variance; Maximum Drawdown Captures the Extremes of Return Distribution**
+**Annualized Volatility Measures Statistical Variance; Maximum Drawdown Captures the Extremes of Return Distribution**
 
 Both volatility and drawdowns are inherent parts of market dynamics. Looking at major A-share indices from 2007-2021:
 
@@ -714,7 +712,7 @@ Drawdown magnitudes vary significantly year-to-year, making entry timing importa
 - _Implication:_ For a fund with a short track record, a seemingly low historical maximum drawdown might be misleading. If its **annualized volatility is high** , it's statistically likely that its **maximum drawdown will eventually exceed the current record** , given enough time and exposure to market stress.
     
 
-**■ Target Annualized Volatility is More Predictable Than Uncontrollable Maximum Drawdown**
+**Target Annualized Volatility is More Predictable Than Uncontrollable Maximum Drawdown**
 
 Examining top-tier hedge funds reveals a pattern: over sufficiently long periods, the **Maximum Drawdown is typically 1.5 times (or more) the Annualized Volatility** .
 
@@ -1296,7 +1294,11 @@ The most commonly used standardization method is the Z - Score method, also know
 
 The formula is as follows:
 
-$$Standardized Value=\frac{Raw Value - Mean}{Standard Deviation} $$
+$$y_i=\frac{x_i-\bar{x}}{s}$$
+
+$\bar{x} = \frac{1}{n} \sum_{i=1}^{n} x_i$; 
+
+$s=\sqrt{\frac{1}{n-1} \sum_{i=1}^{n} (x_i - \bar{x})^2}$
 
 Before standardization, extreme value handling is typically performed to mitigate the impact of outliers. This usually involves removing or replacing extremely high or low values with a threshold value. After standardization, the data conforms to a normal distribution with a mean of 0 and a standard deviation of 1, with over 99% of the data falling within the [-3, 3] interval. Standardization does not alter the relative ranking of the original data, thus preserving the factor's predictive power for stock returns. Once all factors in a multi - factor model are standardized, they can be combined through arithmetic operations to form the Alpha factor.
 

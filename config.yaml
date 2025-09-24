@@ -171,12 +171,12 @@ params:
   additional_menus:
     #- title: Quant
     #  href: /quant/
+    - title: ARCHIVE
+      href: /archive/
     - title: Vibe
       href: /vibe/
     - title: TRAVEL
       href: /travel/
-    - title: ARCHIVE
-      href: /archive/
     - title: ABOUT
       href: /about/
 

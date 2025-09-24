@@ -4,7 +4,7 @@ title:      "量化学习计划"
 subtitle:   "Quantitative Learning Plan"
 date:       2025-07-01
 author:     "Xiangdi Wu"
-image:      "/img/background.webp"
+image:      "/img/background/bridge.jpg"
 description : "本文介绍量化学习计划，包括量化入门、量化基础、量化进阶、量化跃迁、量化求职、经验积累。并附带 @希尔伯特旅馆 量化社区资源简介。"
 
 tags:

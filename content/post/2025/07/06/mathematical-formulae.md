@@ -5,7 +5,7 @@ description: "Cleanwhite theme now has built-in support for authoring mathematic
 excerpt: "The theme uses Hugo's embedded instance of the KaTeX display engine to render mathematical markup to HTML at build time."
 date:    2025-07-06
 author: "Xiangdi Wu"
-image: "/img/2018-05-23-service_2_service_auth/background.jpg"
+image: "/img/background/bridge.jpg"
 tags:
     - Math
     - KaTeX 

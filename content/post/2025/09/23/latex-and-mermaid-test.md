@@ -35,3 +35,61 @@ flowchart TD
     E --> F[逐笔交易]
 
 ```
+
+### 在线生成HTML表格工具
+在线生成HTML表格工具：[链接](https://boost-tool.com/zh/tools/html_table_create)
+
+### 添加一个合并行表格
+
+<table>
+    <tr>
+        <td>列一</td>
+        <td>列一</td>
+   </tr>
+    <tr>
+        <td colspan="2">合并行</td>
+    </tr>
+    <tr>
+        <td colspan="2">合并行</td>
+    </tr>
+</table>
+
+### 添加一个合并列表格
+
+<table>
+    <tr>
+        <td>列一</td>
+        <td>列二</td>
+   </tr>
+    <tr>
+        <td rowspan="2">合并列</td>
+        <td >行二列二</td>
+    </tr>
+    <tr>
+        <td >行三列二</td>
+    </tr>
+</table>
+
+### 添加一个合并行列表格
+
+<table>
+    <tr>
+        <td>列一</td>
+        <td>列二</td>
+   </tr>
+   <tr>
+        <td colspan="2">合并行</td>
+   </tr>
+   <tr>
+        <td>列一</td>
+        <td>列二</td>
+   </tr>
+    <tr>
+        <td rowspan="2">合并列</td>
+        <td >行二列二</td>
+    </tr>
+    <tr>
+        <td >行三列二</td>
+    </tr>
+</table>
+
