@@ -10,7 +10,7 @@ description : "本文梳理量化金融学习的核心知识框架，助力构�
 tags:
     - Quant
 
-categories: [ Tech ]
+categories: [ Quant ]
 URL: "/2025/07/05/quantitative_finance_core_knowledge_system/"
 ---
 

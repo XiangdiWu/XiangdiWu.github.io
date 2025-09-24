@@ -10,7 +10,7 @@ description : "本文通过45个问题，帮助投资者和量化初学者了解
 tags:
     - Quant
 
-categories: [ Tech ]
+categories: [ "Quant" ]
 URL: "/2025/07/03/learn-quantitative-investing-with-45-questions"
 ---
 

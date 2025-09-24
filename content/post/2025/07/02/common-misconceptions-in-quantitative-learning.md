@@ -10,7 +10,7 @@ description : "量化投资的学习之路布满陷阱，许多聪明人在这�
 tags:
     - Quant
 
-categories: [ Tech ]
+categories: [ "Quant" ]
 URL: "/2025/07/02/common-misconceptions-in-quantitative-learning/"
 ---
 

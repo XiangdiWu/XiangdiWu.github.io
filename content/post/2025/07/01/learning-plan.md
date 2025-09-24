@@ -10,7 +10,7 @@ description : "本文介绍量化学习计划，包括量化入门、量化基�
 tags:
     - Quant
 
-categories: [ Tech ]
+categories: [ "Quant" ]
 URL: "/2025/07/01/quantitative-learning-plan"
 ---
 

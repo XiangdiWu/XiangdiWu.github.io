@@ -10,7 +10,7 @@ description : "This article uses 45 questions to help investors and quantitative
 tags:
     - Quant
 
-categories: [ Tech ]
+categories: [ Quant ]
 URL: "/2025/07/03/learn-quantitative-investing-with-45-questions-english"
 ---
 

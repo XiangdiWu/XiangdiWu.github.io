@@ -2,6 +2,7 @@
 title: "旅行日志"
 layout: top
 showTOC: true
+draft:   true
 ---
 
 > “Do not go gentle into that good night” 
