@@ -150,7 +150,6 @@ $$
    \operatorname{score}(h_t,\bar h_s)=
    \begin{cases}
    h_t^{\sf T} W \bar h_s & \text{(dot-product)}\\[4pt]
-
    v_a^{\sf T}\tanh(W_1 h_t + W_2 \bar h_s) & \text{(additive)}
    \end{cases}
 $$
