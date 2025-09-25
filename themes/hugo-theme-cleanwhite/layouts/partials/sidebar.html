@@ -206,6 +206,18 @@
             </div>
     </section>
 	{{ end }}
+    <!-- open source projects-->
+    {{ if .Site.Params.open_source }}
+    <section>
+        <hr class="hidden-sm hidden-xs">
+        <h5>OPEN SOURCE</h5>
+        <ul class="list-inline">
+            {{ range .Site.Params.open_source }}
+            <li><a target="_blank" href="{{.href}}">{{.title}}</a></li>
+        {{ end }}
+        </ul>
+    </section>
+    {{ end }}
     <!-- Friends Blog -->
     {{ if .Site.Params.friends }}
     <section>

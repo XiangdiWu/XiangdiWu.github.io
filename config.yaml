@@ -142,12 +142,14 @@ params:
     wechat: 'img/wechat_qrcode.jpg'
     # medium: 'https://medium.com/@zhaohuabing'
 
+  open_source:
+    - title: Factors.directory
+      href: 'https://factors.directory/en'
+  
   friend_link:
     - title: GetAstockFactors
       href: 'https://www.factorwar.com/data/factor-models/'
-    - title: Factors.directory
-      href: 'https://factors.directory/en'
-    - title: whale-quant
+    - title: Whale-Quant
       href: 'https://datawhalechina.github.io/whale-quant/#/'
 
   bookmark_link:

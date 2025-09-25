@@ -1,0 +1,333 @@
+---
+layout:      post
+title:       "策略学习 1：资产类别趋势跟踪 1"
+subtitle:    "Strategy Learning 1: Asset Class Trend Tracking 1"
+description: "本文属于量化投资的策略学习系列文章，第一篇是资产类别趋势跟踪策略，主要介绍了动量策略的基本原理、回测框架、以及潜在的问题和改进建议。"
+author:      "XiangdiWu"
+date:        2024-09-23
+image:       "/img/background.webp"
+
+categories:  ["Quant" ]
+tags:
+    - quant
+    - strategy
+
+params:
+    mermaid:	true
+    math:		true
+---
+
+
+这段代码是一个**完整的量化回测框架**，用 Python 的 `backtrader` 和 `yfinance` 实现了一个**跨 ETF 动量策略**。下面我会**逐行、逐模块**地详细解读，告诉你它做了什么、为什么这么做、以及潜在的问题和改进点。
+
+---
+
+## 1. 导入库
+
+```python
+import yfinance as yf
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import backtrader as bt
+```
+
+- `yfinance`：从 Yahoo Finance 下载历史数据。
+- `pandas/numpy`：数据处理。
+- `matplotlib`：绘图（虽然没直接用，但 `backtrader.plot()` 会调用它）。
+- `backtrader`：回测框架核心。
+
+---
+
+## 2. 下载数据（第一次）
+
+```python
+etfs = ['SPY', 'EFA', 'BND', 'VNQ', 'GSG']
+data = yf.download(etfs, start="2008-01-01", end="2024-05-21")['Adj Close']
+```
+
+- 下载 5 个 ETF 的**调整后收盘价**。
+- 时间范围：**2008-01-01 到 2024-05-21**。
+- 但注意：**这段数据并没有被用在回测中**，因为后面又重新下载了 2020-2024 的数据。
+
+> ⚠️ **冗余代码**：这段数据下载了但没用，可能是调试残留。
+
+---
+
+## 3. 定义策略类 `MomentumStrategy`
+
+```python
+class MomentumStrategy(bt.Strategy):
+    params = (('ma_period', 300),)
+```
+
+- 定义一个**动量策略**，参数是**300 日均线**。
+
+### `__init__` 方法
+
+```python
+def __init__(self):
+    self.sma = {data: bt.indicators.SimpleMovingAverage(data.close, period=self.params.ma_period) for data in self.datas}
+    self.order = None
+```
+
+- 为每个 ETF 创建一个**300 日简单移动平均线（SMA）**。
+- `self.order = None`：防止重复下单。
+
+### `next` 方法（核心逻辑）
+
+```python
+def next(self):
+    if self.order:
+        return
+
+    for data in self.datas:
+        if self.getposition(data).size == 0:
+            if data.close[0] > self.sma[data][0]:
+                self.order = self.buy(data=data)
+        else:
+            if data.close[0] < self.sma[data][0]:
+                self.order = self.sell(data=data)
+```
+
+## 策略逻辑总结
+
+<table style="width: 100%;">
+  <thead>
+    <tr>
+      <th style="width: 70%; text-align: center;">条件</th>
+      <th style="width: 30%; text-align: center;">操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>当前无持仓，且价格 > 300 日均线</td>
+      <td>买入</td>
+    </tr>
+    <tr>
+      <td>当前有持仓，且价格 < 300 日均线</td>
+      <td>卖出</td>
+    </tr>
+  </tbody>
+</table>
+
+- 每个 ETF **独立判断**，不互相影响。
+- 每次只下一个单（`self.order` 控制）。
+
+---
+
+## 4. 回测主流程
+
+```python
+if __name__ == '__main__':
+    cerebro = bt.Cerebro()
+```
+
+- 创建回测引擎。
+
+### 添加数据
+
+```python
+etfs = ['SPY', 'EFA', 'BND', 'VNQ', 'GSG']
+for etf in etfs:
+    data = bt.feeds.PandasData(dataname=yf.download(etf, start="2020-01-01", end="2024-01-01"))
+    cerebro.adddata(data, name=etf)
+```
+
+- 重新下载 **2020-01-01 到 2024-01-01** 的数据。
+- 每个 ETF 作为一个独立的 data feed 添加到回测系统中。
+
+> ⚠️ **注意**：这里用的是 `yf.download(etf)`，不是之前下好的 `data`，所以**每次运行都会重新下载**，效率低。
+
+### 添加策略
+
+```python
+cerebro.addstrategy(MomentumStrategy)
+```
+
+### 设置资金与仓位
+
+```python
+cerebro.broker.set_cash(1000000)
+cerebro.addsizer(bt.sizers.AllInSizer)
+```
+
+- 初始资金：100 万美元。
+- `AllInSizer`：**每次买入用全部可用资金**，即**全仓买入**。
+
+> ⚠️ 风险点：全仓+无止损，回撤可能非常大。
+
+### 运行回测
+
+```python
+print('Starting Portfolio Value: %.2f' % cerebro.broker.getvalue())
+cerebro.run()
+print('Ending Portfolio Value: %.2f' % cerebro.broker.getvalue())
+```
+
+### 绘图
+
+```python
+cerebro.plot()
+```
+
+- 会弹出一张图，显示：
+  - 每个 ETF 的价格曲线
+  - 买卖点
+  - 资金曲线
+
+---
+
+## 总结：策略特点
+
+<table style="width: 100%;">
+  <thead>
+    <tr>
+      <th style="width: 30%;text-align: center;">项目</th>
+      <th style="width: 70%;text-align: center;">说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>策略类型</td>
+      <td>动量策略（趋势跟踪）</td>
+    </tr>
+    <tr>
+      <td>信号</td>
+      <td>价格上穿/下穿 300 日均线</td>
+    </tr>
+    <tr>
+      <td>持仓</td>
+      <td>每个 ETF 独立判断，全仓买入</td>
+    </tr>
+    <tr>
+      <td>频率</td>
+      <td>日线</td>
+    </tr>
+    <tr>
+      <td>时间范围</td>
+      <td>2020-2024</td>
+    </tr>
+    <tr>
+      <td>初始资金</td>
+      <td>100 万美元</td>
+    </tr>
+  </tbody>
+</table>
+
+
+---
+
+## 潜在问题与改进建议
+
+<table style="width: 100%;">
+  <thead>
+    <tr>
+      <th style="width: 30%; text-align: center;">问题</th>
+      <th style="width: 70%; text-align: center;">建议</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>数据重复下载</td>
+      <td>用 <code>data</code> 变量缓存，避免重复下载</td>
+    </tr>
+    <tr>
+      <td>无止损/止盈</td>
+      <td>加入 ATR 止损或固定百分比止损</td>
+    </tr>
+    <tr>
+      <td>全仓风险大</td>
+      <td>使用 <code>PercentSizer(0.2)</code> 每只股票最多 20% 仓位</td>
+    </tr>
+    <tr>
+      <td>无手续费</td>
+      <td>设置 <code>cerebro.broker.setcommission(commission=0.001)</code></td>
+    </tr>
+    <tr>
+      <td>无绩效指标</td>
+      <td>使用 <code>bt.analyzers</code> 添加 Sharpe、最大回撤等</td>
+    </tr>
+    <tr>
+      <td>300 日均线滞后</td>
+      <td>尝试 100/150 日均线，或双均线交叉</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## 示例改进（加手续费+仓位控制）
+
+```python
+cerebro.broker.setcommission(commission=0.001)
+cerebro.addsizer(bt.sizers.PercentSizer, percents=20)
+```
+
+---
+
+## 结语
+
+这段代码是一个**非常简洁的动量策略模板**，适合教学或快速验证想法。但**距离实盘还有很大距离**。你可以在此基础上：
+
+- 加入多因子筛选
+- 加入风险管理
+- 加入绩效评估
+- 用 `bt.analyzers` 输出详细报告
+
+## 完整代码
+
+```python
+import yfinance as yf
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import backtrader as bt
+
+# 定义要使用的ETF
+etfs = ['SPY', 'EFA', 'BND', 'VNQ', 'GSG']
+
+# 获取数据
+data = yf.download(etfs, start="2008-01-01", end="2024-05-21")['Adj Close'] # 后复权
+
+class MomentumStrategy(bt.Strategy):
+    params = (
+        ('ma_period', 300),
+    )
+
+    def __init__(self):
+        self.sma = {data: bt.indicators.SimpleMovingAverage(data.close, period=self.params.ma_period) for data in self.datas}
+        self.order = None
+
+    def next(self):
+        if self.order:
+            return
+        
+        for data in self.datas:
+            if self.getposition(data).size == 0:
+                if data.close[0] > self.sma[data][0]:
+                    self.order = self.buy(data=data)
+            else:
+                if data.close[0] < self.sma[data][0]:
+                    self.order = self.sell(data=data)
+
+if __name__ == '__main__':
+    cerebro = bt.Cerebro()
+
+    etfs = ['SPY', 'EFA', 'BND', 'VNQ', 'GSG']
+    for etf in etfs:
+        data = bt.feeds.PandasData(dataname=yf.download(etf, start="2020-01-01", end="2024-01-01"))
+        cerebro.adddata(data, name=etf)
+
+    cerebro.addstrategy(MomentumStrategy)
+
+    cerebro.broker.set_cash(1000000)
+    cerebro.addsizer(bt.sizers.AllInSizer)
+
+    print('Starting Portfolio Value: %.2f' % cerebro.broker.getvalue())
+    cerebro.run()
+    print('Ending Portfolio Value: %.2f' % cerebro.broker.getvalue())
+
+    cerebro.plot()
+
+```
