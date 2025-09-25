@@ -145,6 +145,8 @@ params:
   friend_link:
     - title: GetAstockFactors
       href: 'https://www.factorwar.com/data/factor-models/'
+    - title: Factors.directory
+      href: 'https://factors.directory/en'
     - title: whale-quant
       href: 'https://datawhalechina.github.io/whale-quant/#/'
 
