@@ -147,13 +147,15 @@ $$
 在每个时间步$t$，计算解码器当前时间步的输出$\boldsymbol h_t$和所有编码器隐含状态$\boldsymbol{\bar h}_s$的得分函数，并得到权重向量$\boldsymbol a_t$。然后将编码器每个时间步的输出与$\boldsymbol a_t$进行加权平均，得到上下文向量$\boldsymbol c_t$。公式描述如下：
 
 $$
-\operatorname{score}(\boldsymbol{h}_{t}, {\bar{\boldsymbol h}}_{s})=\left\{\begin{array}{l}
-\boldsymbol{h}_{t}^{\text{T}} \boldsymbol{W} {\bar{\boldsymbol h}}_{s}
+   \operatorname{score}(h_t,\bar h_s)=
+   \begin{cases}
+   h_t^{\sf T} W \bar h_s & \text{(dot-product)}\\[4pt]
+
+   v_a^{\sf T}\tanh(W_1 h_t + W_2 \bar h_s) & \text{(additive)}
+   \end{cases}
 $$
 
 $$
-\boldsymbol{v}_{a}^{\text{T}} \tanh (\boldsymbol{W}_{1} \boldsymbol{h}_{t}+\boldsymbol{W}_{2} {\bar{\boldsymbol h}}_{s})
-\end{array}\right. \ \ \ \ \ \ \ [\text{score function}]\\
 \alpha_{ts}=\frac{\exp (\operatorname{score}(\boldsymbol{h}_{t}, {\boldsymbol{\bar h}}_{s}))}{\sum_{s^{\prime}=1}^{S} \exp (\operatorname{score}(\boldsymbol{h}_{t}, {\boldsymbol{\bar h}}_{s^{\prime}}))} \ \ \ \ \ \ \ [\text{attention weights}]
 $$
 
