@@ -65,7 +65,7 @@ c \cdot\left[a_{1}, a_{2}, \cdots, a_{n}\right] &=\left[c a_{1}, c a_{2}, \cdots
 $$
 **线性子空间**：向量空间$\mathcal V$的线性子空间$\mathcal U$是$\mathcal V$的一个子集，并且满足向量空间的条件。
 
-设$v_1,v_2,\cdots,v_n$为向量空间$\mathcal V$中的向量，则其线性组合$a_1v_1+a_2v_2+\cdots+a_nv_n$构成$\mathcal V$的子空间，并将其称为向量$v_1,v_2,\cdots,v_n$**张成(span)**的子空间，或$v_1,v_2,\cdots,v_n$的张成，记作$\operatorname{span}(v_1,v_2,\cdots,v_n)$。
+设$v_1,v_2,\cdots,v_n$为向量空间$\mathcal V$中的向量，则其线性组合$a_1v_1+a_2v_2+\cdots+a_nv_n$构成$\mathcal V$的子空间，并将其称为向量$v_1,v_2,\cdots,v_n$**张成(span)** 的子空间，或$v_1,v_2,\cdots,v_n$的张成，记作$\operatorname{span}(v_1,v_2,\cdots,v_n)$。
 
 **线性无关**：线性空间$\mathcal V$中的一组向量$$\left\{\boldsymbol{v}_{1}, \boldsymbol{v}_{2}, \cdots, \boldsymbol{v}_{n}\right\}$$，如果对任意的一组标量$\lambda_{1}, \lambda_{2}, \cdots, \lambda_{n}$，若$\sum_i \lambda_i \boldsymbol v_i=0$，则必然$\lambda_1=\lambda_2=\cdots=\lambda_n=0$，那么$$\left\{\boldsymbol{v}_{1}, \boldsymbol{v}_{2}, \cdots, \boldsymbol{v}_{n}\right\}$$是线性无关的，也称为线性独立的。
 

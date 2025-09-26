@@ -143,37 +143,132 @@ A: **(Pause about 30s and then give answer as)** 105621.
 
 常用的正则表达式字符如下：
 
-|  字符  |                             描述                             |
-| :----: | :----------------------------------------------------------: |
-|   \    | 将下一个字符标记为一个特殊字符、或一个原义字符、或一个向后引用、或一个八进制转义符。例如，"n"匹配字符"n"。"\n"匹配一个换行符。"\\\\"匹配"\\"而"\("则匹配"("。 |
-|   ^    | 匹配输入串的**开始位置**。如果设置了RegExp对象的Multiline属性，^也匹配"\n"或"\r"之后的位置。 |
-|   $    | 匹配输入串的**结束位置**。如果设置了RegExp对象的Multiline属性，$也匹配“\n"或"\r"之前的位置。 |
-|   *    | 匹配前面的子表达式**零次或多次**。例如，zo能匹配"z"以及"zoo"。 |
-|   +    | 匹配前面的子表达式**一次或多次**。例如，"zo+"能匹配"zo"以及"zoooooo"，但不能匹配"z"。 |
-|   ?    | 匹配前面的子表达式**零次或一次**。例如，"do(es)?"可以匹配"does"或"does"中的"do"。 |
-|  {n}   | **匹配确定的n次**。例如，"o{2}"不能匹配"Bob"中的"o"，但是能匹配"food"中的两个o。 |
-|  {n,}  | **至少匹配n次**。例如，"o{2,}"不能匹配"Bob"中的"o"，但能匹配"foooood"中的所有o。"o{1,}"等价于"o+"。"o{0,}"则等价于"o"。 |
-| {n,m}  | m和n均为非负整数，其中n<=m。**最少匹配n次且最多匹配m次**。例如，"o{1,3}"将匹配"fooooood"中的前三个o。"o{0,1}"等价于"o?"。请注意在逗号和两个数之间不能有空格。 |
-|   ?    | 当该字符紧跟在任何一个其他限制符(*, +, ?, {n}, {n,}, {n,m})后面时，**匹配模式是非贪婪的**。非贪婪模式尽可能少的匹配所搜索的字符串，而默认的贪婪模式则尽可能多的匹配所搜索的字符串。例如，对于字符串"oooo"，"o+?"将匹配单个"o"，而"o+"将匹配所有"o"。 |
-|   .    | 匹配**除"\n"之外的任何单个字符**。要匹配包括"\n"在内的任何字符，请使用像"(.\|\n)"的模式。 |
-|  x\|y  | 匹配x或y。例如，"z\|food"能匹配"z"或"food"。"(z\|f)ood"则匹配"zood"或"food"。 |
-| [xyz]  | 字符集合。匹配所包含的任意一个字符。例如，"[abc]"可以匹配"plain"中的"a"。 |
-| [^xyz] | 负值字符集合。匹配未包含的任意字符。例如，"\[^abc\]"可以匹配"plain"中的"p"。 |
-| [a-z]  | 字符范围。匹配**指定范围内的任意字符**。例如，"[a-z]"可以匹配"a"到"z"范围内的任意小写字母。 |
-| [^a-z] | 负值字符范围。匹配**任何不在指定范围内的任意字符**。例如，"\[^a-z\]"可以匹配任何除了小写字母外的任意字符。 |
-|   \b   | 匹配一个单词边界，也就是指单词和空格间的位置。例如，"er\b"可以匹配"never"中的"er"，但不能匹配"verb"中的"er"。 |
-|   \B   | 匹配非单词边界。"er\B"能匹配"verb"中的"er"，但不能匹配"never"中的"er"。 |
-|   \d   |             匹配一个**数字字符**。等价于[0-9]。              |
-|   \D   |           匹配一个**非数字字符**。等价于\[^0-9\]。           |
-|   \f   |              匹配一个换页符。等价于\x0c和\cL。               |
-|   \n   |              匹配一个换行符。等价于\x0a和\cJ。               |
-|   \r   |              匹配一个回车符。等价于\x0d和\cM。               |
-|   \s   | 匹配任何空白字符，包括空格、制表符、换页符等等。等价于[\f\n\r\t\v]。 |
-|   \S   |       匹配任何**非空白字符**。等价于\[^\f\n\r\t\v\]。        |
-|   \t   |              匹配一个制表符。等价于\x09和\cI。               |
-|   \v   |            匹配一个垂直制表符。等价于\x0b和\cK。             |
-|   \w   |   匹配**包括下划线的任何单词字符**。等价于"[A-Za-z0-9_]"。   |
-|   \W   |      匹配任何**非单词字符**。等价于"\[^A-Za-z0-9_\]"。       |
+<table style="width: 100%;">
+  <thead>
+    <tr>
+      <th style="width: 10%; text-align: center;">字符</th>
+      <th style="width: 90%; text-align: center;">描述</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="width: 10%;text-align: center;">\</td>
+      <td style="width: 90%; text-align: left;">将下一个字符标记为一个特殊字符、或一个原义字符、或一个向后引用、或一个八进制转义符。例如，"n"匹配字符"n"。"\n"匹配一个换行符。"\\"匹配"\"而"\("则匹配"("。</td>
+    </tr>
+    <tr>
+      <td align="center">^</td>
+      <td style="width: 90%; text-align: left;">匹配输入串的<strong>开始位置</strong>。如果设置了RegExp对象的Multiline属性，^也匹配"\n"或"\r"之后的位置。</td>
+    </tr>
+    <tr>
+      <td align="center">$</td>
+      <td style="width: 90%; text-align: left;">匹配输入串的<strong>结束位置</strong>。如果设置了RegExp对象的Multiline属性，$也匹配"\n"或"\r"之前的位置。</td>
+    </tr>
+    <tr>
+      <td align="center">*</td>
+      <td style="width: 90%; text-align: left;">匹配前面的子表达式<strong>零次或多次</strong>。例如，zo*能匹配"z"以及"zoo"。</td>
+    </tr>
+    <tr>
+      <td align="center">+</td>
+      <td style="width: 90%; text-align: left;">匹配前面的子表达式<strong>一次或多次</strong>。例如，"zo+"能匹配"zo"以及"zoooooo"，但不能匹配"z"。</td>
+    </tr>
+    <tr>
+      <td align="center">?</td>
+      <td style="width: 90%; text-align: left;">匹配前面的子表达式<strong>零次或一次</strong>。例如，"do(es)?"可以匹配"does"或"does"中的"do"。</td>
+    </tr>
+    <tr>
+      <td align="center">{n}</td>
+      <td style="width: 90%; text-align: left;"><strong>匹配确定的n次</strong>。例如，"o{2}"不能匹配"Bob"中的"o"，但是能匹配"food"中的两个o。</td>
+    </tr>
+    <tr>
+      <td align="center">{n,}</td>
+      <td style="width: 90%; text-align: left;"><strong>至少匹配n次</strong>。例如，"o{2,}"不能匹配"Bob"中的"o"，但能匹配"foooood"中的所有o。"o{1,}"等价于"o+"。"o{0,}"则等价于"o*"。</td>
+    </tr>
+    <tr>
+      <td align="center">{n,m}</td>
+      <td style="width: 90%; text-align: left;">m和n均为非负整数，其中n&lt;=m。<strong>最少匹配n次且最多匹配m次</strong>。例如，"o{1,3}"将匹配"fooooood"中的前三个o。"o{0,1}"等价于"o?"。请注意在逗号和两个数之间不能有空格。</td>
+    </tr>
+    <tr>
+      <td align="center">?</td>
+      <td style="width: 90%; text-align: left;">当该字符紧跟在任何一个其他限制符(*, +, ?, {n}, {n,}, {n,m})后面时，<strong>匹配模式是非贪婪的</strong>。非贪婪模式尽可能少的匹配所搜索的字符串，而默认的贪婪模式则尽可能多的匹配所搜索的字符串。例如，对于字符串"oooo"，"o+?"将匹配单个"o"，而"o+"将匹配所有"o"。</td>
+    </tr>
+    <tr>
+      <td align="center">.</td>
+      <td style="width: 90%; text-align: left;">匹配<strong>除"\n"之外的任何单个字符</strong>。要匹配包括"\n"在内的任何字符，请使用像"(.|\n)"的模式。</td>
+    </tr>
+    <tr>
+      <td align="center">x|y</td>
+      <td style="width: 90%; text-align: left;">匹配x或y。例如，"z|food"能匹配"z"或"food"。"(z|f)ood"则匹配"zood"或"food"。</td>
+    </tr>
+    <tr>
+      <td align="center">[xyz]</td>
+      <td style="width: 90%; text-align: left;">字符集合。匹配所包含的任意一个字符。例如，"[abc]"可以匹配"plain"中的"a"。</td>
+    </tr>
+    <tr>
+      <td align="center">[^xyz]</td>
+      <td style="width: 90%; text-align: left;">负值字符集合。匹配未包含的任意字符。例如，"[^abc]"可以匹配"plain"中的"p"。</td>
+    </tr>
+    <tr>
+      <td align="center">[a-z]</td>
+      <td style="width: 90%; text-align: left;">字符范围。匹配<strong>指定范围内的任意字符</strong>。例如，"[a-z]"可以匹配"a"到"z"范围内的任意小写字母。</td>
+    </tr>
+    <tr>
+      <td align="center">[^a-z]</td>
+      <td style="width: 90%; text-align: left;">负值字符范围。匹配<strong>任何不在指定范围内的任意字符</strong>。例如，"[^a-z]"可以匹配任何除了小写字母外的任意字符。</td>
+    </tr>
+    <tr>
+      <td align="center">\b</td>
+      <td style="width: 90%; text-align: left;">匹配一个单词边界，也就是指单词和空格间的位置。例如，"er\b"可以匹配"never"中的"er"，但不能匹配"verb"中的"er"。</td>
+    </tr>
+    <tr>
+      <td align="center">\B</td>
+      <td style="width: 90%; text-align: left;">匹配非单词边界。"er\B"能匹配"verb"中的"er"，但不能匹配"never"中的"er"。</td>
+    </tr>
+    <tr>
+      <td align="center">\d</td>
+      <td style="width: 90%; text-align: left;">匹配一个<strong>数字字符</strong>。等价于[0-9]。</td>
+    </tr>
+    <tr>
+      <td align="center">\D</td>
+      <td style="width: 90%; text-align: left;">匹配一个<strong>非数字字符</strong>。等价于[^0-9]。</td>
+    </tr>
+    <tr>
+      <td align="center">\f</td>
+      <td style="width: 90%; text-align: left;">匹配一个换页符。等价于\x0c和\cL。</td>
+    </tr>
+    <tr>
+      <td align="center">\n</td>
+      <td style="width: 90%; text-align: left;">匹配一个换行符。等价于\x0a和\cJ。</td>
+    </tr>
+    <tr>
+      <td align="center">\r</td>
+      <td style="width: 90%; text-align: left;">匹配一个回车符。等价于\x0d和\cM。</td>
+    </tr>
+    <tr>
+      <td align="center">\s</td>
+      <td style="width: 90%; text-align: left;">匹配任何空白字符，包括空格、制表符、换页符等等。等价于[\f\n\r\t\v]。</td>
+    </tr>
+    <tr>
+      <td align="center">\S</td>
+      <td style="width: 90%; text-align: left;">匹配任何<strong>非空白字符</strong>。等价于[^\f\n\r\t\v]。</td>
+    </tr>
+    <tr>
+      <td align="center">\t</td>
+      <td style="width: 90%; text-align: left;">匹配一个制表符。等价于\x09和\cI。</td>
+    </tr>
+    <tr>
+      <td align="center">\v</td>
+      <td style="width: 90%; text-align: left;">匹配一个垂直制表符。等价于\x0b和\cK。</td>
+    </tr>
+    <tr>
+      <td align="center">\w</td>
+      <td style="width: 90%; text-align: left;">匹配<strong>包括下划线的任何单词字符</strong>。等价于"[A-Za-z0-9_]"。</td>
+    </tr>
+    <tr>
+      <td align="center">\W</td>
+      <td style="width: 90%; text-align: left;">匹配任何<strong>非单词字符</strong>。等价于"[^A-Za-z0-9_]"。</td>
+    </tr>
+  </tbody>
+</table>
 
 # 词
 

@@ -18,7 +18,7 @@ params:
     math:		true
 ---
 
-<b>数学优化(mathematical optimization)</b>问题也叫最优化问题，指在一定约束条件下，求解一个目标函数的最大值或最小值问题。数学优化问题的定义为：给定一个目标函数(也叫代价函数)$f:A\rightarrow\mathbb R$，寻找一个变量$\boldsymbol x^* \in \mathcal D$，使得对于所有$\mathcal D$中的$\boldsymbol x$，$$f(\boldsymbol{x}^{*}) \leqslant f(\boldsymbol{x})$$(最小化)；或者$f(\boldsymbol{x}^{*}) \geqslant f(\boldsymbol{x})$(最大化)，其中$\mathcal D$为变量$\boldsymbol x$的**约束集**，也叫**可行域**；$\mathcal D$中的变量被称为**可行解**。
+<b>数学优化(mathematical optimization)</b>问题也叫最优化问题，指在一定约束条件下，求解一个目标函数的最大值或最小值问题。数学优化问题的定义为：给定一个目标函数(也叫代价函数)$f:A\rightarrow\mathbb R$，寻找一个变量$\boldsymbol x^* \in \mathcal D$，使得对于所有$\mathcal D$中的$\boldsymbol x$，$f(\boldsymbol{x}^{*}) \leqslant f(\boldsymbol{x})$(最小化)；或者$f(\boldsymbol{x}^{*}) \geqslant f(\boldsymbol{x})$(最大化)，其中$\mathcal D$为变量$\boldsymbol x$的**约束集**，也叫**可行域**；$\mathcal D$中的变量被称为**可行解**。
 
 # 数学优化的类型
 
@@ -215,7 +215,7 @@ $$
 $$
 \Lambda(\boldsymbol{x}, \lambda)=f(\boldsymbol{x})+\sum_{i=1}^{m} \lambda_{i} h_{i}(\boldsymbol{x})
 $$
-其中，$\lambda$为拉格朗日乘数，可以使正数或负数。如果$$f(\boldsymbol x^*)$$是原始约束优化问题的局部最优值，那么存在一个 $\lambda^* $，使得$(\boldsymbol x^* ,\lambda^* )$为拉格朗日函数$\Lambda(\boldsymbol{x}, \lambda)$的**平稳点(stationary point)**，即一阶偏导数为0的点。因此，只需要令${\partial \Lambda(\boldsymbol{x}, \lambda)}/{\partial \boldsymbol{x}}=0$和${\partial \Lambda(\boldsymbol{x}, \lambda)}/{\partial \lambda}=0$，得到：
+其中，$\lambda$为拉格朗日乘数，可以使正数或负数。如果$f(\boldsymbol x^*)$是原始约束优化问题的局部最优值，那么存在一个 $\lambda^* $，使得$(\boldsymbol x^* ,\lambda^* )$为拉格朗日函数$\Lambda(\boldsymbol{x}, \lambda)$的**平稳点(stationary point)**，即一阶偏导数为0的点。因此，只需要令${\partial \Lambda(\boldsymbol{x}, \lambda)}/{\partial \boldsymbol{x}}=0$和${\partial \Lambda(\boldsymbol{x}, \lambda)}/{\partial \lambda}=0$，得到：
 $$
 \nabla f(\boldsymbol{x})+\sum_{i=1}^{m} \lambda_{i} \nabla h_{i}(\boldsymbol{x})=0, \ \ h_i(\boldsymbol x)=0,i=0,\cdots,m
 $$

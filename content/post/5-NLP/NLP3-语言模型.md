@@ -143,7 +143,7 @@ $$
 
 (3) 每个输入$x$不共享$W$中的参数，而是于不同的行相乘。
 
-以上三个问题通过使用**循环神经网络(recurrent neural network)**可以得到解决。
+以上三个问题通过使用**循环神经网络(recurrent neural network)** 可以得到解决。
 
 # Tensorflow实现神经语言模型
 

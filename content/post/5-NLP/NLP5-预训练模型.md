@@ -22,7 +22,7 @@ params:
 
 预训练词向量(如word2vec和GloVe等)通常只能为一个单词产生一个特定的词向量，而忽略了该单词的**上下文(context)** 关系，因而无法解决**一词多义**或**一义多词**的问题。**ELMo(embeddings from language models)** 本质上是一个深度双向LSTM模型，用于为一个句子中的每个单词生成上下文相关的词向量。将这些上下文相关词向量编码了单词的深层次语义和句法信息，因此当ELMo应用到许多NLP任务中，这些任务的效果相对于使用静态的词向量往往能得到很大的提升。
 
-ELMo是整个输入句子的函数，其输出为句子中每个单词的上下文相关词向量。给定一个含有$N$个标记的序列$(t_1,t_2,\cdots,t_N)$，**前向语言模型(forward language model)**通过建模在给定之前的标记序列$(t_1,\cdots,t_{k-1})$下$t_k$的概率来计算该句子(标记序列)的概率：
+ELMo是整个输入句子的函数，其输出为句子中每个单词的上下文相关词向量。给定一个含有$N$个标记的序列$(t_1,t_2,\cdots,t_N)$，**前向语言模型(forward language model)** 通过建模在给定之前的标记序列$(t_1,\cdots,t_{k-1})$下$t_k$的概率来计算该句子(标记序列)的概率：
 $$
 p\left(t_{1}, t_{2}, \cdots, t_{N}\right)=\prod_{k=1}^{N} p\left(t_{k} | t_{1}, t_{2}, \cdots, t_{k-1}\right)
 $$
@@ -70,7 +70,7 @@ ELMo在多个NLP任务及数据集上的实验结果如下所示：
 
 ## Encoder and Decoder Stacks
 
-**编码器(encoder)** 是由$N=6$个编码器层组成的栈式结构，其中每个编码器层中有两个sub-layers，即**多头注意力机制(multi-head attentin)** 层和**全连接前馈神经网络**层。每一个sub-layer都采用了**残差连接(residual connection)**以及**层归一化(layer normalization)**。因此，每个sub-layer的输出为$\text{LayerNorm}(x+\text{Sublayer}(x))$。为了方便进行残差连接，模型中所有sub-layers的输出维度，以及embedding层的输出维度，均为$d_{model}=512$。**解码器(decoder)**也是由$N=6$个解码器层组成的栈式结构，但解码器层比编码器层多一个sub-layer，即掩码多头注意力机制，保证了在位置$i$的预测仅仅依赖于在$i$之前已知的预测。
+**编码器(encoder)** 是由$N=6$个编码器层组成的栈式结构，其中每个编码器层中有两个sub-layers，即**多头注意力机制(multi-head attentin)** 层和**全连接前馈神经网络**层。每一个sub-layer都采用了**残差连接(residual connection)**以及**层归一化(layer normalization)**。因此，每个sub-layer的输出为$\text{LayerNorm}(x+\text{Sublayer}(x))$。为了方便进行残差连接，模型中所有sub-layers的输出维度，以及embedding层的输出维度，均为$d_{model}=512$。**解码器(decoder)** 也是由$N=6$个解码器层组成的栈式结构，但解码器层比编码器层多一个sub-layer，即掩码多头注意力机制，保证了在位置$i$的预测仅仅依赖于在$i$之前已知的预测。
 
 ## Attention
 
@@ -118,7 +118,7 @@ Transformer中的多头注意力机制有如下三种不同的方式：
 
 (2) 在编码器中，**所有的keys、values和queries都来自于同一个矩阵**，即最初的词向量序列输入$X$或者上一个编码器层的输出$R$。
 
-(3) 在解码器中，每一步解码器能够关注当前步以及当前步之前的向量。我们需要保留解码器中输出句子每一步左边的信息流来维持其**自回归(auto-regression)**的特性。该方法通过**遮盖(mask)**实现。
+(3) 在解码器中，每一步解码器能够关注当前步以及当前步之前的向量。我们需要保留解码器中输出句子每一步左边的信息流来维持其**自回归(auto-regression)** 的特性。该方法通过**遮盖(mask)** 实现。
 
 ## Position-wise Feed-Forward Networks
 
@@ -833,7 +833,7 @@ if __name__ == '__main__':
 
 # BERT
 
-**BERT(bidirectional encoder representations from transformers)**是一种语言模型，用于从无标签文本中学习词的**深度双向表示**，这个过程称为**预训练(pre-train)**。在BERT预训练后，可以附加下游任务，通过**微调(fine-tuning)**的方式来完成NLP任务，如句子级别的自然语言推断、解释任务以及单词级别的NER、QA等任务。
+**BERT(bidirectional encoder representations from transformers)**是一种语言模型，用于从无标签文本中学习词的**深度双向表示**，这个过程称为**预训练(pre-train)**。在BERT预训练后，可以附加下游任务，通过**微调(fine-tuning)** 的方式来完成NLP任务，如句子级别的自然语言推断、解释任务以及单词级别的NER、QA等任务。
 
 目前有两种将预训练语言表示应用于下游任务的策略，即**基于特征(feature-based)**的方法及**微调(fine-tuning)**。二者的典型代表分别是**ELMo**和**GPT**。两种方法在预训练过程中使用的目标函数都是相同的，都是使用单向的语言模型取学习一般的语言表示(ELMo是由两个单向的LSTM拼接实现的，本质还是单向模型)。
 

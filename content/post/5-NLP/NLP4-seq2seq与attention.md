@@ -147,11 +147,8 @@ $$
 在每个时间步$t$，计算解码器当前时间步的输出$\boldsymbol h_t$和所有编码器隐含状态$\boldsymbol{\bar h}_s$的得分函数，并得到权重向量$\boldsymbol a_t$。然后将编码器每个时间步的输出与$\boldsymbol a_t$进行加权平均，得到上下文向量$\boldsymbol c_t$。公式描述如下：
 
 $$
-   \operatorname{score}(h_t,\bar h_s)=
-   \begin{cases}
-   h_t^{\sf T} W \bar h_s & \text{(dot-product)}\\[4pt]
-   v_a^{\sf T}\tanh(W_1 h_t + W_2 \bar h_s) & \text{(additive)}
-   \end{cases}
+\operatorname{score}(\boldsymbol{h}_{t}, {\bar{\boldsymbol h}}_{s})=\left\{\begin{array}{l}\boldsymbol{h}_{t}^{\text{T}} \boldsymbol{W} {\bar{\boldsymbol h}}_{s}\\
+\boldsymbol{v}_{a}^{\text{T}} \tanh (\boldsymbol{W}_{1} \boldsymbol{h}_{t}+\boldsymbol{W}_{2} {\bar{\boldsymbol h}}_{s})\end{array}\right. \ \ \ \ \ \ \ [\text{score function}]
 $$
 
 $$
@@ -205,7 +202,7 @@ $$
 
 **基于卷积或循环网络的序列编码都可以看做是一种局部的编码方式**，只建模了**输入信息的局部依赖关系**。虽然循环网络理论上可以建立长距离依赖关系，但是由于信息传递的容量以及梯度消失问题，**实际上也只能建立短距离依赖关系**。
 
-如果要建立输入序列之间的长距离依赖关系，可以使用以下两种方法：一种方法是**增加网络的层数**，通过一个深层网络来获取远距离的信息交互；另一种方法是使用**全连接网络**。全连接网络是一种非常直接的建模远距离依赖的模型，但是**无法处理变长的输入序列**。不同的输入长度，其连接权重的大小也是不同的。这时我们就可以利用注意力机制来**“动态”地生成不同连接的权重**，这就是**自注意力模型(self-attention model)**。
+如果要建立输入序列之间的长距离依赖关系，可以使用以下两种方法：一种方法是**增加网络的层数**，通过一个深层网络来获取远距离的信息交互；另一种方法是使用**全连接网络**。全连接网络是一种非常直接的建模远距离依赖的模型，但是**无法处理变长的输入序列**。不同的输入长度，其连接权重的大小也是不同的。这时我们就可以利用注意力机制来 **“动态”地生成不同连接的权重** ，这就是**自注意力模型(self-attention model)**。
 
 # 序列生成模型的评价指标
 

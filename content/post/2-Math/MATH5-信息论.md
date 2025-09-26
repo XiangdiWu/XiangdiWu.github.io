@@ -84,7 +84,7 @@ print(entropy(p3))
 $$
 H(X, Y)=-\sum_{x \in \mathcal{X}} \sum_{y \in \mathcal{Y}} p(x, y) \log p(x, y)
 $$
-(2) $X$和$Y$的**条件熵(conditional entropy)**为：
+(2) $X$和$Y$的**条件熵(conditional entropy)** 为：
 $$
 H(X | Y)=-\sum_{x \in \mathcal{X} \atop y \in \mathcal{Y}} p(x, y) \log p(x | y)=-\sum_{x \in \mathcal{X}} \sum_{y \in \mathcal{Y}} p(x, y) \log \frac{p(x, y)}{p(y)}
 $$

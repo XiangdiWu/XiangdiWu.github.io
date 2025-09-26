@@ -102,7 +102,7 @@ $$
 $$
 \log p(\boldsymbol{y} | X ; \boldsymbol{w}, \sigma)=\sum_{n=1}^{N} \log \mathcal{N}\left(y^{(n)} ; \boldsymbol{w}^{\mathrm{T}} \boldsymbol{x}^{(n)}, \sigma^{2}\right)
 $$
-**最大似然估计(maximum likelihood estimation, MLE)** 是指找到一组参数$\boldsymbol w$使得似然函数$p(\boldsymbol y|X;\boldsymbol w,\sigma)$最大，等价于对数似然函数$\log p(\boldsymbol y|X;\boldsymbol w,\sigma)$最大。令$\partial p(\boldsymbol y|X;\boldsymbol w,\sigma)/\partial \boldsymbol w=0$，得到$\boldsymbol{w}^{M L}=\left(X X^{\mathrm{T}}\right)^{-1} X \boldsymbol{y}$，这与最小二乘法的解相同。也可以将对数似然函数进行化简，显然得到了**均方误差(MSE)损失函数**的形式。因此，均方误差损失函数并不是凭空创造出来的，而是通过最大似然估计来最大化似然函数得到的结果。
+**最大似然估计(maximum likelihood estimation, MLE)** 是指找到一组参数$\boldsymbol w$使得似然函数$p(\boldsymbol y|X;\boldsymbol w,\sigma)$最大，等价于对数似然函数$\log p(\boldsymbol y|X;\boldsymbol w,\sigma)$最大。令$\partial p(\boldsymbol y|X;\boldsymbol w,\sigma)/\partial \boldsymbol w=0$，得到$\boldsymbol{w}^{M L}=\left(X X^{\mathrm{T}}\right)^{-1} X \boldsymbol{y}$，这与最小二乘法的解相同。也可以将对数似然函数进行化简，显然得到了**均方误差(MSE)损失函数** 的形式。因此，均方误差损失函数并不是凭空创造出来的，而是通过最大似然估计来最大化似然函数得到的结果。
 
 # 最大后验估计与正则化
 
@@ -112,7 +112,7 @@ p(\boldsymbol{w} ; \nu)=\mathcal{N}\left(\boldsymbol{w} ; \mathbf{0}, \nu^{2} I\
 $$
 其中$\nu^2$为每一维上的方差。
 
-根据贝叶斯公式，参数$\boldsymbol w$的**后验分布(posterior distribution)**为：
+根据贝叶斯公式，参数$\boldsymbol w$的**后验分布(posterior distribution)** 为：
 $$
 \begin{aligned}
 p(\boldsymbol{w} | X, \boldsymbol{y} ; \nu, \sigma) &=\frac{p(\boldsymbol{w}, \boldsymbol{y} | X ; \nu, \sigma)}{\sum_{\boldsymbol{w}} p(\boldsymbol{w}, \boldsymbol{y} | X ; \nu, \sigma)} \\
@@ -123,7 +123,7 @@ $$
 
 这种参数估计方法称为**贝叶斯估计(Bayesian estimation)**，是一种统计推断问题。采用贝叶斯估计的线性回归也称为**贝叶斯线性回归(Bayesian linear regression)**。
 
-贝叶斯估计是一种参数的区间估计，即参数在一个区间上的分布。如果我们希望得到一个最优的参数值(点估计)，可以使用最大后验估计。**最大后验估计(maximum a posteriori estimation, MAP)**是指最优参数为后验分布$p(\boldsymbol w|X,\boldsymbol y;\nu,\sigma)$中概率密度最高的参数$\boldsymbol w$。
+贝叶斯估计是一种参数的区间估计，即参数在一个区间上的分布。如果我们希望得到一个最优的参数值(点估计)，可以使用最大后验估计。**最大后验估计(maximum a posteriori estimation, MAP)** 是指最优参数为后验分布$p(\boldsymbol w|X,\boldsymbol y;\nu,\sigma)$中概率密度最高的参数$\boldsymbol w$。
 $$
 \boldsymbol{w}^{M A P}=\underset{\boldsymbol{w}}{\arg \max } p(\boldsymbol{y} | X, \boldsymbol{w} ; \sigma) p(\boldsymbol{w} ; \nu)
 $$

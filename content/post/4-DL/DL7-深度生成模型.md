@@ -26,7 +26,7 @@ params:
 
 生成模型一般具有两个功能：**密度估计**和**样本生成**。
 
-给定一组数据$\mathcal D=\{\boldsymbol x^{(i)}\}, 1 \leqslant i \leqslant N$，假设它们都是独立地匆匆相同的概率密度函数为$p_r(\boldsymbol x)$的未知分布中产生的。**概率密度估计(probabilistic density estimation)**是根据数据集$\mathcal D$来估计其概率密度函数$p_\theta(\boldsymbol x)$。在机器学习中，概率密度估计是一种非常典型的无监督学习问题。如果要建模的分布包含隐变量(如高斯混合模型)，就需要利用EM算法来进行密度估计。
+给定一组数据$\mathcal D=\{\boldsymbol x^{(i)}\}, 1 \leqslant i \leqslant N$，假设它们都是独立地匆匆相同的概率密度函数为$p_r(\boldsymbol x)$的未知分布中产生的。**概率密度估计(probabilistic density estimation)** 是根据数据集$\mathcal D$来估计其概率密度函数$p_\theta(\boldsymbol x)$。在机器学习中，概率密度估计是一种非常典型的无监督学习问题。如果要建模的分布包含隐变量(如高斯混合模型)，就需要利用EM算法来进行密度估计。
 
 生成样本就是给定义一个概率密度函数为$p_\theta(\boldsymbol x)$的分布，生成一些服从这个分布的样本，也称为采样。对于一个概率生成模型，在得到两个变量的局部条件概率$p_\theta(\boldsymbol z)$和$p_\theta(\boldsymbol x|\boldsymbol z)$之后，我们就可以生成数据$\boldsymbol x$。具体地，首先根据隐变量的先验分布$p_\theta(\boldsymbol z)$进行采样，得到样本$\boldsymbol z$，然后根据条件分布$p_\theta(\boldsymbol x|\boldsymbol z)$进行采样，得到$\boldsymbol x$。因此，在生成模型中，**重点是估计条件分布**$p(\boldsymbol x|\boldsymbol z;\theta)$。
 
