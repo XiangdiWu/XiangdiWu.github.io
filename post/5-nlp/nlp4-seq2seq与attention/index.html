@@ -1,0 +1,382 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta property="og:site_name" content="Xiangdi Blog"><meta property="og:type" content="article"><meta property="og:image" con ’tent=https://images.pexels.com/photos/220301/pexels-photo-220301.jpeg><meta property="twitter:image" content="https://images.pexels.com/photos/220301/pexels-photo-220301.jpeg"><meta name=title content="自然语言处理：“序列到序列”与“注意力机制”"><meta property="og:title" content="自然语言处理：“序列到序列”与“注意力机制”"><meta property="twitter:title" content="自然语言处理：“序列到序列”与“注意力机制”"><meta name=description content="本文主要介绍了seq2seq与attention的相关内容，包括seq2seq的基本结构，attention的基本结构，以及attention在seq2seq中的应用。"><meta property="og:description" content="本文主要介绍了seq2seq与attention的相关内容，包括seq2seq的基本结构，attention的基本结构，以及attention在seq2seq中的应用。"><meta property="twitter:description" content="本文主要介绍了seq2seq与attention的相关内容，包括seq2seq的基本结构，attention的基本结构，以及attention在seq2seq中的应用。"><meta property="twitter:card" content="summary"><meta property="og:url" content="https://xiangdiwu.github.io/post/5-nlp/nlp4-seq2seq%E4%B8%8Eattention/"><meta name=keyword content="吴湘菂, WuXiangdi, XiangdiWu, 吴湘菂的网络日志, 吴湘菂的博客, Xiangdi Blog, 博客, 个人网站, Quant, 量化投资, 金融, 投资, 理财, 股票, 期货, 基金, 期权, 外汇, 比特币"><link rel="shortcut icon" href=/img/favicon.ico><title>自然语言处理：“序列到序列”与“注意力机制”-吴湘菂的博客 | Xiangdi Blog</title><link rel=canonical href=/post/5-nlp/nlp4-seq2seq%E4%B8%8Eattention/><link rel=stylesheet href=/css/bootstrap.min.css><link rel=stylesheet href=/css/hugo-theme-cleanwhite.min.css><link rel=stylesheet href=/css/zanshang.min.css><link rel=stylesheet href=/css/font-awesome.all.min.css><script src=/js/jquery.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/hux-blog.min.js></script><script src=/js/lazysizes.min.js></script></head><script async src="https://www.googletagmanager.com/gtag/js?id=G-R757MDJ6Y6"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-R757MDJ6Y6")}</script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css integrity=sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV crossorigin=anonymous><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js integrity=sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8 crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js integrity=sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05 crossorigin=anonymous></script><script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"\\[",right:"\\]",display:!0},{left:"$$",right:"$$",display:!0},{left:"\\(",right:"\\)",display:!1}],throwOnError:!1})})</script><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css><script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type=text/javascript></script><nav class="navbar navbar-default navbar-custom navbar-fixed-top"><div class=container-fluid><div class="navbar-header page-scroll"><button type=button class=navbar-toggle>
+<span class=sr-only>Toggle navigation</span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+</button>
+<a class=navbar-brand href=/>Xiangdi Blog</a></div><div id=huxblog_navbar><div class=navbar-collapse><ul class="nav navbar-nav navbar-right"><li><a href=/>All Posts</a></li><li><a href=/categories/quant/>quant</a></li><li><a href=/categories/reading/>reading</a></li><li><a href=/categories/tech/>tech</a></li><li><a href=/archive//>ARCHIVE</a></li><li><a href=/vibe//>Vibe</a></li><li><a href=/travel//>TRAVEL</a></li><li><a href=/about//>ABOUT</a></li><li><a href=/search><i class="fa fa-search"></i></a></li></ul></div></div></div></nav><script>var $body=document.body,$toggle=document.querySelector(".navbar-toggle"),$navbar=document.querySelector("#huxblog_navbar"),$collapse=document.querySelector(".navbar-collapse");$toggle.addEventListener("click",handleMagic);function handleMagic(){$navbar.className.indexOf("in")>0?($navbar.className=" ",setTimeout(function(){$navbar.className.indexOf("in")<0&&($collapse.style.height="0px")},400)):($collapse.style.height="auto",$navbar.className+=" in")}</script><style type=text/css>header.intro-header{background-image:url(https://images.pexels.com/photos/220301/pexels-photo-220301.jpeg)}</style><header class=intro-header><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class=post-heading><div class=tags><a class=tag href=/tags/quant title=Quant>Quant
+</a><a class=tag href=/tags/model title=Model>Model
+</a><a class=tag href=/tags/nlp title=NLP>NLP</a></div><h1>自然语言处理：“序列到序列”与“注意力机制”</h1><h2 class=subheading>seq2seq与attention</h2><span class=meta>Posted by
+XiangdiWu
+on
+Friday, October 23, 2020</span></div></div></div></div></header><article><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+post-container"><h1 id=序列到序列模型>序列到序列模型</h1><p>许多单输出问题得以解决，比如命名实体识别、单词预测等。然而许多任务的输出是一个<strong>序列</strong>，比如机器翻译、对话系统以及自动摘要等。这种问题应当使用seq2seq实现。</p><p><strong>序列到序列，或者seq2seq</strong>，是一个比较新的模型，在2014年被提出用于<strong>英语-法语翻译</strong>。在更高的层面上，seq2seq是一个<strong>由两个循环神经网络组成的端到端模型</strong>：</p><p>(1) 一个<strong>编码器(encoder)</strong>，将模型的输入序列作为输入，然后编码固定大小的“上下文向量”。</p><p>(2) 一个<strong>解码器(decoder)</strong>，使用来自解码器生成的上下文向量作为从其生成输出序列的“种子”。</p><p>因此，seq2seq模型通常被称为“<strong>编码器-解码器模型</strong>”。其示意图如下：</p><div align=center><img src=/Kimages/4/image-20200717100127147.png style=zoom:40%></div><p>首先，编码器将输入句子编码为一个<strong>隐含层向量</strong>作为整个输入句子的嵌入向量，然后将该向量作为解码器的<strong>初始隐含层向量</strong>，输入一个&lt;START>特殊标记，通过<strong>自回归</strong>的方式不断生成单词，直到生成&lt;END>符号，或者达到长度限制为止。以上decoder生成(测试)句子的方式为<strong>greedy decoding</strong>，即<strong>每次选取输出softmax值最大的单词</strong>。</p><p>greedy decoding的缺陷是无法undo decision，即<strong>一步错，步步错</strong>。解决方案是<strong>beam search</strong>，即explore several hypotheses and select the best one。On each step of decoder, keep track of the k(beam size) most probable partial translations。beam search相当于<strong>全局搜索的剪枝过程</strong>，其不保证找到最优解，但是效果更好。beam size为2的情况如下：</p><div align=center><img src=/Kimages/4/image-20200717100806251.png style=zoom:35%></div><h1 id=注意力机制>注意力机制</h1><p>当人们听到句子“the ball is on the field”，人们不会认为这6个单词都一样重要，而是首先会注意到“ball”，“on” 和 “field”，因为这些单词是人们觉得最重要的。类似的，Bahdanau等人注意到<strong>使用RNN的最终状态作为seq2seq模型的单个“上下文向量”的缺点</strong>：<strong>输入的不同部分具有不同的重要程度</strong>。再者，<strong>输出的不同部分甚至可以考虑输入的不同部分“重要”</strong>。例如，在翻译任务中，输出的第一个单词是一般是基于输入的前几个词，输出的最后几个词可能基于输入的后几个词。</p><p><strong>注意力机制(attention mechanism)</strong> 的核心思想：on each step of the decoder, focus on a particular part of the source sequence。</p><h2 id=认知神经学中的注意力>认知神经学中的注意力</h2><p>注意力是一种人类不可或缺的复杂认知功能，指人可以在关注一些信息的同时忽略另一些信息的选择能力。在日常生活中，我们通过视觉、听觉等方式接收大量的感觉输入。但是人脑还能在这些外界的信息轰炸中有条不紊地工作，是因为人脑可以有意或无意地从这些大量输入信息中选择小部分的有用信息来重点处理，并忽略其他信息。这种能力就叫做<strong>注意力(attention)</strong>。注意力可以作用在外部的刺激(听觉、视觉、味觉等)，也可以作用在内部的意识(思考、回忆等)。注意力一般分为两种：</p><p>(1) <strong>聚焦式注意力(focus attention)</strong>：有预定目的、依赖任务的，主动有意识地聚焦于某一对象的注意力。</p><p>(2) <strong>显著性注意力(saliency-based attention)</strong>：由外界刺激驱动的注意，不需要主动干预，也和任务无关。如果一个对象的刺激信息不同于其周围信息，一种无意识的“赢者通吃”(winner-take-all)或者门控(gating)机制就可以把注意力转向这个对象。不管这些注意力是有意还是无意，大部分的人脑活动都需要依赖注意力，比如记忆信息、阅读或思考等。</p><p>一个和注意力有关的例子是<strong>鸡尾酒会效应</strong>。当一个人在吵闹的鸡尾酒会上和朋友聊天时，尽管周围噪音干扰很多，他还是可以听到朋友的谈话内容，而忽略其他人的声音(聚焦式注意力)。同时，如果未注意到的背景声中有重要的词(比如他的名字)，他会马上注意到(显著性注意力)。</p><p>聚焦式注意力一般会随着环境、情景或任务的不同而选择不同的信息。比如当要从人群中寻找某个人时，我们会专注于每个人的脸部；而当要统计人群的人数时，我们只需要专注于每个人的轮廓。</p><h2 id=人工神经网络中的注意力机制>人工神经网络中的注意力机制</h2><p>当用神经网络来处理大量的输入信息时，也可以借鉴人脑的注意力机制，只选择一些关键的信息输入进行处理，来提高神经网络的效率。在目前的神经网络模型中，我们可以将<strong>最大汇聚(max pooling)</strong>、<strong>门控(gating)机制</strong>近似地看作是自下而上的基于显著性的注意力机制。除此之外，自上而下的聚焦式注意力也是一种有效的信息选择方式。以阅读理解任务为例，给定一篇很长的文章，然后就此文章的内容进行提问。提出的问题只和段落中的一两个句子相关，其余部分都是无关的。为了减小神经网络的计算负担，<strong>只需要把相关的片段挑选出来让后续的神经网络来处理</strong>，而不需要把所有文章内容都输入给神经网络。</p><p>用$X=[\boldsymbol x_1, \cdots, \boldsymbol x_N]$表示$N$组输入信息，其中每个向量$\boldsymbol x_i$都表示<strong>一组输入信息</strong>。为了节省计算资源，<strong>不需要将所有信息都输入到神经网络</strong>，只需要从$X$中<strong>选择一些和任务相关的信息</strong>。注意力机制的计算可以分为两步：一是在所有输入信息上计算<strong>注意力分布</strong>，二是根据注意力分布来计算<strong>输入信息的加权平均</strong>。</p><p>(1) <strong>注意力分布</strong></p><p>为了从$N$个输入向量中$[\boldsymbol x_1, \cdots, \boldsymbol x_N]$选择出<strong>和某个特定任务相关的信息</strong>，我们需要引入一个<strong>和任务相关的表示</strong>，称为<strong>查询向量(query vector)</strong>，并通过一个<strong>打分函数</strong>来计算每个输入向量和查询向量之间的<strong>相关性</strong>。</p><p>给定一个和任务相关的查询向量$\boldsymbol q$(可以是<strong>动态生成</strong>的，也可以是<strong>可学习的参数</strong>)，我们用注意力变量$z \in [1,N]$来表示被选择信息的<strong>索引位置</strong>，即$z=i$表示选择了第$i$个输入向量。为了方便计算，我们采用一种“<strong>软性</strong>”的信息选择机制。首先计算在给定和$\boldsymbol q$和$X$下，选择第$i$个输入向量的<strong>概率</strong>$\alpha_i$：</p>$$
+\begin{aligned}
+\alpha_{i} &=p(z=i|X, \boldsymbol{q}) \\
+&=\operatorname{softmax}(s(\boldsymbol{x}_{i}, \boldsymbol{q})) \\
+&=\frac{\exp (s(\boldsymbol{x}_{i}, \boldsymbol{q}))}{\sum_{j=1}^{N} \exp (s(\boldsymbol{x}_{j}, \boldsymbol{q}))}
+\end{aligned}
+$$<p>其中$\alpha_i$称为<strong>注意力分布(attention distribution)</strong>，$s(\boldsymbol x_i,\boldsymbol q)$为<strong>注意力打分函数</strong>，其衡量了查询$\boldsymbol q$和输入$\boldsymbol x_i$的<strong>相关性</strong>，可以使用以下几种方式来计算：</p><p><strong>加性模型</strong>：$s(\boldsymbol{x}_{i}, \boldsymbol{q})=\boldsymbol{v}^{\mathrm{T}} \tanh (W \boldsymbol{x}_{i}+U \boldsymbol{q})$</p><p><strong>点积模型</strong>：$s(\boldsymbol{x}_{i}, \boldsymbol{q})=\boldsymbol{x}_{i}^{\mathrm{T}} \boldsymbol{q}$</p><p><strong>缩放点积模型</strong>：$s(\boldsymbol{x}_{i}, \boldsymbol{q})=\boldsymbol{x}_{i}^{\mathrm{T}} \boldsymbol{q}/\sqrt d$</p><p><strong>双线性模型</strong>：$s(\boldsymbol{x}_{i}, \boldsymbol{q})=\boldsymbol{x}_{i}^{\mathrm{T}} W \boldsymbol{q}$</p><p>其中$W,U,\boldsymbol v$为<strong>可学习的参数</strong>，$d$为<strong>输入向量的维度</strong>。理论上，加性模型和点积模型的复杂度差不多，但是<strong>点积模型在实现上可以更好地利用矩阵乘积，从而计算效率更高</strong>。但当输入向量的维度$d$比较高时，点积模型的值通常有<strong>比较大的方差</strong>，从而导致<strong>softmax函数的梯度会比较小</strong>。因此，<strong>缩放点积模型可以较好地解决这个问题</strong>。双线性模型可以看做是一种<strong>泛化的点积模型</strong>。</p><p>(2) <strong>加权平均</strong></p><p>注意力分布$\alpha_i$可以解释为在给定任务相关的查询$\boldsymbol q$时，第$i$个<strong>输入向量受关注的程度</strong>。我们采用一种“软性”的信息选择机制对输入信息进行汇总：</p>$$
+\begin{aligned}
+\operatorname{att}(X, \boldsymbol{q}) &=\sum_{i=1}^{N} \alpha_{i} \boldsymbol{x}_{i} \\
+&=\mathbb{E}_{z \sim p(z| X, \boldsymbol{q})}[\boldsymbol{x}_{z}]
+\end{aligned}
+$$<p>上式称为<strong>软性注意力机制(soft attention mechanism)</strong>，下图给出了软性注意力机制的示意。</p><div align=center><img src=/Kimages/4/image-20200717105643785.png style=zoom:30%></div><h2 id=注意力机制的变体>注意力机制的变体</h2><p>(1) <strong>硬性注意力</strong>：上文中的注意力机制为soft attention，其选择的信息是所有输入向量在注意力分布下的期望。而hard attention<strong>只关注某一个输入向量</strong>。硬性注意力有两种实现方式，一种是<strong>选取最高概率的一个输入向量</strong>，另一种是<strong>在注意力分布式上随机采样</strong>。硬性注意力的缺点是损失函数与注意力分布间的函数不可导，因此<strong>无法使用反向传播进行训练</strong>。因此一般使用软性注意力来代替硬性注意力。 硬性注意力需要通过强化学习进行训练。</p><p>(2) <strong>键值对注意力</strong>：更一般地，我们可以用<strong>键值对(key-value pair)格式</strong>来表示<strong>输入信息</strong>，其中“键”用来计算注意力分布$\alpha_i$，“值”用来计算聚合信息。</p><p>用$(K, V)=[(\boldsymbol{k}_{1}, \boldsymbol{v}_{1}), \cdots,(\boldsymbol{k}_{N}, \boldsymbol{v}_{N})]$表示$N$组输入信息，给定任务相关的查询向量$\boldsymbol q$时，注意力函数为：</p>$$
+\begin{aligned}
+\operatorname{att}((K, V), \boldsymbol{q}) &=\sum_{i=1}^{N} \alpha_{i} \boldsymbol{v}_{i} \\
+&=\sum_{i=1}^{N} \frac{\exp (s(\boldsymbol{k}_{i}, \boldsymbol{q}))}{\sum_{j} \exp (s(\boldsymbol{k}_{j}, \boldsymbol{q}))} \boldsymbol{v}_{i}
+\end{aligned}
+$$<p>其中$s(\boldsymbol{k}_{i}, \boldsymbol{q})$为打分函数。当$K=V$时，键值对模式就等价于普通的注意力机制。</p><p>(3) <strong>多头注意力</strong>：多头注意力(multi-head attention)是利用<strong>多个查询</strong>$Q = [\boldsymbol q_1,\cdots,\boldsymbol q_M]$来平行地计算从输入信息中选取多组信息。<strong>每个注意力关注输入信息的不同部分</strong>。</p>$$
+\operatorname{att}((K, V), Q)=\operatorname{att}((K, V), \boldsymbol{q}_{1}) \oplus \cdots \oplus \operatorname{att}((K, V), \boldsymbol{q}_{M})
+$$<p>其中$\oplus$表示<strong>向量拼接</strong>。</p><p>(4) <strong>结构化注意力</strong>：之前，我们假设所有的输入信息是同等重要的，是一种扁平结构，注意力分布实际上是在所有输入信息上的多项分布。但若输入信息本身具有层次结构，如文本可以分为词、句子、段落等不同粒度层次，我们可以使用层次化注意力进行更好的信息选择。</p><h1 id=注意力机制在序列模型中的应用>注意力机制在序列模型中的应用</h1><h2 id=seq2seq中的注意力机制>seq2seq中的注意力机制</h2><p>以机器翻译这一seq2seq任务为例，论文[1]和[2]设计了如下所示的global attention机制：</p><div align=center><img src=/Kimages/4/image-20200717183337792.png style=zoom:45%></div><p>在每个时间步$t$，计算解码器当前时间步的输出$\boldsymbol h_t$和所有编码器隐含状态$\boldsymbol{\bar h}_s$的得分函数，并得到权重向量$\boldsymbol a_t$。然后将编码器每个时间步的输出与$\boldsymbol a_t$进行加权平均，得到上下文向量$\boldsymbol c_t$。公式描述如下：</p>$$
+\operatorname{score}(\boldsymbol{h}_{t}, {\bar{\boldsymbol h}}_{s})=\left\{\begin{array}{l}\boldsymbol{h}_{t}^{\text{T}} \boldsymbol{W} {\bar{\boldsymbol h}}_{s}\\
+\boldsymbol{v}_{a}^{\text{T}} \tanh (\boldsymbol{W}_{1} \boldsymbol{h}_{t}+\boldsymbol{W}_{2} {\bar{\boldsymbol h}}_{s})\end{array}\right. \ \ \ \ \ \ \ [\text{score function}]
+$$$$
+\alpha_{ts}=\frac{\exp (\operatorname{score}(\boldsymbol{h}_{t}, {\boldsymbol{\bar h}}_{s}))}{\sum_{s^{\prime}=1}^{S} \exp (\operatorname{score}(\boldsymbol{h}_{t}, {\boldsymbol{\bar h}}_{s^{\prime}}))} \ \ \ \ \ \ \ [\text{attention weights}]
+$$$$
+c_{t}=\sum_{s} \alpha_{t s} \bar{\boldsymbol h}_{s} \ \ \ \ \ \ \ [\text{context vector}]
+$$$$
+\boldsymbol{a}_{t}=f(\boldsymbol{c}_{t}, \boldsymbol{h}_{t})=\tanh (\boldsymbol{W}_{\boldsymbol{c}}[\boldsymbol{c}_{t} ; \boldsymbol{h}_{t}]) \ \ \ \ \ \ \ [\text{attention vector}]
+$$<h2 id=指针网络>指针网络</h2><p>注意力机制主要是用来做信息筛选，从输入信息中选取相关的信息。注意力机制可以分为两步：一是计算<strong>注意力分布</strong>$\alpha$，二是根据$\alpha$来计算输入<strong>信息的加权平均</strong>。我们可以只利用注意力机制中的第一步，将注意力分布作为一个<strong>软性的指针(pointer)</strong> 来指出相关信息的位置。</p><p><strong>指针网络(pointer network)</strong>[3]是一种<strong>序列到序列模型</strong>，输入是长度为$n$的向量序列$X=\boldsymbol x_1,\cdots,\boldsymbol x_n$，输出是<strong>下标序列</strong>$c_{1:m}=c_1,c_2,\cdots,c_m,c_i \in [1,n],\forall i$。和一般的序列到序列任务不同，这里的输出序列是输入序列的下标(索引)。比如输入一组乱序的数字，输出为按大小排序的输入数字序列的下标。比如输入为20*,* 5*,* 10，输出为1*,* 3*,* 2。</p><p>条件概率$p(c_{1: m}|\boldsymbol{x}_{1: n})$可以写为：</p>$$
+\begin{aligned}
+p(c_{1: m}|\boldsymbol{x}_{1: n}) &=\prod_{i=1}^{m} p(c_{i}|c_{1: i-1}, \boldsymbol{x}_{1: n}) \\
+& \approx \prod_{i=1}^{m} p(c_{i}|\boldsymbol{x}_{c_{1}}, \cdots, \boldsymbol{x}_{c_{i-1}}, \boldsymbol{x}_{1: n})
+\end{aligned}
+$$<p>其中条件概率$p(c_{i} \mid \boldsymbol{x}_{c_{1}}, \cdots, \boldsymbol{x}_{c_{i-1}}, \boldsymbol{x}_{1: n})$可以通过<strong>注意力分布</strong>来计算。假设用一个循环神经网络对$\boldsymbol{x}_{c_{1}}, \cdots, \boldsymbol{x}_{c_{i-1}}, \boldsymbol{x}_{1: n}$进行编码得到向量$\boldsymbol h_i$，则</p>$$
+p\left(c_{i} \mid c_{1: i-1}, \boldsymbol{x}_{1: n}\right)=\operatorname{softmax}(s_{i, j})
+$$<p>其中$s_{i,j}$为在解码过程的第$i$步时，每个输入向量的为归一化的注意力分布，即</p>$$
+s_{i, j}=\boldsymbol{v}^{\mathrm{T}} \tanh (W \boldsymbol{x}_{j}+U \boldsymbol{h}_{i}), \forall j \in[1, n]
+$$<p>其中$\boldsymbol v,W,U$为可学习的参数。下图给出了指针网络的示例。</p><div align=center><img src=/Kimages/4/image-20200717205833195.png style=zoom:30%></div><h2 id=自注意力机制>自注意力机制</h2><p>当使用神经网络来处理一个变长的向量序列时，我们通常可以使用卷积网络[4]或循环网络进行编码来得到一个相同长度的输出向量序列，如下图所示：</p><div align=center><img src=/Kimages/4/image-20200717213925973.png style=zoom:35%></div><p><strong>基于卷积或循环网络的序列编码都可以看做是一种局部的编码方式</strong>，只建模了<strong>输入信息的局部依赖关系</strong>。虽然循环网络理论上可以建立长距离依赖关系，但是由于信息传递的容量以及梯度消失问题，<strong>实际上也只能建立短距离依赖关系</strong>。</p><p>如果要建立输入序列之间的长距离依赖关系，可以使用以下两种方法：一种方法是<strong>增加网络的层数</strong>，通过一个深层网络来获取远距离的信息交互；另一种方法是使用<strong>全连接网络</strong>。全连接网络是一种非常直接的建模远距离依赖的模型，但是<strong>无法处理变长的输入序列</strong>。不同的输入长度，其连接权重的大小也是不同的。这时我们就可以利用注意力机制来 <strong>“动态”地生成不同连接的权重</strong> ，这就是<strong>自注意力模型(self-attention model)</strong>。</p><h1 id=序列生成模型的评价指标>序列生成模型的评价指标</h1><p>(1) 困惑度：计算测试集合中的句子的联合概率。联合概率越高，困惑度越低，表明生成的句子效果越好。</p><p>(2) BELU(bilingual evaluation understudy)：衡量模型生成序列和参考序列之间的N-gram重合度。</p><p>(3) ROUGE(recall-oriented understudy for gisting evaluation)：和BLEU相似，但计算的是召回率。</p><h1 id=tensorflow实现seq2seqattention完成机器翻译任务>Tensorflow实现Seq2Seq+Attention完成机器翻译任务</h1><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#ff79c6>import</span> tensorflow <span style=color:#ff79c6>as</span> tf
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> matplotlib.pyplot <span style=color:#ff79c6>as</span> plt
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> matplotlib.ticker <span style=color:#ff79c6>as</span> ticker
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> sklearn.model_selection <span style=color:#ff79c6>import</span> train_test_split
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> unicodedata
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> re
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> numpy <span style=color:#ff79c6>as</span> np
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> jieba
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> os
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>def</span> <span style=color:#50fa7b>process_english</span>(w):
+</span></span><span style=display:flex><span>    <span style=color:#6272a4># creating a space between a word and the punctuation following it</span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4># eg: &#34;he is a boy.&#34; =&gt; &#34;he is a boy .&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4># Reference:- https://stackoverflow.com/questions/3645931/python-padding-punctuation-with-white-spaces-keeping-punctuation</span>
+</span></span><span style=display:flex><span>    w <span style=color:#ff79c6>=</span> re<span style=color:#ff79c6>.</span>sub(<span style=color:#f1fa8c>r</span><span style=color:#f1fa8c>&#34;([?.!,¿])&#34;</span>, <span style=color:#f1fa8c>r</span><span style=color:#f1fa8c>&#34; \1 &#34;</span>, w)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4># replacing everything with space except (a-z, A-Z, &#34;.&#34;, &#34;?&#34;, &#34;!&#34;, &#34;,&#34;)</span>
+</span></span><span style=display:flex><span>    w <span style=color:#ff79c6>=</span> re<span style=color:#ff79c6>.</span>sub(<span style=color:#f1fa8c>r</span><span style=color:#f1fa8c>&#34;[^a-zA-Z?.!,¿&#39;;]+&#34;</span>, <span style=color:#f1fa8c>&#34; &#34;</span>, w)
+</span></span><span style=display:flex><span>    w <span style=color:#ff79c6>=</span> w<span style=color:#ff79c6>.</span>strip()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4># adding a start and an end token to the sentence</span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4># so that the model know when to start and stop predicting.</span>
+</span></span><span style=display:flex><span>    w <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#39;&lt;start&gt; &#39;</span> <span style=color:#ff79c6>+</span> w <span style=color:#ff79c6>+</span> <span style=color:#f1fa8c>&#39; &lt;end&gt;&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>return</span> w
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>def</span> <span style=color:#50fa7b>process_chinese</span>(w):
+</span></span><span style=display:flex><span>    seg_list <span style=color:#ff79c6>=</span> jieba<span style=color:#ff79c6>.</span>cut(w)  <span style=color:#6272a4># word segmentation by jieba</span>
+</span></span><span style=display:flex><span>    w <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34; &#34;</span><span style=color:#ff79c6>.</span>join(seg_list)
+</span></span><span style=display:flex><span>    w <span style=color:#ff79c6>=</span> w<span style=color:#ff79c6>.</span>strip()
+</span></span><span style=display:flex><span>    w <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#39;&lt;start&gt; &#39;</span> <span style=color:#ff79c6>+</span> w <span style=color:#ff79c6>+</span> <span style=color:#f1fa8c>&#39; &lt;end&gt;&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>return</span> w
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(process_english(<span style=color:#f1fa8c>&#34;I&#39;m a good boy!&#34;</span>))
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(process_chinese(<span style=color:#f1fa8c>&#39;我只是一個甜甜的男孩子。&#39;</span>))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 读取并处理数据(需要将数据导入当前目录)</span>
+</span></span><span style=display:flex><span>data_path <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#39;seq2seq_attention_data.txt&#39;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>file <span style=color:#ff79c6>=</span> <span style=color:#8be9fd;font-style:italic>open</span>(data_path, <span style=color:#f1fa8c>&#39;r&#39;</span>, encoding<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#39;utf-8&#39;</span>)
+</span></span><span style=display:flex><span>lines <span style=color:#ff79c6>=</span> file<span style=color:#ff79c6>.</span>readlines()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>english <span style=color:#ff79c6>=</span> []
+</span></span><span style=display:flex><span>chinese <span style=color:#ff79c6>=</span> []
+</span></span><span style=display:flex><span><span style=color:#ff79c6>for</span> i <span style=color:#ff79c6>in</span> <span style=color:#8be9fd;font-style:italic>range</span>(<span style=color:#8be9fd;font-style:italic>len</span>(lines)):
+</span></span><span style=display:flex><span>    eng, chi, _ <span style=color:#ff79c6>=</span> lines[i]<span style=color:#ff79c6>.</span>split(<span style=color:#f1fa8c>&#39;</span><span style=color:#f1fa8c>\t</span><span style=color:#f1fa8c>&#39;</span>)
+</span></span><span style=display:flex><span>    english<span style=color:#ff79c6>.</span>append(process_english(eng))
+</span></span><span style=display:flex><span>    chinese<span style=color:#ff79c6>.</span>append(process_chinese(chi))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#8be9fd;font-style:italic>len</span>(english))
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#8be9fd;font-style:italic>len</span>(chinese))
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(english[<span style=color:#bd93f9>10000</span>])
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(chinese[<span style=color:#bd93f9>10000</span>])
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>def</span> <span style=color:#50fa7b>tokenize</span>(lang):
+</span></span><span style=display:flex><span>    <span style=color:#6272a4># convert texts to sequences of word index</span>
+</span></span><span style=display:flex><span>    lang_tokenizer <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>keras<span style=color:#ff79c6>.</span>preprocessing<span style=color:#ff79c6>.</span>text<span style=color:#ff79c6>.</span>Tokenizer(filters<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#39;&#39;</span>)
+</span></span><span style=display:flex><span>    lang_tokenizer<span style=color:#ff79c6>.</span>fit_on_texts(lang)
+</span></span><span style=display:flex><span>    tensor <span style=color:#ff79c6>=</span> lang_tokenizer<span style=color:#ff79c6>.</span>texts_to_sequences(lang)
+</span></span><span style=display:flex><span>    tensor <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>keras<span style=color:#ff79c6>.</span>preprocessing<span style=color:#ff79c6>.</span>sequence<span style=color:#ff79c6>.</span>pad_sequences(tensor, padding<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#39;post&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>return</span> tensor, lang_tokenizer
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>input_tensor, inp_lang_tokenizer <span style=color:#ff79c6>=</span> tokenize(english)  <span style=color:#6272a4># english</span>
+</span></span><span style=display:flex><span>target_tensor, targ_lang_tokenizer <span style=color:#ff79c6>=</span> tokenize(chinese)  <span style=color:#6272a4># chinese</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># calculate max_length of the target tensors</span>
+</span></span><span style=display:flex><span>max_length_targ, max_length_inp <span style=color:#ff79c6>=</span> target_tensor<span style=color:#ff79c6>.</span>shape[<span style=color:#bd93f9>1</span>], input_tensor<span style=color:#ff79c6>.</span>shape[<span style=color:#bd93f9>1</span>]
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># creating training and validation sets using an 80-20 split</span>
+</span></span><span style=display:flex><span>input_tensor_train, input_tensor_val, target_tensor_train, target_tensor_val <span style=color:#ff79c6>=</span> train_test_split(input_tensor, target_tensor, test_size<span style=color:#ff79c6>=</span><span style=color:#bd93f9>0.2</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># show length, 18755 train sample, 4689 test sample</span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#8be9fd;font-style:italic>len</span>(input_tensor_train), <span style=color:#8be9fd;font-style:italic>len</span>(target_tensor_train), <span style=color:#8be9fd;font-style:italic>len</span>(input_tensor_val), <span style=color:#8be9fd;font-style:italic>len</span>(target_tensor_val))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># create a tf.data dataset</span>
+</span></span><span style=display:flex><span>BUFFER_SIZE <span style=color:#ff79c6>=</span> <span style=color:#8be9fd;font-style:italic>len</span>(input_tensor_train)
+</span></span><span style=display:flex><span>BATCH_SIZE <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>64</span>
+</span></span><span style=display:flex><span>steps_per_epoch <span style=color:#ff79c6>=</span> <span style=color:#8be9fd;font-style:italic>len</span>(input_tensor_train) <span style=color:#ff79c6>//</span> BATCH_SIZE
+</span></span><span style=display:flex><span>embedding_dim <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>300</span>
+</span></span><span style=display:flex><span>units <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>512</span>
+</span></span><span style=display:flex><span>vocab_inp_size <span style=color:#ff79c6>=</span> <span style=color:#8be9fd;font-style:italic>len</span>(inp_lang_tokenizer<span style=color:#ff79c6>.</span>word_index) <span style=color:#ff79c6>+</span> <span style=color:#bd93f9>1</span>
+</span></span><span style=display:flex><span>vocab_tar_size <span style=color:#ff79c6>=</span> <span style=color:#8be9fd;font-style:italic>len</span>(targ_lang_tokenizer<span style=color:#ff79c6>.</span>word_index) <span style=color:#ff79c6>+</span> <span style=color:#bd93f9>1</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>dataset <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>data<span style=color:#ff79c6>.</span>Dataset<span style=color:#ff79c6>.</span>from_tensor_slices((input_tensor_train, target_tensor_train))<span style=color:#ff79c6>.</span>shuffle(BUFFER_SIZE)
+</span></span><span style=display:flex><span>dataset <span style=color:#ff79c6>=</span> dataset<span style=color:#ff79c6>.</span>batch(BATCH_SIZE, drop_remainder<span style=color:#ff79c6>=</span><span style=color:#ff79c6>True</span>)
+</span></span><span style=display:flex><span>example_input_batch, example_target_batch <span style=color:#ff79c6>=</span> <span style=color:#8be9fd;font-style:italic>next</span>(<span style=color:#8be9fd;font-style:italic>iter</span>(dataset))
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(example_input_batch<span style=color:#ff79c6>.</span>shape, example_target_batch<span style=color:#ff79c6>.</span>shape)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># model architecture</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>class</span> <span style=color:#50fa7b>Encoder</span>(tf<span style=color:#ff79c6>.</span>keras<span style=color:#ff79c6>.</span>Model):
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>def</span> <span style=color:#50fa7b>__init__</span>(<span style=font-style:italic>self</span>, vocab_size, embedding_dim, enc_units, batch_sz):
+</span></span><span style=display:flex><span>        <span style=color:#8be9fd;font-style:italic>super</span>(Encoder, <span style=font-style:italic>self</span>)<span style=color:#ff79c6>.</span><span style=color:#50fa7b>__init__</span>()
+</span></span><span style=display:flex><span>        <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>batch_sz <span style=color:#ff79c6>=</span> batch_sz
+</span></span><span style=display:flex><span>        <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>enc_units <span style=color:#ff79c6>=</span> enc_units
+</span></span><span style=display:flex><span>        <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>embedding <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>keras<span style=color:#ff79c6>.</span>layers<span style=color:#ff79c6>.</span>Embedding(vocab_size, embedding_dim, mask_zero<span style=color:#ff79c6>=</span><span style=color:#ff79c6>True</span>)
+</span></span><span style=display:flex><span>        <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>gru <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>keras<span style=color:#ff79c6>.</span>layers<span style=color:#ff79c6>.</span>GRU(<span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>enc_units,
+</span></span><span style=display:flex><span>                                       return_sequences<span style=color:#ff79c6>=</span><span style=color:#ff79c6>True</span>,
+</span></span><span style=display:flex><span>                                       return_state<span style=color:#ff79c6>=</span><span style=color:#ff79c6>True</span>,
+</span></span><span style=display:flex><span>                                       recurrent_initializer<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#39;glorot_uniform&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>def</span> <span style=color:#50fa7b>call</span>(<span style=font-style:italic>self</span>, x, hidden):
+</span></span><span style=display:flex><span>        x <span style=color:#ff79c6>=</span> <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>embedding(x)
+</span></span><span style=display:flex><span>        output, state <span style=color:#ff79c6>=</span> <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>gru(x, initial_state<span style=color:#ff79c6>=</span>hidden)
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> output, state
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>def</span> <span style=color:#50fa7b>initialize_hidden_state</span>(<span style=font-style:italic>self</span>):
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> tf<span style=color:#ff79c6>.</span>zeros((<span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>batch_sz, <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>enc_units))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>encoder <span style=color:#ff79c6>=</span> Encoder(vocab_inp_size, embedding_dim, units, BATCH_SIZE)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># sample input</span>
+</span></span><span style=display:flex><span>sample_hidden <span style=color:#ff79c6>=</span> encoder<span style=color:#ff79c6>.</span>initialize_hidden_state()
+</span></span><span style=display:flex><span>sample_output, sample_hidden <span style=color:#ff79c6>=</span> encoder(example_input_batch, sample_hidden)
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#39;Encoder output shape: (batch size, sequence length, units) </span><span style=color:#f1fa8c>{}</span><span style=color:#f1fa8c>&#39;</span><span style=color:#ff79c6>.</span>format(sample_output<span style=color:#ff79c6>.</span>shape))
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#39;Encoder Hidden state shape: (batch size, units) </span><span style=color:#f1fa8c>{}</span><span style=color:#f1fa8c>&#39;</span><span style=color:#ff79c6>.</span>format(sample_hidden<span style=color:#ff79c6>.</span>shape))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>class</span> <span style=color:#50fa7b>BahdanauAttention</span>(tf<span style=color:#ff79c6>.</span>keras<span style=color:#ff79c6>.</span>layers<span style=color:#ff79c6>.</span>Layer):
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>def</span> <span style=color:#50fa7b>__init__</span>(<span style=font-style:italic>self</span>, units):
+</span></span><span style=display:flex><span>        <span style=color:#8be9fd;font-style:italic>super</span>(BahdanauAttention, <span style=font-style:italic>self</span>)<span style=color:#ff79c6>.</span><span style=color:#50fa7b>__init__</span>()
+</span></span><span style=display:flex><span>        <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>W1 <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>keras<span style=color:#ff79c6>.</span>layers<span style=color:#ff79c6>.</span>Dense(units)
+</span></span><span style=display:flex><span>        <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>W2 <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>keras<span style=color:#ff79c6>.</span>layers<span style=color:#ff79c6>.</span>Dense(units)
+</span></span><span style=display:flex><span>        <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>V <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>keras<span style=color:#ff79c6>.</span>layers<span style=color:#ff79c6>.</span>Dense(<span style=color:#bd93f9>1</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>def</span> <span style=color:#50fa7b>call</span>(<span style=font-style:italic>self</span>, query, values):
+</span></span><span style=display:flex><span>        <span style=color:#6272a4># query hidden state shape == (batch_size, hidden size)</span>
+</span></span><span style=display:flex><span>        <span style=color:#6272a4># query_with_time_axis shape == (batch_size, 1, hidden size)</span>
+</span></span><span style=display:flex><span>        <span style=color:#6272a4># values shape == (batch_size, max_len, hidden size)</span>
+</span></span><span style=display:flex><span>        <span style=color:#6272a4># we are doing this to broadcast addition along the time axis to calculate the score</span>
+</span></span><span style=display:flex><span>        query_with_time_axis <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>expand_dims(query, <span style=color:#bd93f9>1</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#6272a4># score shape == (batch_size, max_length, 1)</span>
+</span></span><span style=display:flex><span>        <span style=color:#6272a4># we get 1 at the last axis because we are applying score to self.V</span>
+</span></span><span style=display:flex><span>        <span style=color:#6272a4># the shape of the tensor before applying self.V is (batch_size, max_length, units)</span>
+</span></span><span style=display:flex><span>        score <span style=color:#ff79c6>=</span> <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>V(tf<span style=color:#ff79c6>.</span>nn<span style=color:#ff79c6>.</span>tanh(<span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>W1(query_with_time_axis) <span style=color:#ff79c6>+</span> <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>W2(values)))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#6272a4># attention_weights shape == (batch_size, max_length, 1)</span>
+</span></span><span style=display:flex><span>        attention_weights <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>nn<span style=color:#ff79c6>.</span>softmax(score, axis<span style=color:#ff79c6>=</span><span style=color:#bd93f9>1</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#6272a4># context_vector shape after sum == (batch_size, hidden_size)</span>
+</span></span><span style=display:flex><span>        context_vector <span style=color:#ff79c6>=</span> attention_weights <span style=color:#ff79c6>*</span> values
+</span></span><span style=display:flex><span>        context_vector <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>reduce_sum(context_vector, axis<span style=color:#ff79c6>=</span><span style=color:#bd93f9>1</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> context_vector, attention_weights
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>attention_layer <span style=color:#ff79c6>=</span> BahdanauAttention(<span style=color:#bd93f9>10</span>)
+</span></span><span style=display:flex><span>attention_result, attention_weights <span style=color:#ff79c6>=</span> attention_layer(sample_hidden, sample_output)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#34;Attention result(context vector) shape: (batch size, units) </span><span style=color:#f1fa8c>{}</span><span style=color:#f1fa8c>&#34;</span><span style=color:#ff79c6>.</span>format(attention_result<span style=color:#ff79c6>.</span>shape))
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#34;Attention weights shape: (batch_size, sequence_length, 1) </span><span style=color:#f1fa8c>{}</span><span style=color:#f1fa8c>&#34;</span><span style=color:#ff79c6>.</span>format(attention_weights<span style=color:#ff79c6>.</span>shape))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>class</span> <span style=color:#50fa7b>Decoder</span>(tf<span style=color:#ff79c6>.</span>keras<span style=color:#ff79c6>.</span>Model):
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>def</span> <span style=color:#50fa7b>__init__</span>(<span style=font-style:italic>self</span>, vocab_size, embedding_dim, dec_units, batch_sz):
+</span></span><span style=display:flex><span>        <span style=color:#8be9fd;font-style:italic>super</span>(Decoder, <span style=font-style:italic>self</span>)<span style=color:#ff79c6>.</span><span style=color:#50fa7b>__init__</span>()
+</span></span><span style=display:flex><span>        <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>batch_sz <span style=color:#ff79c6>=</span> batch_sz
+</span></span><span style=display:flex><span>        <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>dec_units <span style=color:#ff79c6>=</span> dec_units
+</span></span><span style=display:flex><span>        <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>embedding <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>keras<span style=color:#ff79c6>.</span>layers<span style=color:#ff79c6>.</span>Embedding(vocab_size, embedding_dim, mask_zero<span style=color:#ff79c6>=</span><span style=color:#ff79c6>True</span>)
+</span></span><span style=display:flex><span>        <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>gru <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>keras<span style=color:#ff79c6>.</span>layers<span style=color:#ff79c6>.</span>GRU(<span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>dec_units,
+</span></span><span style=display:flex><span>                                       return_sequences<span style=color:#ff79c6>=</span><span style=color:#ff79c6>True</span>,
+</span></span><span style=display:flex><span>                                       return_state<span style=color:#ff79c6>=</span><span style=color:#ff79c6>True</span>,
+</span></span><span style=display:flex><span>                                       recurrent_initializer<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#39;glorot_uniform&#39;</span>)
+</span></span><span style=display:flex><span>        <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>fc <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>keras<span style=color:#ff79c6>.</span>layers<span style=color:#ff79c6>.</span>Dense(vocab_size)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#6272a4># used for attention</span>
+</span></span><span style=display:flex><span>        <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>attention <span style=color:#ff79c6>=</span> BahdanauAttention(<span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>dec_units)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>def</span> <span style=color:#50fa7b>call</span>(<span style=font-style:italic>self</span>, x, hidden, enc_output):
+</span></span><span style=display:flex><span>        <span style=color:#6272a4># enc_output shape == (batch_size, max_length, hidden_size)</span>
+</span></span><span style=display:flex><span>        context_vector, attention_weights <span style=color:#ff79c6>=</span> <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>attention(hidden, enc_output)
+</span></span><span style=display:flex><span>        <span style=color:#6272a4># x shape after passing through embedding == (batch_size, 1, embedding_dim)</span>
+</span></span><span style=display:flex><span>        x <span style=color:#ff79c6>=</span> <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>embedding(x)
+</span></span><span style=display:flex><span>        <span style=color:#6272a4># x shape after concatenation == (batch_size, 1, embedding_dim + hidden_size)</span>
+</span></span><span style=display:flex><span>        x <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>concat([tf<span style=color:#ff79c6>.</span>expand_dims(context_vector, <span style=color:#bd93f9>1</span>), x], axis<span style=color:#ff79c6>=-</span><span style=color:#bd93f9>1</span>)
+</span></span><span style=display:flex><span>        <span style=color:#6272a4># passing the concatenated vector to the GRU</span>
+</span></span><span style=display:flex><span>        output, state <span style=color:#ff79c6>=</span> <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>gru(x)
+</span></span><span style=display:flex><span>        <span style=color:#6272a4># output shape == (batch_size * 1, hidden_size)</span>
+</span></span><span style=display:flex><span>        output <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>reshape(output, (<span style=color:#ff79c6>-</span><span style=color:#bd93f9>1</span>, output<span style=color:#ff79c6>.</span>shape[<span style=color:#bd93f9>2</span>]))
+</span></span><span style=display:flex><span>        <span style=color:#6272a4># output shape == (batch_size, vocab)</span>
+</span></span><span style=display:flex><span>        x <span style=color:#ff79c6>=</span> <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>fc(output)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> x, state, attention_weights
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>decoder <span style=color:#ff79c6>=</span> Decoder(vocab_tar_size, embedding_dim, units, BATCH_SIZE)
+</span></span><span style=display:flex><span>sample_decoder_output, _, _ <span style=color:#ff79c6>=</span> decoder(tf<span style=color:#ff79c6>.</span>random<span style=color:#ff79c6>.</span>uniform((BATCH_SIZE, <span style=color:#bd93f9>1</span>)), sample_hidden, sample_output)
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#39;Decoder output shape: (batch_size, vocab size) </span><span style=color:#f1fa8c>{}</span><span style=color:#f1fa8c>&#39;</span><span style=color:#ff79c6>.</span>format(sample_decoder_output<span style=color:#ff79c6>.</span>shape))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># define the optimizer and the loss function</span>
+</span></span><span style=display:flex><span>optimizer <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>keras<span style=color:#ff79c6>.</span>optimizers<span style=color:#ff79c6>.</span>Adam()
+</span></span><span style=display:flex><span>loss_object <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>keras<span style=color:#ff79c6>.</span>losses<span style=color:#ff79c6>.</span>SparseCategoricalCrossentropy(from_logits<span style=color:#ff79c6>=</span><span style=color:#ff79c6>True</span>, reduction<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#39;none&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>def</span> <span style=color:#50fa7b>loss_function</span>(real, pred):
+</span></span><span style=display:flex><span>    mask <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>math<span style=color:#ff79c6>.</span>logical_not(tf<span style=color:#ff79c6>.</span>math<span style=color:#ff79c6>.</span>equal(real, <span style=color:#bd93f9>0</span>))
+</span></span><span style=display:flex><span>    loss_ <span style=color:#ff79c6>=</span> loss_object(real, pred)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    mask <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>cast(mask, dtype<span style=color:#ff79c6>=</span>loss_<span style=color:#ff79c6>.</span>dtype)
+</span></span><span style=display:flex><span>    loss_ <span style=color:#ff79c6>*=</span> mask
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>return</span> tf<span style=color:#ff79c6>.</span>reduce_mean(loss_)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>checkpoint_dir <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#39;./training_checkpoints&#39;</span>
+</span></span><span style=display:flex><span>checkpoint_prefix <span style=color:#ff79c6>=</span> os<span style=color:#ff79c6>.</span>path<span style=color:#ff79c6>.</span>join(checkpoint_dir, <span style=color:#f1fa8c>&#34;ckpt&#34;</span>)
+</span></span><span style=display:flex><span>checkpoint <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>train<span style=color:#ff79c6>.</span>Checkpoint(optimizer<span style=color:#ff79c6>=</span>optimizer, encoder<span style=color:#ff79c6>=</span>encoder, decoder<span style=color:#ff79c6>=</span>decoder)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># training</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 1. pass the input through the encoder which return encoder output and the encoder hidden state.</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 2. the encoder output, encoder hidden state and the decoder input (which is the start token) is passed to the decoder.</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 3. the decoder returns the predictions and the decoder hidden state.</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 4. the decoder hidden state is then passed back into the model and the predictions are used to calculate the loss.</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 5. use teacher forcing to decide the next input to the decoder.</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 6. teacher forcing is the technique where the target word is passed as the next input to the decoder.</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 7. the final step is to calculate the gradients and apply it to the optimizer and backpropagate.</span>
+</span></span><span style=display:flex><span>@tf.function
+</span></span><span style=display:flex><span><span style=color:#ff79c6>def</span> <span style=color:#50fa7b>train_step</span>(inp, targ, enc_hidden):
+</span></span><span style=display:flex><span>    loss <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>0</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>with</span> tf<span style=color:#ff79c6>.</span>GradientTape() <span style=color:#ff79c6>as</span> tape:
+</span></span><span style=display:flex><span>        enc_output, enc_hidden <span style=color:#ff79c6>=</span> encoder(inp, enc_hidden)
+</span></span><span style=display:flex><span>        dec_hidden <span style=color:#ff79c6>=</span> enc_hidden
+</span></span><span style=display:flex><span>        dec_input <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>expand_dims([targ_lang_tokenizer<span style=color:#ff79c6>.</span>word_index[<span style=color:#f1fa8c>&#39;&lt;start&gt;&#39;</span>]] <span style=color:#ff79c6>*</span> BATCH_SIZE, <span style=color:#bd93f9>1</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#6272a4># Teacher forcing - feeding the target as the next input</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>for</span> t <span style=color:#ff79c6>in</span> <span style=color:#8be9fd;font-style:italic>range</span>(<span style=color:#bd93f9>1</span>, targ<span style=color:#ff79c6>.</span>shape[<span style=color:#bd93f9>1</span>]):
+</span></span><span style=display:flex><span>            <span style=color:#6272a4># passing enc_output to the decoder</span>
+</span></span><span style=display:flex><span>            predictions, dec_hidden, _ <span style=color:#ff79c6>=</span> decoder(dec_input, dec_hidden, enc_output)
+</span></span><span style=display:flex><span>            loss <span style=color:#ff79c6>+=</span> loss_function(targ[:, t], predictions)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>            <span style=color:#6272a4># using teacher forcing</span>
+</span></span><span style=display:flex><span>            dec_input <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>expand_dims(targ[:, t], <span style=color:#bd93f9>1</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    batch_loss <span style=color:#ff79c6>=</span> (loss <span style=color:#ff79c6>/</span> <span style=color:#8be9fd;font-style:italic>int</span>(targ<span style=color:#ff79c6>.</span>shape[<span style=color:#bd93f9>1</span>]))
+</span></span><span style=display:flex><span>    variables <span style=color:#ff79c6>=</span> encoder<span style=color:#ff79c6>.</span>trainable_variables <span style=color:#ff79c6>+</span> decoder<span style=color:#ff79c6>.</span>trainable_variables
+</span></span><span style=display:flex><span>    gradients <span style=color:#ff79c6>=</span> tape<span style=color:#ff79c6>.</span>gradient(loss, variables)
+</span></span><span style=display:flex><span>    optimizer<span style=color:#ff79c6>.</span>apply_gradients(<span style=color:#8be9fd;font-style:italic>zip</span>(gradients, variables))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>return</span> batch_loss
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>EPOCHS <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>10</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>for</span> epoch <span style=color:#ff79c6>in</span> <span style=color:#8be9fd;font-style:italic>range</span>(EPOCHS):
+</span></span><span style=display:flex><span>    enc_hidden <span style=color:#ff79c6>=</span> encoder<span style=color:#ff79c6>.</span>initialize_hidden_state()
+</span></span><span style=display:flex><span>    total_loss <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>0</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>for</span> (batch, (inp, targ)) <span style=color:#ff79c6>in</span> <span style=color:#8be9fd;font-style:italic>enumerate</span>(dataset<span style=color:#ff79c6>.</span>take(steps_per_epoch)):
+</span></span><span style=display:flex><span>        batch_loss <span style=color:#ff79c6>=</span> train_step(inp, targ, enc_hidden)
+</span></span><span style=display:flex><span>        total_loss <span style=color:#ff79c6>+=</span> batch_loss
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>if</span> batch <span style=color:#ff79c6>%</span> <span style=color:#bd93f9>100</span> <span style=color:#ff79c6>==</span> <span style=color:#bd93f9>0</span>:
+</span></span><span style=display:flex><span>            <span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#39;Epoch </span><span style=color:#f1fa8c>{}</span><span style=color:#f1fa8c> Batch </span><span style=color:#f1fa8c>{}</span><span style=color:#f1fa8c> Loss </span><span style=color:#f1fa8c>{:.4f}</span><span style=color:#f1fa8c>&#39;</span><span style=color:#ff79c6>.</span>format(epoch <span style=color:#ff79c6>+</span> <span style=color:#bd93f9>1</span>, batch, batch_loss<span style=color:#ff79c6>.</span>numpy()))
+</span></span><span style=display:flex><span>    <span style=color:#6272a4># saving (checkpoint) the model every 2 epochs</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>if</span> (epoch <span style=color:#ff79c6>+</span> <span style=color:#bd93f9>1</span>) <span style=color:#ff79c6>%</span> <span style=color:#bd93f9>2</span> <span style=color:#ff79c6>==</span> <span style=color:#bd93f9>0</span>:
+</span></span><span style=display:flex><span>        checkpoint<span style=color:#ff79c6>.</span>save(file_prefix<span style=color:#ff79c6>=</span>checkpoint_prefix)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#39;Epoch </span><span style=color:#f1fa8c>{}</span><span style=color:#f1fa8c> Loss </span><span style=color:#f1fa8c>{:.4f}</span><span style=color:#f1fa8c>&#39;</span><span style=color:#ff79c6>.</span>format(epoch <span style=color:#ff79c6>+</span> <span style=color:#bd93f9>1</span>, total_loss <span style=color:#ff79c6>/</span> steps_per_epoch))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># evaluate</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>def</span> <span style=color:#50fa7b>evaluate</span>(sentence):
+</span></span><span style=display:flex><span>    attention_plot <span style=color:#ff79c6>=</span> np<span style=color:#ff79c6>.</span>zeros((max_length_targ, max_length_inp))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    sentence <span style=color:#ff79c6>=</span> process_english(sentence)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    inputs <span style=color:#ff79c6>=</span> [inp_lang_tokenizer<span style=color:#ff79c6>.</span>word_index[i] <span style=color:#ff79c6>for</span> i <span style=color:#ff79c6>in</span> sentence<span style=color:#ff79c6>.</span>split(<span style=color:#f1fa8c>&#39; &#39;</span>)]
+</span></span><span style=display:flex><span>    inputs <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>keras<span style=color:#ff79c6>.</span>preprocessing<span style=color:#ff79c6>.</span>sequence<span style=color:#ff79c6>.</span>pad_sequences([inputs], maxlen<span style=color:#ff79c6>=</span>max_length_inp, padding<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#39;post&#39;</span>)
+</span></span><span style=display:flex><span>    inputs <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>convert_to_tensor(inputs)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    result <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#39;&#39;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    hidden <span style=color:#ff79c6>=</span> [tf<span style=color:#ff79c6>.</span>zeros((<span style=color:#bd93f9>1</span>, units))]
+</span></span><span style=display:flex><span>    enc_out, enc_hidden <span style=color:#ff79c6>=</span> encoder(inputs, hidden)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    dec_hidden <span style=color:#ff79c6>=</span> enc_hidden
+</span></span><span style=display:flex><span>    dec_input <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>expand_dims([targ_lang<span style=color:#ff79c6>.</span>word_index[<span style=color:#f1fa8c>&#39;&lt;start&gt;&#39;</span>]], <span style=color:#bd93f9>0</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>for</span> t <span style=color:#ff79c6>in</span> <span style=color:#8be9fd;font-style:italic>range</span>(max_length_targ):
+</span></span><span style=display:flex><span>        predictions, dec_hidden, attention_weights <span style=color:#ff79c6>=</span> decoder(dec_input, dec_hidden, enc_out)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#6272a4># storing the attention weights to plot later on</span>
+</span></span><span style=display:flex><span>        attention_weights <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>reshape(attention_weights, (<span style=color:#ff79c6>-</span><span style=color:#bd93f9>1</span>,))
+</span></span><span style=display:flex><span>        attention_plot[t] <span style=color:#ff79c6>=</span> attention_weights<span style=color:#ff79c6>.</span>numpy()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        predicted_id <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>argmax(predictions[<span style=color:#bd93f9>0</span>])<span style=color:#ff79c6>.</span>numpy()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        result <span style=color:#ff79c6>+=</span> targ_lang<span style=color:#ff79c6>.</span>index_word[predicted_id] <span style=color:#ff79c6>+</span> <span style=color:#f1fa8c>&#39; &#39;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>if</span> targ_lang_tokenizer<span style=color:#ff79c6>.</span>index_word[predicted_id] <span style=color:#ff79c6>==</span> <span style=color:#f1fa8c>&#39;&lt;end&gt;&#39;</span>:
+</span></span><span style=display:flex><span>            <span style=color:#ff79c6>return</span> result, sentence, attention_plot
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#6272a4># the predicted ID is fed back into the model</span>
+</span></span><span style=display:flex><span>        dec_input <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>expand_dims([predicted_id], <span style=color:#bd93f9>0</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>return</span> result, sentence, attention_plot
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>def</span> <span style=color:#50fa7b>translate</span>(sentence):
+</span></span><span style=display:flex><span>    result, sentence, attention_plot <span style=color:#ff79c6>=</span> evaluate(sentence)
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#39;Input: </span><span style=color:#f1fa8c>%s</span><span style=color:#f1fa8c>&#39;</span> <span style=color:#ff79c6>%</span> sentence)
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#39;Predicted translation: </span><span style=color:#f1fa8c>{}</span><span style=color:#f1fa8c>&#39;</span><span style=color:#ff79c6>.</span>format(result))
+</span></span></code></pre></div><h1 id=参考资料>参考资料</h1><ul><li><p>Luong M T, Pham H, Manning C D. Effective approaches to attention-based neural machine translation. arXiv preprint arXiv:1508.04025, 2015.</p></li><li><p>Bahdanau D, Cho K, Bengio Y. Neural machine translation by jointly learning to align and translate. arXiv preprint arXiv:1409.0473, 2014.</p></li><li><p>Vinyals O, Fortunato M, Jaitly N. Pointer networks. Advances in neural information processing systems. 2015: 2692-2700.</p></li><li><p>Gehring J, Auli M, Grangier D, et al. Convolutional sequence to sequence learning. arXiv preprint arXiv:1705.03122, 2017.</p></li><li><p>邱锡鹏. 神经网络与深度学习. 北京: 机械工业出版社, 2020.</p></li><li><p>Stanford University CS224n课程官网：http://web.stanford.edu/class/cs224n/</p></li></ul><hr><ul class=pager><li class=previous><a href=/post/5-nlp/nlp3-%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/ data-toggle=tooltip data-placement=top title=自然语言处理：语言模型>&larr;
+Previous Post</a></li><li class=next><a href=/post/5-nlp/nlp5-%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/ data-toggle=tooltip data-placement=top title=自然语言处理：预训练模型>Next
+Post &rarr;</a></li></ul><script src=https://giscus.app/client.js data-repo=XiangdiWu/XiangdiWu.github.io data-repo-id=R_kgDOP0pDUQ data-category=Announcements data-category-id=DIC_kwDOP0pDUc4CvwjG data-mapping=pathname data-reactions-enabled=1 data-emit-metadata=0 data-theme=light data-lang=zh-CN crossorigin=anonymous async></script></div><div class="col-lg-2 col-lg-offset-0
+visible-lg-block
+sidebar-container
+catalog-container"><div class=side-catalog><hr class="hidden-sm hidden-xs"><h5><a class=catalog-toggle href=#>CATALOG</a></h5><ul class=catalog-body></ul></div></div><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+sidebar-container"><section><hr class="hidden-sm hidden-xs"><h5><a href=/tags/>FEATURED TAGS</a></h5><div class=tags><a href=/tags/deep-learning title="deep learning">deep learning
+</a><a href=/tags/machine-learning title="machine learning">machine learning
+</a><a href=/tags/math title=math>math
+</a><a href=/tags/model title=model>model
+</a><a href=/tags/nlp title=nlp>nlp
+</a><a href=/tags/quant title=quant>quant</a></div></section><section><hr><h5>FRIENDS</h5><ul class=list-inline><li><a target=_blank href=https://www.factorwar.com/data/factor-models/>GetAstockFactors</a></li><li><a target=_blank href=https://datawhalechina.github.io/whale-quant/#/>Whale-Quant</a></li></ul></section></div></div></div></article><script type=module>  
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; 
+    mermaid.initialize({ startOnLoad: true });  
+</script><script>Array.from(document.getElementsByClassName("language-mermaid")).forEach(e=>{e.parentElement.outerHTML=`<div class="mermaid">${e.innerHTML}</div>`})</script><style>.mermaid svg{display:block;margin:auto}</style><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center"><li><a href=mailto:bernicewu2000@outlook.com><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-envelope fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=/img/wechat_qrcode.jpg><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-weixin fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=https://github.com/xiangdiwu><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-github fa-stack-1x fa-inverse"></i></span></a></li><li><a href rel=alternate type=application/rss+xml title="Xiangdi Blog"><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-rss fa-stack-1x fa-inverse"></i></span></a></li></ul><p class="copyright text-muted">Copyright &copy; Xiangdi Blog 2025</p></div></div></div></footer><script>function loadAsync(e,t){var s=document,o="script",n=s.createElement(o),i=s.getElementsByTagName(o)[0];n.src=e,t&&n.addEventListener("load",function(e){t(null,e)},!1),i.parentNode.insertBefore(n,i)}</script><script>$("#tag_cloud").length!==0&&loadAsync("/js/jquery.tagcloud.js",function(){$.fn.tagcloud.defaults={color:{start:"#bbbbee",end:"#0085a1"}},$("#tag_cloud a").tagcloud()})</script><script>loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js",function(){var e=document.querySelector("nav");e&&FastClick.attach(e)})</script><script type=text/javascript>function generateCatalog(e){_containerSelector="div.post-container";var t,n,s,o,i,a=$(_containerSelector),r=a.find("h1,h2,h3,h4,h5,h6");return $(e).html(""),r.each(function(){n=$(this).prop("tagName").toLowerCase(),o="#"+$(this).prop("id"),t=$(this).text(),i=$('<a href="'+o+'" rel="nofollow" title="'+t+'">'+t+"</a>"),s=$('<li class="'+n+'_nav"></li>').append(i),$(e).append(s)}),!0}generateCatalog(".catalog-body"),$(".catalog-toggle").click(function(e){e.preventDefault(),$(".side-catalog").toggleClass("fold")}),loadAsync("/js/jquery.nav.js",function(){$(".catalog-body").onePageNav({currentClass:"active",changeHash:!1,easing:"swing",filter:"",scrollSpeed:700,scrollOffset:0,scrollThreshold:.2,begin:null,end:null,scrollChange:null,padding:80})})</script><style>.markmap>svg{width:100%;height:300px}</style><script>window.markmap={autoLoader:{manual:!0,onReady(){const{autoLoader:e,builtInPlugins:t}=window.markmap;e.transformPlugins=t.filter(e=>e.name!=="prism")}}}</script><script src=https://cdn.jsdelivr.net/npm/markmap-autoloader></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css integrity="sha512-r2+FkHzf1u0+SQbZOoIz2RxWOIWfdEzRuYybGjzKq18jG9zaSfEy9s3+jMqG/zPtRor/q4qaUCYQpmSjTw8M+g==" crossorigin=anonymous><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js integrity="sha512-INps9zQ2GUEMCQD7xiZQbGUVnqnzEvlynVy6eqcTcHN4+aQiLo9/uaQqckDpdJ8Zm3M0QBs+Pktg4pz0kEklUg==" crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/mhchem.min.js integrity="sha512-mxjNw/u1lIsFC09k/unscDRY3ofIYPVFbWkP8slrePcS36ht4d/OZ8rRu5yddB2uiqajhTcLD8+jupOWuYPebg==" crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js integrity="sha512-YJVxTjqttjsU3cSvaTRqsSl0wbRgZUNF+NGGCgto/MUbIvaLdXQzGTCQu4CvyJZbZctgflVB0PXw9LLmTWm5/w==" crossorigin=anonymous onload='renderMathInElement(document.body,{delimiters:[{display:!0,left:"$$",right:"$$"},{display:!1,left:"$",right:"$"},{display:!1,left:"\\(",right:"\\)"},{display:!0,left:"\\[",right:"\\]"}],errorcolor:"#CD5C5C",throwonerror:!1})'></script></body></html>

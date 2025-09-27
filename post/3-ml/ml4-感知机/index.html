@@ -1,0 +1,152 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta property="og:site_name" content="Xiangdi Blog"><meta property="og:type" content="article"><meta property="og:image" con ’tent=https://images.pexels.com/photos/220301/pexels-photo-220301.jpeg><meta property="twitter:image" content="https://images.pexels.com/photos/220301/pexels-photo-220301.jpeg"><meta name=title content="机器学习：感知机"><meta property="og:title" content="机器学习：感知机"><meta property="twitter:title" content="机器学习：感知机"><meta name=description content="本文主要介绍感知机算法的原理和实现。"><meta property="og:description" content="本文主要介绍感知机算法的原理和实现。"><meta property="twitter:description" content="本文主要介绍感知机算法的原理和实现。"><meta property="twitter:card" content="summary"><meta property="og:url" content="https://xiangdiwu.github.io/post/3-ml/ml4-%E6%84%9F%E7%9F%A5%E6%9C%BA/"><meta name=keyword content="吴湘菂, WuXiangdi, XiangdiWu, 吴湘菂的网络日志, 吴湘菂的博客, Xiangdi Blog, 博客, 个人网站, Quant, 量化投资, 金融, 投资, 理财, 股票, 期货, 基金, 期权, 外汇, 比特币"><link rel="shortcut icon" href=/img/favicon.ico><title>机器学习：感知机-吴湘菂的博客 | Xiangdi Blog</title><link rel=canonical href=/post/3-ml/ml4-%E6%84%9F%E7%9F%A5%E6%9C%BA/><link rel=stylesheet href=/css/bootstrap.min.css><link rel=stylesheet href=/css/hugo-theme-cleanwhite.min.css><link rel=stylesheet href=/css/zanshang.min.css><link rel=stylesheet href=/css/font-awesome.all.min.css><script src=/js/jquery.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/hux-blog.min.js></script><script src=/js/lazysizes.min.js></script></head><script async src="https://www.googletagmanager.com/gtag/js?id=G-R757MDJ6Y6"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-R757MDJ6Y6")}</script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css integrity=sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV crossorigin=anonymous><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js integrity=sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8 crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js integrity=sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05 crossorigin=anonymous></script><script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"\\[",right:"\\]",display:!0},{left:"$$",right:"$$",display:!0},{left:"\\(",right:"\\)",display:!1}],throwOnError:!1})})</script><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css><script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type=text/javascript></script><nav class="navbar navbar-default navbar-custom navbar-fixed-top"><div class=container-fluid><div class="navbar-header page-scroll"><button type=button class=navbar-toggle>
+<span class=sr-only>Toggle navigation</span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+</button>
+<a class=navbar-brand href=/>Xiangdi Blog</a></div><div id=huxblog_navbar><div class=navbar-collapse><ul class="nav navbar-nav navbar-right"><li><a href=/>All Posts</a></li><li><a href=/categories/quant/>quant</a></li><li><a href=/categories/reading/>reading</a></li><li><a href=/categories/tech/>tech</a></li><li><a href=/archive//>ARCHIVE</a></li><li><a href=/vibe//>Vibe</a></li><li><a href=/travel//>TRAVEL</a></li><li><a href=/about//>ABOUT</a></li><li><a href=/search><i class="fa fa-search"></i></a></li></ul></div></div></div></nav><script>var $body=document.body,$toggle=document.querySelector(".navbar-toggle"),$navbar=document.querySelector("#huxblog_navbar"),$collapse=document.querySelector(".navbar-collapse");$toggle.addEventListener("click",handleMagic);function handleMagic(){$navbar.className.indexOf("in")>0?($navbar.className=" ",setTimeout(function(){$navbar.className.indexOf("in")<0&&($collapse.style.height="0px")},400)):($collapse.style.height="auto",$navbar.className+=" in")}</script><style type=text/css>header.intro-header{background-image:url(https://images.pexels.com/photos/220301/pexels-photo-220301.jpeg)}</style><header class=intro-header><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class=post-heading><div class=tags><a class=tag href=/tags/quant title=Quant>Quant
+</a><a class=tag href=/tags/model title=Model>Model
+</a><a class=tag href=/tags/machine-learning title="Machine Learning">Machine Learning</a></div><h1>机器学习：感知机</h1><h2 class=subheading>Perceptron</h2><span class=meta>Posted by
+XiangdiWu
+on
+Thursday, October 1, 2020</span></div></div></div></div></header><article><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+post-container"><h1 id=感知机算法>感知机算法</h1><p><strong>感知机(perceptron)</strong> 由Frank Rosenblatt于1957年提出，是一种广泛使用的线性分类器。感知器可谓是最简单的人工神经网络，只有一个神经元，是对生物神经元的简单数学模拟，有与生物神经元相对应的部件，如<strong>权重(突触)、偏置(阈值)及激活函数(细胞体)</strong>，输出为+1或-1。</p><p>感知机是一种二分类线性模型，其分类准则为$\hat y=\text{sgn}(\boldsymbol w^\text T \boldsymbol x)$。给定$N$个样本的训练集$\{(\boldsymbol x^{(n)},y^{(n)})\}_{n=1}^N$，其中$y^{(n)}\in \{+1,-1\}$，感知机学习算法视图找到一组参数$\boldsymbol w^*$，使得对于每个样本$\{(\boldsymbol x^{(n)},y^{(n)})\}$有：</p>$$
+y^{(n)} \boldsymbol{w}^{* \mathrm{T}} \boldsymbol{x}^{(n)}>0, \quad \forall n \in[1, N]
+$$<p>只有当训练集是<strong>线性可分</strong>的情况下，上式才能满足。感知机的学习算法是一种错误驱动的在线学习算法。先初始化一个权重向量$\boldsymbol w \leftarrow \boldsymbol 0$，然后每次分错一个样本$(\boldsymbol x,y)$时，即$y \boldsymbol{w}^{\mathrm{T}} \boldsymbol{x}<0$，就用该样本更新权重：</p>$$
+\boldsymbol{w} \leftarrow \boldsymbol{w}+y \boldsymbol{x}
+$$<p>可以在$y\boldsymbol x$前加一个<strong>学习率</strong>。根据感知机的学习策略，可以反推出感知机在样本$(\boldsymbol x,y)$上的<strong>损失函数</strong>为：</p>$$
+\mathcal{L}(\boldsymbol{w} ; \boldsymbol{x}, y)=\max \left(0,-y \boldsymbol{w}^{\mathrm{T}} \boldsymbol{x}\right)
+$$<p>采用随机梯度下降，其每次更新的梯度为：</p>$$
+\frac{\partial \mathcal{L}(\boldsymbol{w} ; \boldsymbol{x}, y)}{\partial \boldsymbol{w}}=\left\{\begin{array}{ll}
+0 & \text { if } \quad y \boldsymbol{w}^{\mathrm{T}} \boldsymbol{x}>0 \\
+-y \boldsymbol{x} & \text { if } \quad y \boldsymbol{w}^{\mathrm{T}} \boldsymbol{x}<0
+\end{array}\right.
+$$<p>具体的感知机参数学习算法如下所示：</p><div align=center><img src=/Kimages/2/image-20200421193100436.png style=zoom:40%></div><p>下图给出了感知机参数学习的更新过程，其中红色实心点为正例，蓝色空心点为负例。黑色箭头表示权重向量，红色虚线箭头表示权重的更新方向。</p><div align=center><img src=/Kimages/2/image-20200421193247291.png style=zoom:50%></div><h1 id=感知机算法的收敛性>感知机算法的收敛性</h1><p>Novikoff证明对于两类问题，<strong>如果训练集是线性可分的，那么感知器算法可以在有限次迭代后收敛</strong>。然而，如果训练集不是线性可分的，那么这个算法则<strong>不能确保会收敛</strong>。</p><p>当数据集是两类线性可分时，对于训练集</p>$$\mathcal{D}=\left\{\left(\boldsymbol{ x }^{(n)}, y^{(n)}\right)\right\} _{n=1}^{N} $$<p>，其中$\boldsymbol x^{(n)}$为样本的增广特征向量，$y^{(n)}\in \{+1,-1\}$那么存在一个正的常数$\gamma>0$和权重向量$\boldsymbol w^*$，并且$\|\boldsymbol w^*\|=1$，对所有$n$都满足</p>$$(\boldsymbol{w}^{*})^{\mathrm{T}}(y^{(n)} \boldsymbol{x}^{(n)}) \geq \gamma$$<p>。可以证明，假设$R$是训练集$\mathcal D$中最大的特征向量的模，即$R=\underset n\max \|x^{(n)}\|$，如果训练集$\mathcal D$线性可分，二分类感知机参数学习算法的权重更新次数不超过$\frac{R^2}{\gamma^2}$。</p><p>证明：</p><p>感知机的权重向量更新方式为</p>$$\boldsymbol{w}_{k}=\boldsymbol{w}_{k-1}+y^{(k)} \boldsymbol{x}^{(k)}$$<p>，其中$\boldsymbol x^{(k)},y^{(k)}$表示第$k$个被错误分类的样本。因为<strong>初始权重向量为0</strong>，在第$K$次更新时感知机的权重向量为：</p>$$
+\boldsymbol{w}_{K}=\sum_{k=1}^{K} y^{(k)} \boldsymbol{x}^{(k)}
+$$<p>分别计算$\|\boldsymbol{w}_{K}\|^2$的上下界：</p><p>(1) $\|\boldsymbol{w}_{K}\|^2$的上界为：</p>$$
+\begin{aligned}
+\left\|\boldsymbol{w}_{K}\right\|^{2} &=\left\|\boldsymbol{w}_{K-1}+y^{(K)} \boldsymbol{x}^{(K)}\right\|^{2} \\
+&=\left\|\boldsymbol{w}_{K-1}\right\|^{2}+\left\|y^{(K)} \boldsymbol{x}^{(K)}\right\|^{2}+2 y^{(K)} \boldsymbol{w}_{K-1}^{\mathrm{T}} \boldsymbol{x}^{(K)} \\
+& \leq\left\|\boldsymbol{w}_{K-1}\right\|^{2}+R^{2} \\
+& \leq\left\|\boldsymbol{w}_{K-2}\right\|^{2}+2 R^{2} \\
+& \leq K R^{2}
+\end{aligned}
+$$<p>(2) $\|\boldsymbol{w}_{K}\|^2$的下界为：</p>$$
+\begin{aligned}
+\left\|\boldsymbol{w}_{K}\right\|^{2} &=\left\|\boldsymbol{w}^{*}\right\|^{2} \cdot\left\|\boldsymbol{w}_{K}\right\|^{2} \\
+& \geq\left\|\boldsymbol{w}^{* \mathrm{T}} \boldsymbol{w}_{K}\right\|^{2} \\
+&=\left\|\boldsymbol{w}^{* \mathrm{T}} \sum_{k=1}^{K}\left(y^{(k)} \boldsymbol{x}^{(k)}\right)\right\|^{2} \\
+&=\left\|\sum_{k=1}^{K} \boldsymbol{w}^{* \mathrm{T}}\left(y^{(k)} \boldsymbol{x}^{(k)}\right)\right\|^{2} \\
+& \geq K^{2} \gamma^{2}
+\end{aligned}
+$$<p>联立上下界，可得$K^{2} \gamma^{2} \leq\left\|\boldsymbol{w}_{K}\right\|^{2} \leq K R^{2}$。进一步可得到$K^{2} \gamma^{2} \leq K R^{2}$，即$K\leq \frac{R^2}{\gamma^2}$。因此，在线性可分的条件下，感知机的参数学习算法会在有限步内收敛。</p><p>虽然感知器在线性可分的数据上可以保证收敛，但其存在以下不足：</p><p>(1) 在数据集线性可分时，感知器虽然可以找到一个超平面把两类数据分开，但<strong>并不能保证其泛化能力。</strong></p><p>(2) 感知器<strong>对样本顺序比较敏感</strong>。每次迭代的顺序不一致时，找到的分割超平面也往往不一致。</p><p>(3) 如果训练集<strong>不是线性可分</strong>的，就永远不会收敛。</p><h1 id=参数平均感知机>参数平均感知机</h1><p><strong>感知器学习到的权重向量和训练样本的顺序相关</strong>。在迭代次序上排在后面的错误样本比前面的错误样本，对最终的权重向量影响更大。比如有1000 个训练样本，在迭代100个样本后，感知器已经学习到一个很好的权重向量。在接下来的899个样本上都预测正确，也没有更新权重向量。但是，在最后第1000个样本时预测错误，并更新了权重。这次更新可能反而使得权重向量变差。</p><p>为改善这种情况，可以使用“<strong>参数平均</strong>”策略来提高感知机的鲁棒性，也叫投票感知机(voted perceptron)。投票感知机记录第$k$次更新后得到的权重$\boldsymbol w_k$在之后的训练过程中正确分类样本的次数$c_k$。这样最后的分类器形式为：</p>$$
+\hat{y}=\operatorname{sgn}\left(\sum_{k=1}^{K} c_{k} \operatorname{sgn}\left(\boldsymbol{w}_{k}^{\mathrm{T}} \boldsymbol{x}\right)\right)
+$$<p>投票感知器虽然提高了感知器的泛化能力，但是需要保存$K$个权重向量。在实际操作中会带来额外开销。因此经常会使用一个简化的版本，叫做<strong>平均感知器(averaged perceptron)</strong>。平均感知器的形式为：</p>$$
+\begin{aligned}
+\hat{y} &=\operatorname{sgn}\left(\sum_{k=1}^{K} c_{k}(\boldsymbol{w}_{k}^{\mathrm{T}} \boldsymbol{x})\right) \\
+&=\operatorname{sgn}\left((\sum_{k=1}^{K} c_{k} \boldsymbol{w}_{k})^{\mathrm{T}} \boldsymbol{x}\right) \\
+&=\operatorname{sgn}\left(\bar{\boldsymbol{w}}^{\mathrm{T}} \boldsymbol{x}\right)
+\end{aligned}
+$$<p>其中$\bar{\boldsymbol w}$为平均的权重向量。</p><p>假设$\boldsymbol w_{t,n}$是在第$t$轮更新到第$n$个样本时权重向量的值，平均的权重向量$\bar{\boldsymbol w}$也可以写为：</p>$$
+\overline{\boldsymbol{w}}=\frac{\sum_{t=1}^{\mathrm{T}} \sum_{n=1}^{n} \boldsymbol{w}_{t, n}}{n T}
+$$<p>这个方法非常简单，只需要在原始参数学习算法中增加一个$\bar{\boldsymbol w}$，并在处理每一个样本后更新$\bar{\boldsymbol w}$：</p>$$
+\overline{\boldsymbol{w}} \leftarrow \overline{\boldsymbol{w}}+\boldsymbol{w}_{t, n}
+$$<p>但这个方法需要在处理每一个样本时都要更新$\bar{\boldsymbol w}$。因为$\bar{\boldsymbol w}$和$\boldsymbol w_{t,n}$都是稠密向量，所以更新操作比较费时。为了提高迭代速度，有很多改进的方法，让这个更新只需要在错误预测发生时才进行更新。一个改进的平均感知机算法的训练过程如下所示：</p><div align=center><img src=/Kimages/2/image-20200421202350637.png style=zoom:40%></div><h1 id=基于numpy的感知机实现>基于numpy的感知机实现</h1><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#ff79c6>import</span> numpy <span style=color:#ff79c6>as</span> np
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>class</span> <span style=color:#50fa7b>Perceptron</span>:
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>def</span> <span style=color:#50fa7b>__init__</span>(<span style=font-style:italic>self</span>):
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>pass</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>def</span> <span style=color:#50fa7b>sign</span>(<span style=font-style:italic>self</span>, x, w, b):
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> np<span style=color:#ff79c6>.</span>dot(x, w) <span style=color:#ff79c6>+</span> b
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>def</span> <span style=color:#50fa7b>initilize_with_zeros</span>(<span style=font-style:italic>self</span>, dim):
+</span></span><span style=display:flex><span>        w <span style=color:#ff79c6>=</span> np<span style=color:#ff79c6>.</span>zeros(dim)
+</span></span><span style=display:flex><span>        b <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>0.0</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> w, b
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>def</span> <span style=color:#50fa7b>train</span>(<span style=font-style:italic>self</span>, X_train, y_train, learning_rate):
+</span></span><span style=display:flex><span>        <span style=color:#6272a4># 参数初始化</span>
+</span></span><span style=display:flex><span>        w, b <span style=color:#ff79c6>=</span> <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>initilize_with_zeros(X_train<span style=color:#ff79c6>.</span>shape[<span style=color:#bd93f9>1</span>])
+</span></span><span style=display:flex><span>        <span style=color:#6272a4># 初始化误分类</span>
+</span></span><span style=display:flex><span>        is_wrong <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>False</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>while</span> <span style=color:#ff79c6>not</span> is_wrong:
+</span></span><span style=display:flex><span>            wrong_count <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>0</span>
+</span></span><span style=display:flex><span>            <span style=color:#ff79c6>for</span> i <span style=color:#ff79c6>in</span> <span style=color:#8be9fd;font-style:italic>range</span>(<span style=color:#8be9fd;font-style:italic>len</span>(X_train)):
+</span></span><span style=display:flex><span>                X <span style=color:#ff79c6>=</span> X_train[i]
+</span></span><span style=display:flex><span>                y <span style=color:#ff79c6>=</span> y_train[i]
+</span></span><span style=display:flex><span>                <span style=color:#6272a4># 如果存在误分类点，更新参数，直到没有误分类点</span>
+</span></span><span style=display:flex><span>                <span style=color:#ff79c6>if</span> y <span style=color:#ff79c6>*</span> <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>sign(X, w, b) <span style=color:#ff79c6>&lt;=</span> <span style=color:#bd93f9>0</span>:
+</span></span><span style=display:flex><span>                    w <span style=color:#ff79c6>=</span> w <span style=color:#ff79c6>+</span> learning_rate <span style=color:#ff79c6>*</span> np<span style=color:#ff79c6>.</span>dot(y, X)
+</span></span><span style=display:flex><span>                    b <span style=color:#ff79c6>=</span> b <span style=color:#ff79c6>+</span> learning_rate <span style=color:#ff79c6>*</span> y
+</span></span><span style=display:flex><span>                    wrong_count <span style=color:#ff79c6>+=</span> <span style=color:#bd93f9>1</span>
+</span></span><span style=display:flex><span>            <span style=color:#ff79c6>if</span> wrong_count <span style=color:#ff79c6>==</span> <span style=color:#bd93f9>0</span>:
+</span></span><span style=display:flex><span>                is_wrong <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>True</span>
+</span></span><span style=display:flex><span>                <span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#39;There is no missclassification!&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>            <span style=color:#6272a4># 保存更新后的参数</span>
+</span></span><span style=display:flex><span>            params <span style=color:#ff79c6>=</span> {
+</span></span><span style=display:flex><span>                <span style=color:#f1fa8c>&#39;w&#39;</span>: w,
+</span></span><span style=display:flex><span>                <span style=color:#f1fa8c>&#39;b&#39;</span>: b
+</span></span><span style=display:flex><span>            }
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> params
+</span></span></code></pre></div><h1 id=使用scikit-learn中的感知机算法对自行构建的数据集进行二分类>使用scikit-learn中的感知机算法对自行构建的数据集进行二分类</h1><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#ff79c6>import</span> numpy <span style=color:#ff79c6>as</span> np
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> sklearn.datasets <span style=color:#ff79c6>import</span> make_classification
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> sklearn.linear_model <span style=color:#ff79c6>import</span> Perceptron
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> matplotlib <span style=color:#ff79c6>import</span> pyplot <span style=color:#ff79c6>as</span> plt
+</span></span><span style=display:flex><span> 
+</span></span><span style=display:flex><span><span style=color:#6272a4># 使用sklearn内置函数生成二分类的样本</span>
+</span></span><span style=display:flex><span>X, y<span style=color:#ff79c6>=</span>make_classification(n_samples<span style=color:#ff79c6>=</span><span style=color:#bd93f9>1000</span>, n_features<span style=color:#ff79c6>=</span><span style=color:#bd93f9>2</span>, n_redundant<span style=color:#ff79c6>=</span><span style=color:#bd93f9>0</span>, n_informative<span style=color:#ff79c6>=</span><span style=color:#bd93f9>1</span>, n_clusters_per_class<span style=color:#ff79c6>=</span><span style=color:#bd93f9>1</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 训练数据和测试数据</span>
+</span></span><span style=display:flex><span>X_data_train <span style=color:#ff79c6>=</span> X[:<span style=color:#bd93f9>800</span>, :]
+</span></span><span style=display:flex><span>X_data_test <span style=color:#ff79c6>=</span> X[<span style=color:#bd93f9>800</span>:, :]
+</span></span><span style=display:flex><span>y_data_train <span style=color:#ff79c6>=</span> y[:<span style=color:#bd93f9>800</span>]
+</span></span><span style=display:flex><span>y_data_test <span style=color:#ff79c6>=</span> y[<span style=color:#bd93f9>800</span>:]
+</span></span><span style=display:flex><span>positive_X1 <span style=color:#ff79c6>=</span> [X[i, <span style=color:#bd93f9>0</span>] <span style=color:#ff79c6>for</span> i <span style=color:#ff79c6>in</span> <span style=color:#8be9fd;font-style:italic>range</span>(<span style=color:#bd93f9>1000</span>) <span style=color:#ff79c6>if</span> y[i] <span style=color:#ff79c6>==</span> <span style=color:#bd93f9>1</span>]
+</span></span><span style=display:flex><span>positive_X2 <span style=color:#ff79c6>=</span> [X[i, <span style=color:#bd93f9>1</span>] <span style=color:#ff79c6>for</span> i <span style=color:#ff79c6>in</span> <span style=color:#8be9fd;font-style:italic>range</span>(<span style=color:#bd93f9>1000</span>) <span style=color:#ff79c6>if</span> y[i] <span style=color:#ff79c6>==</span> <span style=color:#bd93f9>1</span>]
+</span></span><span style=display:flex><span>negetive_X1 <span style=color:#ff79c6>=</span> [X[i, <span style=color:#bd93f9>0</span>] <span style=color:#ff79c6>for</span> i <span style=color:#ff79c6>in</span> <span style=color:#8be9fd;font-style:italic>range</span>(<span style=color:#bd93f9>1000</span>) <span style=color:#ff79c6>if</span> y[i] <span style=color:#ff79c6>==</span> <span style=color:#bd93f9>0</span>]
+</span></span><span style=display:flex><span>negetive_X2 <span style=color:#ff79c6>=</span> [X[i, <span style=color:#bd93f9>1</span>] <span style=color:#ff79c6>for</span> i <span style=color:#ff79c6>in</span> <span style=color:#8be9fd;font-style:italic>range</span>(<span style=color:#bd93f9>1000</span>) <span style=color:#ff79c6>if</span> y[i] <span style=color:#ff79c6>==</span> <span style=color:#bd93f9>0</span>]
+</span></span><span style=display:flex><span> 
+</span></span><span style=display:flex><span><span style=color:#6272a4># 构建感知机</span>
+</span></span><span style=display:flex><span>clf <span style=color:#ff79c6>=</span> Perceptron(fit_intercept<span style=color:#ff79c6>=</span><span style=color:#ff79c6>False</span>, n_iter<span style=color:#ff79c6>=</span><span style=color:#bd93f9>30</span>, shuffle<span style=color:#ff79c6>=</span><span style=color:#ff79c6>False</span>)
+</span></span><span style=display:flex><span> 
+</span></span><span style=display:flex><span><span style=color:#6272a4># 使用训练数据进行训练</span>
+</span></span><span style=display:flex><span>clf<span style=color:#ff79c6>.</span>fit(X_data_train, y_data_train)
+</span></span><span style=display:flex><span><span style=color:#6272a4># 得到训练结果，权重矩阵</span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(clf<span style=color:#ff79c6>.</span>coef_)
+</span></span><span style=display:flex><span><span style=color:#6272a4># 输出为：[[0.21720699 2.49185955]]</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 预测</span>
+</span></span><span style=display:flex><span>acc <span style=color:#ff79c6>=</span> clf<span style=color:#ff79c6>.</span>score(X_data_test, y_data_test)
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(acc)
+</span></span><span style=display:flex><span> 
+</span></span><span style=display:flex><span>plt<span style=color:#ff79c6>.</span>scatter(positive_X1, positive_X2, c<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#39;red&#39;</span>)
+</span></span><span style=display:flex><span>plt<span style=color:#ff79c6>.</span>scatter(negetive_X1, negetive_X2, c<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#39;blue&#39;</span>)
+</span></span><span style=display:flex><span><span style=color:#6272a4># 绘制出分类超平面</span>
+</span></span><span style=display:flex><span>line_X <span style=color:#ff79c6>=</span> np<span style=color:#ff79c6>.</span>arange(<span style=color:#ff79c6>-</span><span style=color:#bd93f9>4</span>,<span style=color:#bd93f9>4</span>)
+</span></span><span style=display:flex><span>line_y <span style=color:#ff79c6>=</span> line_X <span style=color:#ff79c6>*</span> (<span style=color:#ff79c6>-</span>clf<span style=color:#ff79c6>.</span>coef_[<span style=color:#bd93f9>0</span>][<span style=color:#bd93f9>0</span>] <span style=color:#ff79c6>/</span> clf<span style=color:#ff79c6>.</span>coef_[<span style=color:#bd93f9>0</span>][<span style=color:#bd93f9>1</span>]) <span style=color:#ff79c6>-</span> clf<span style=color:#ff79c6>.</span>intercept_
+</span></span><span style=display:flex><span>plt<span style=color:#ff79c6>.</span>plot(line_X, line_y)
+</span></span><span style=display:flex><span>plt<span style=color:#ff79c6>.</span>show()
+</span></span></code></pre></div><h1 id=参考资料>参考资料</h1><ul><li>李航. 统计学习方法. 北京: 清华大学出版社, 2019.</li><li>邱锡鹏. 神经网络与深度学习. 北京: 机械工业出版社, 2020.</li><li>鲁伟. 机器学习: 公式推导与代码实现. 北京: 人民邮电出版社, 2022.</li><li>利用scikit-learn实现感知机：https://blog.csdn.net/weixin_38300566/article/details/80757105</li></ul><hr><ul class=pager><li class=previous><a href=/post/3-ml/ml5-%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB%E5%99%A8/ data-toggle=tooltip data-placement=top title=机器学习：贝叶斯分类器>&larr;
+Previous Post</a></li><li class=next><a href=/post/3-ml/ml6-%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92%E4%B8%8E%E6%9C%80%E5%A4%A7%E7%86%B5%E6%A8%A1%E5%9E%8B/ data-toggle=tooltip data-placement=top title=机器学习：逻辑回归与最大熵模型>Next
+Post &rarr;</a></li></ul><script src=https://giscus.app/client.js data-repo=XiangdiWu/XiangdiWu.github.io data-repo-id=R_kgDOP0pDUQ data-category=Announcements data-category-id=DIC_kwDOP0pDUc4CvwjG data-mapping=pathname data-reactions-enabled=1 data-emit-metadata=0 data-theme=light data-lang=zh-CN crossorigin=anonymous async></script></div><div class="col-lg-2 col-lg-offset-0
+visible-lg-block
+sidebar-container
+catalog-container"><div class=side-catalog><hr class="hidden-sm hidden-xs"><h5><a class=catalog-toggle href=#>CATALOG</a></h5><ul class=catalog-body></ul></div></div><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+sidebar-container"><section><hr class="hidden-sm hidden-xs"><h5><a href=/tags/>FEATURED TAGS</a></h5><div class=tags><a href=/tags/deep-learning title="deep learning">deep learning
+</a><a href=/tags/machine-learning title="machine learning">machine learning
+</a><a href=/tags/math title=math>math
+</a><a href=/tags/model title=model>model
+</a><a href=/tags/nlp title=nlp>nlp
+</a><a href=/tags/quant title=quant>quant</a></div></section><section><hr><h5>FRIENDS</h5><ul class=list-inline><li><a target=_blank href=https://www.factorwar.com/data/factor-models/>GetAstockFactors</a></li><li><a target=_blank href=https://datawhalechina.github.io/whale-quant/#/>Whale-Quant</a></li></ul></section></div></div></div></article><script type=module>  
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; 
+    mermaid.initialize({ startOnLoad: true });  
+</script><script>Array.from(document.getElementsByClassName("language-mermaid")).forEach(e=>{e.parentElement.outerHTML=`<div class="mermaid">${e.innerHTML}</div>`})</script><style>.mermaid svg{display:block;margin:auto}</style><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center"><li><a href=mailto:bernicewu2000@outlook.com><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-envelope fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=/img/wechat_qrcode.jpg><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-weixin fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=https://github.com/xiangdiwu><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-github fa-stack-1x fa-inverse"></i></span></a></li><li><a href rel=alternate type=application/rss+xml title="Xiangdi Blog"><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-rss fa-stack-1x fa-inverse"></i></span></a></li></ul><p class="copyright text-muted">Copyright &copy; Xiangdi Blog 2025</p></div></div></div></footer><script>function loadAsync(e,t){var s=document,o="script",n=s.createElement(o),i=s.getElementsByTagName(o)[0];n.src=e,t&&n.addEventListener("load",function(e){t(null,e)},!1),i.parentNode.insertBefore(n,i)}</script><script>$("#tag_cloud").length!==0&&loadAsync("/js/jquery.tagcloud.js",function(){$.fn.tagcloud.defaults={color:{start:"#bbbbee",end:"#0085a1"}},$("#tag_cloud a").tagcloud()})</script><script>loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js",function(){var e=document.querySelector("nav");e&&FastClick.attach(e)})</script><script type=text/javascript>function generateCatalog(e){_containerSelector="div.post-container";var t,n,s,o,i,a=$(_containerSelector),r=a.find("h1,h2,h3,h4,h5,h6");return $(e).html(""),r.each(function(){n=$(this).prop("tagName").toLowerCase(),o="#"+$(this).prop("id"),t=$(this).text(),i=$('<a href="'+o+'" rel="nofollow" title="'+t+'">'+t+"</a>"),s=$('<li class="'+n+'_nav"></li>').append(i),$(e).append(s)}),!0}generateCatalog(".catalog-body"),$(".catalog-toggle").click(function(e){e.preventDefault(),$(".side-catalog").toggleClass("fold")}),loadAsync("/js/jquery.nav.js",function(){$(".catalog-body").onePageNav({currentClass:"active",changeHash:!1,easing:"swing",filter:"",scrollSpeed:700,scrollOffset:0,scrollThreshold:.2,begin:null,end:null,scrollChange:null,padding:80})})</script><style>.markmap>svg{width:100%;height:300px}</style><script>window.markmap={autoLoader:{manual:!0,onReady(){const{autoLoader:e,builtInPlugins:t}=window.markmap;e.transformPlugins=t.filter(e=>e.name!=="prism")}}}</script><script src=https://cdn.jsdelivr.net/npm/markmap-autoloader></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css integrity="sha512-r2+FkHzf1u0+SQbZOoIz2RxWOIWfdEzRuYybGjzKq18jG9zaSfEy9s3+jMqG/zPtRor/q4qaUCYQpmSjTw8M+g==" crossorigin=anonymous><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js integrity="sha512-INps9zQ2GUEMCQD7xiZQbGUVnqnzEvlynVy6eqcTcHN4+aQiLo9/uaQqckDpdJ8Zm3M0QBs+Pktg4pz0kEklUg==" crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/mhchem.min.js integrity="sha512-mxjNw/u1lIsFC09k/unscDRY3ofIYPVFbWkP8slrePcS36ht4d/OZ8rRu5yddB2uiqajhTcLD8+jupOWuYPebg==" crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js integrity="sha512-YJVxTjqttjsU3cSvaTRqsSl0wbRgZUNF+NGGCgto/MUbIvaLdXQzGTCQu4CvyJZbZctgflVB0PXw9LLmTWm5/w==" crossorigin=anonymous onload='renderMathInElement(document.body,{delimiters:[{display:!0,left:"$$",right:"$$"},{display:!1,left:"$",right:"$"},{display:!1,left:"\\(",right:"\\)"},{display:!0,left:"\\[",right:"\\]"}],errorcolor:"#CD5C5C",throwonerror:!1})'></script></body></html>

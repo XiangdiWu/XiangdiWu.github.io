@@ -1,0 +1,206 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta property="og:site_name" content="Xiangdi Blog"><meta property="og:type" content="article"><meta property="og:image" con ’tent=https://images.pexels.com/photos/220301/pexels-photo-220301.jpeg><meta property="twitter:image" content="https://images.pexels.com/photos/220301/pexels-photo-220301.jpeg"><meta name=title content="机器学习：支持向量机"><meta property="og:title" content="机器学习：支持向量机"><meta property="twitter:title" content="机器学习：支持向量机"><meta name=description content="本文主要介绍支持向量机，包括线性支持向量机与硬间隔最大化、线性支持向量机与软间隔最大化、非线性支持向量机与核函数等。"><meta property="og:description" content="本文主要介绍支持向量机，包括线性支持向量机与硬间隔最大化、线性支持向量机与软间隔最大化、非线性支持向量机与核函数等。"><meta property="twitter:description" content="本文主要介绍支持向量机，包括线性支持向量机与硬间隔最大化、线性支持向量机与软间隔最大化、非线性支持向量机与核函数等。"><meta property="twitter:card" content="summary"><meta property="og:url" content="https://xiangdiwu.github.io/post/3-ml/ml7-%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/"><meta name=keyword content="吴湘菂, WuXiangdi, XiangdiWu, 吴湘菂的网络日志, 吴湘菂的博客, Xiangdi Blog, 博客, 个人网站, Quant, 量化投资, 金融, 投资, 理财, 股票, 期货, 基金, 期权, 外汇, 比特币"><link rel="shortcut icon" href=/img/favicon.ico><title>机器学习：支持向量机-吴湘菂的博客 | Xiangdi Blog</title><link rel=canonical href=/post/3-ml/ml7-%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/><link rel=stylesheet href=/css/bootstrap.min.css><link rel=stylesheet href=/css/hugo-theme-cleanwhite.min.css><link rel=stylesheet href=/css/zanshang.min.css><link rel=stylesheet href=/css/font-awesome.all.min.css><script src=/js/jquery.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/hux-blog.min.js></script><script src=/js/lazysizes.min.js></script></head><script async src="https://www.googletagmanager.com/gtag/js?id=G-R757MDJ6Y6"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-R757MDJ6Y6")}</script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css integrity=sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV crossorigin=anonymous><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js integrity=sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8 crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js integrity=sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05 crossorigin=anonymous></script><script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"\\[",right:"\\]",display:!0},{left:"$$",right:"$$",display:!0},{left:"\\(",right:"\\)",display:!1}],throwOnError:!1})})</script><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css><script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type=text/javascript></script><nav class="navbar navbar-default navbar-custom navbar-fixed-top"><div class=container-fluid><div class="navbar-header page-scroll"><button type=button class=navbar-toggle>
+<span class=sr-only>Toggle navigation</span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+</button>
+<a class=navbar-brand href=/>Xiangdi Blog</a></div><div id=huxblog_navbar><div class=navbar-collapse><ul class="nav navbar-nav navbar-right"><li><a href=/>All Posts</a></li><li><a href=/categories/quant/>quant</a></li><li><a href=/categories/reading/>reading</a></li><li><a href=/categories/tech/>tech</a></li><li><a href=/archive//>ARCHIVE</a></li><li><a href=/vibe//>Vibe</a></li><li><a href=/travel//>TRAVEL</a></li><li><a href=/about//>ABOUT</a></li><li><a href=/search><i class="fa fa-search"></i></a></li></ul></div></div></div></nav><script>var $body=document.body,$toggle=document.querySelector(".navbar-toggle"),$navbar=document.querySelector("#huxblog_navbar"),$collapse=document.querySelector(".navbar-collapse");$toggle.addEventListener("click",handleMagic);function handleMagic(){$navbar.className.indexOf("in")>0?($navbar.className=" ",setTimeout(function(){$navbar.className.indexOf("in")<0&&($collapse.style.height="0px")},400)):($collapse.style.height="auto",$navbar.className+=" in")}</script><style type=text/css>header.intro-header{background-image:url(https://images.pexels.com/photos/220301/pexels-photo-220301.jpeg)}</style><header class=intro-header><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class=post-heading><div class=tags><a class=tag href=/tags/quant title=Quant>Quant
+</a><a class=tag href=/tags/model title=Model>Model
+</a><a class=tag href=/tags/machine-learning title="Machine Learning">Machine Learning</a></div><h1>机器学习：支持向量机</h1><h2 class=subheading>SVM-Support Vector Machine</h2><span class=meta>Posted by
+XiangdiWu
+on
+Saturday, October 3, 2020</span></div></div></div></div></header><article><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+post-container"><h1 id=线性支持向量机与硬间隔最大化>线性支持向量机与硬间隔最大化</h1><p><strong>支持向量机(support vector machine, SVM)</strong> 是一个经典的机器学习二分类算法，其找到的分割超平面具有更好的鲁棒性，因此广泛使用在很多任务上，并表现出了很强的优势。</p><p>给定一个二分类数据集$\mathcal{D}=\{(\boldsymbol{x}^{(n)}, y^{(n)})\}_{n=1}^{N}$，其中$y_n \in \{+1,-1\}$，如果两类样本是线性可分的，即存在一个超平面$\boldsymbol{w}^{\mathrm{T}} \boldsymbol{x}+b=0$将两类样本分开，对于每一类样本都有$y^{(n)}(\boldsymbol{w}^{\mathrm{T}} \boldsymbol{x}^{(n)}+b)>0$。</p><p>数据集$\mathcal D$中的每个样本$\boldsymbol x^{(n)}$到分割超平面的距离为：</p>$$
+\gamma^{(n)}=\frac{\|\boldsymbol{w}^{\mathrm{T}} \boldsymbol{x}^{(n)}+b\|}{\|\boldsymbol{w}\|}=\frac{y^{(n)}(\boldsymbol{w}^{\mathrm{T}} \boldsymbol{x}^{(n)}+b)}{\|\boldsymbol{w}\|}
+$$<p>定义整个数据集$\mathcal D$中所有样本到分割超平面的最短距离为<strong>间隔(margin)</strong>，用$\gamma$来表示：</p>$$
+\gamma=\min _{n} \gamma^{(n)}
+$$<p>如果间隔$\gamma$越大，其分割超平面对两个数据集的划分越稳定，不容易受噪声等因素影响。支持向量机的目标是寻找一个超平面$(\boldsymbol w^*,b^*)$使得$\gamma$最大，即：</p>$$
+\begin{aligned}
+\underset{\boldsymbol{w}, b}\max \ \ & \gamma \\
+\text { s.t. } \ \ & \frac{y^{(n)}\left(\boldsymbol{w}^{\mathrm{T}} \boldsymbol{x}^{(n)}+b\right)}{\|\boldsymbol{w}\|} \geq \gamma, \forall n
+\end{aligned}
+$$<p>数据集中所有满足$y^{(n)}(\boldsymbol w^\text T \boldsymbol x^{(n)}+b)=1$的样本点称为支持向量(support vector)。两个异类支持向量到超平面的距离之和为$\gamma \times 2=2\|\boldsymbol w\|^{-1}$。因此，支持向量机的目标可以等价于下式：</p>$$
+\begin{aligned}
+\underset{\boldsymbol{w}, b}\max \ \ & \frac{1}{\|\boldsymbol w\|} \\
+\text { s.t. } \ \ & {y^{(n)}(\boldsymbol{w}^{\mathrm{T}} \boldsymbol{x}^{(n)}+b)} \geq 1, \forall n
+\end{aligned}
+$$<p>显然，为了最大化间隔，仅需最大化$\|\boldsymbol w\|^{-1}$，这等价于最小化$\|\boldsymbol w\|^2$。于是，上式又可以重写为：</p>$$
+\begin{aligned}
+\underset{\boldsymbol{w}, b}\min \ \ & \frac{1}{2}\|\boldsymbol w\|^2 \\
+\text { s.t. } \ \ & {y^{(n)}(\boldsymbol{w}^{\mathrm{T}} \boldsymbol{x}^{(n)}+b)} \geq 1, \forall n
+\end{aligned}
+$$<p>这就是支持向量机的基本型。下图展示了分割超平面、支持向量以及间隔之间的关系。</p><div align=center><img src=/Kimages/2/image-20200424200122266.png style=zoom:40%></div><p>为了找到最大间隔分割超平面，将上式目标函数写为凸优化问题：</p>$$
+\begin{aligned}
+\underset{\boldsymbol{w}, b}\min \ \ & \frac{1}{2}\|\boldsymbol w\|^2\\
+\text { s.t. } \ \ & 1-y^{(n)}\left(\boldsymbol{w}^{\mathrm{T}} \boldsymbol{x}^{(n)}+b\right) \leq 0, \quad \forall n
+\end{aligned}
+$$<p>使用<strong>拉格朗日乘数法</strong>，上式的拉格朗日函数为：</p>$$
+\Lambda(\boldsymbol{w}, b, \lambda)=\frac{1}{2}\|\boldsymbol{w}\|^{2}+\sum_{n=1}^{N} \lambda_{n}(1-y^{(n)}(\boldsymbol{w}^{\mathrm{T}} \boldsymbol{x}^{(n)}+b))
+$$<p>其中，$\lambda_{1} \geq 0, \cdots, \lambda_{N} \geq 0$为拉格朗日乘数。计算$\Lambda(\boldsymbol{w}, b, \lambda)$关于$\boldsymbol w$和$b$的导数，并令其等于0，可得：</p>$$
+\begin{aligned}
+\boldsymbol{w} &=\sum_{n=1}^{N} \lambda_{n} y^{(n)} \boldsymbol{x}^{(n)} \\
+0 &=\sum_{n=1}^{N} \lambda_{n} y^{(n)}
+\end{aligned}
+$$<p>将上式带入到拉格朗日函数中，得到拉格朗日对偶函数：</p>$$
+\Gamma(\lambda)=-\frac{1}{2} \sum_{n=1}^{N} \sum_{m=1}^{N} \lambda_{m} \lambda_{n} y^{(m)} y^{(n)}(\boldsymbol{x}^{(m)})^{\mathrm{T}} \boldsymbol{x}^{(n)}+\sum_{n=1}^{N} \lambda_{n}
+$$<p>支持向量机的主优化问题为凸优化问题，满足<strong>强对偶性</strong>，可以通过多种凸优化方法来进行求解，得到拉格朗日乘数的最优值$\lambda^*$。但由于其<strong>约束条件的数量为训练样本数量</strong>，一般的优化方法代价比较高，因此在实践中通常采用比较高效的优化算法，比如<strong>序列最小优化(sequential minimal optimization, SMO)</strong> 算法。</p><p>在计算出$\lambda^*$后，可以计算出最优权重$\boldsymbol w^*$，最优偏置$b^*$可以通过任选一个支持向量计算得到。</p><p>最优参数的支持向量机的决策函数为：</p>$$
+f(\boldsymbol{x})=\operatorname{sgn}(\boldsymbol{w}^{* \mathrm{T}} \boldsymbol{x}+b^{*})=\operatorname{sgn}\left(\sum_{n=1}^{N} \lambda_{n}^{*} y^{(n)}(\boldsymbol{x}^{(n)})^{\mathrm{T}} \boldsymbol{x}+b^{*}\right)
+$$<h1 id=线性支持向量机与软间隔最大化>线性支持向量机与软间隔最大化</h1><p>在支持向量机的优化问题中，约束条件比较严格。如果训练集中的样本在特征空间中不是线性可分的，就无法找到最优解。为能容忍部分不满足约束的样本，我们可以引入松弛变量$\xi$，将优化问题变为：</p>$$
+\begin{aligned}
+\min _{\boldsymbol{w}, b}\ \ & \frac{1}{2}\|\boldsymbol{w}\|^{2}+C \sum_{n=1}^{N} \xi_{n} \\ \text { s.t. } \ \ & 1-y^{(n)}(\boldsymbol{w}^{\mathrm{T}} \boldsymbol{x}^{(n)}+b)-\xi_{n} \leq 0,\ \ \forall n\\
+& \xi_{n} \geq 0,\ \ \forall n
+\end{aligned}
+$$<p>其中参数$C>0$用来控制间隔和松弛变量惩罚的平衡。引入松弛变量的间隔称为<strong>软间隔(soft margin)</strong>。上式也可以表示为<strong>经验风险+正则化项</strong>的形式：</p>$$
+\min _{\boldsymbol{w}, b} \sum_{n=1}^{N} \max (0,1-y^{(n)}(\boldsymbol{w}^{\mathrm{T}} \boldsymbol{x}^{(n)}+b))+\frac{1}{C} \cdot \frac{1}{2}\|\boldsymbol{w}\|^{2}
+$$<p>其中，$\max (0,1-y^{(n)}(\boldsymbol{w}^{\mathrm{T}} \boldsymbol{x}^{(n)}+b))$称为<strong>Hinge损失函数</strong>。</p><h1 id=非线性支持向量机与核函数>非线性支持向量机与核函数</h1><p>在前面的讨论中，我们假设训练样本是线性可分的。然而在现实任务中，原始样本空间内也许并不存在一个能正确划分两类样本的超平面，比如 <strong>“异或”问题</strong> 。</p><p>对于这类问题，可以通过一个非线性变换，即<strong>核技巧(kernel trick)</strong>，将输入空间映射到更高维的特征空间，使得样本在这个高维特征空间内线性可分。幸运的是，如果原始空间是有限维，即属性数有限，那么一定存在一个高维特征空间使样本可分。</p><p>令$\phi(\boldsymbol x)$表示将$\boldsymbol x$映射后的特征向量，于是，在特征空间中划分超平面所对应的模型可表示为$f(\boldsymbol x)=\boldsymbol w^\text T \phi(\boldsymbol x)+b$，其中$\boldsymbol w$和$b$是模型参数，因此原始问题形式只需将$\boldsymbol x$变为$\phi(\boldsymbol x)$即可。</p><div align=center><img src=/Kimages/2/image-20200424212330626.png style=zoom:50%></div><p>在一个变换后的特征空间$\phi$中，支持向量机的决策函数为：</p>$$
+\begin{aligned}
+f(\boldsymbol{x}) &=\operatorname{sgn}(\boldsymbol{w}^{* \mathrm{T}} \phi(\boldsymbol{x})+b^{*}) \\
+&=\operatorname{sgn}\left(\sum_{n=1}^{N} \lambda_{n}^{*} y^{(n)} K(\boldsymbol{x}^{(n)}, \boldsymbol{x})+b^{*}\right)
+\end{aligned}
+$$<p>其中$K(\boldsymbol x,\boldsymbol z)=\phi(\boldsymbol x)^\text T \phi(\boldsymbol z)$为核函数。通常我们不需要显式地给出$\phi(\boldsymbol x)$的具体形式，可以通过核技巧来构造。例如以$\boldsymbol x,\boldsymbol z \in \mathbb R^2$为例，可以构造一个核函数$K(\boldsymbol{x}, \boldsymbol{z})=\left(1+\boldsymbol{x}^{\mathrm{T}} \boldsymbol{z}\right)^{2}=\phi(\boldsymbol{x})^{\mathrm{T}} \phi(\boldsymbol{z})$来隐式地计算$\boldsymbol x,\boldsymbol z$在特征空间$\phi$中的内积，其中$\phi(\boldsymbol{x})=\left[1, \sqrt{2} x_{1}, \sqrt{2} x_{2}, \sqrt{2} x_{1} x_{2}, x_{1}^{2}, x_{2}^{2}\right]^{\mathrm{T}}$。</p><h1 id=线性可分支持向量机的算法实现>线性可分支持向量机的算法实现</h1><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#ff79c6>import</span> numpy <span style=color:#ff79c6>as</span> np
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> pandas <span style=color:#ff79c6>as</span> pd
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> matplotlib.pyplot <span style=color:#ff79c6>as</span> plt
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> sklearn.datasets <span style=color:#ff79c6>import</span> make_blobs
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> sklearn.model_selection <span style=color:#ff79c6>import</span> train_test_split
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> cvxopt <span style=color:#ff79c6>import</span> matrix, solvers  <span style=color:#6272a4># 凸优化求解库</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> sklearn.metrics <span style=color:#ff79c6>import</span> accuracy_score
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 生成模拟二分类数据集</span>
+</span></span><span style=display:flex><span>X, y <span style=color:#ff79c6>=</span> make_blobs(n_samples<span style=color:#ff79c6>=</span><span style=color:#bd93f9>150</span>, n_features<span style=color:#ff79c6>=</span><span style=color:#bd93f9>2</span>, centers<span style=color:#ff79c6>=</span><span style=color:#bd93f9>2</span>, cluster_std<span style=color:#ff79c6>=</span><span style=color:#bd93f9>1.2</span>, random_state<span style=color:#ff79c6>=</span><span style=color:#bd93f9>40</span>)
+</span></span><span style=display:flex><span>colors <span style=color:#ff79c6>=</span> {<span style=color:#bd93f9>0</span>: <span style=color:#f1fa8c>&#39;r&#39;</span>, <span style=color:#bd93f9>1</span>: <span style=color:#f1fa8c>&#39;g&#39;</span>}
+</span></span><span style=display:flex><span>plt<span style=color:#ff79c6>.</span>scatter(X[:, <span style=color:#bd93f9>0</span>], X[:, <span style=color:#bd93f9>1</span>], marker<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#39;o&#39;</span>, c<span style=color:#ff79c6>=</span>pd<span style=color:#ff79c6>.</span>Series(y)<span style=color:#ff79c6>.</span>map(colors))
+</span></span><span style=display:flex><span>plt<span style=color:#ff79c6>.</span>show()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 将标签转换为1/-1</span>
+</span></span><span style=display:flex><span>y_ <span style=color:#ff79c6>=</span> y<span style=color:#ff79c6>.</span>copy()
+</span></span><span style=display:flex><span>y_[y_ <span style=color:#ff79c6>==</span> <span style=color:#bd93f9>0</span>] <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>-</span><span style=color:#bd93f9>1</span>
+</span></span><span style=display:flex><span>y_ <span style=color:#ff79c6>=</span> y_<span style=color:#ff79c6>.</span>astype(<span style=color:#8be9fd;font-style:italic>float</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>X_train, X_test, y_train, y_test <span style=color:#ff79c6>=</span> train_test_split(X, y_, test_size<span style=color:#ff79c6>=</span><span style=color:#bd93f9>0.3</span>, random_state<span style=color:#ff79c6>=</span><span style=color:#bd93f9>43</span>)
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(X_train<span style=color:#ff79c6>.</span>shape, y_train<span style=color:#ff79c6>.</span>shape, X_test<span style=color:#ff79c6>.</span>shape, y_test<span style=color:#ff79c6>.</span>shape)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># cvxopt库的使用示例</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 1. 定义二次规划参数</span>
+</span></span><span style=display:flex><span>P <span style=color:#ff79c6>=</span> matrix([[<span style=color:#bd93f9>1.0</span>, <span style=color:#bd93f9>0.0</span>], [<span style=color:#bd93f9>0.0</span>, <span style=color:#bd93f9>0.0</span>]])
+</span></span><span style=display:flex><span>q <span style=color:#ff79c6>=</span> matrix([<span style=color:#bd93f9>3.0</span>, <span style=color:#bd93f9>4.0</span>])
+</span></span><span style=display:flex><span>G <span style=color:#ff79c6>=</span> matrix([[<span style=color:#ff79c6>-</span><span style=color:#bd93f9>1.0</span>, <span style=color:#bd93f9>0.0</span>, <span style=color:#ff79c6>-</span><span style=color:#bd93f9>1.0</span>, <span style=color:#bd93f9>2.0</span>, <span style=color:#bd93f9>3.0</span>], [<span style=color:#bd93f9>0.0</span>, <span style=color:#ff79c6>-</span><span style=color:#bd93f9>1.0</span>, <span style=color:#ff79c6>-</span><span style=color:#bd93f9>3.0</span>, <span style=color:#bd93f9>5.0</span>, <span style=color:#bd93f9>4.0</span>]])
+</span></span><span style=display:flex><span>h <span style=color:#ff79c6>=</span> matrix([<span style=color:#bd93f9>0.0</span>, <span style=color:#bd93f9>0.0</span>, <span style=color:#ff79c6>-</span><span style=color:#bd93f9>15.0</span>, <span style=color:#bd93f9>100.0</span>, <span style=color:#bd93f9>80.0</span>])
+</span></span><span style=display:flex><span><span style=color:#6272a4># 2. 构建求解</span>
+</span></span><span style=display:flex><span>sol <span style=color:#ff79c6>=</span> solvers<span style=color:#ff79c6>.</span>qp(P, q, G, h)
+</span></span><span style=display:flex><span><span style=color:#6272a4># 3. 获取最优值</span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(sol[<span style=color:#f1fa8c>&#39;x&#39;</span>], sol[<span style=color:#f1fa8c>&#39;primal objective&#39;</span>])
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 实现线性可分支持向量机</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>class</span> <span style=color:#50fa7b>Hard_Margin_SVM</span>:
+</span></span><span style=display:flex><span>    <span style=color:#6272a4># 线性可分支持向量机拟合方法</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>def</span> <span style=color:#50fa7b>fit</span>(<span style=font-style:italic>self</span>, X, y):
+</span></span><span style=display:flex><span>        <span style=color:#6272a4># 训练样本数和特征数</span>
+</span></span><span style=display:flex><span>        m, n <span style=color:#ff79c6>=</span> X<span style=color:#ff79c6>.</span>shape
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#6272a4># 初始化二次规划相关变量：P/q/G/h</span>
+</span></span><span style=display:flex><span>        <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>P <span style=color:#ff79c6>=</span> matrix(np<span style=color:#ff79c6>.</span>identity(n <span style=color:#ff79c6>+</span> <span style=color:#bd93f9>1</span>, dtype<span style=color:#ff79c6>=</span>np<span style=color:#ff79c6>.</span>float))
+</span></span><span style=display:flex><span>        <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>q <span style=color:#ff79c6>=</span> matrix(np<span style=color:#ff79c6>.</span>zeros((n <span style=color:#ff79c6>+</span> <span style=color:#bd93f9>1</span>,), dtype<span style=color:#ff79c6>=</span>np<span style=color:#ff79c6>.</span>float))
+</span></span><span style=display:flex><span>        <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>G <span style=color:#ff79c6>=</span> matrix(np<span style=color:#ff79c6>.</span>zeros((m, n <span style=color:#ff79c6>+</span> <span style=color:#bd93f9>1</span>), dtype<span style=color:#ff79c6>=</span>np<span style=color:#ff79c6>.</span>float))
+</span></span><span style=display:flex><span>        <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>h <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>-</span>matrix(np<span style=color:#ff79c6>.</span>ones((m,), dtype<span style=color:#ff79c6>=</span>np<span style=color:#ff79c6>.</span>float))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#6272a4># 将数据转为变量</span>
+</span></span><span style=display:flex><span>        <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>P[<span style=color:#bd93f9>0</span>, <span style=color:#bd93f9>0</span>] <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>0</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>for</span> i <span style=color:#ff79c6>in</span> <span style=color:#8be9fd;font-style:italic>range</span>(m):
+</span></span><span style=display:flex><span>            <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>G[i, <span style=color:#bd93f9>0</span>] <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>-</span>y[i]
+</span></span><span style=display:flex><span>            <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>G[i, <span style=color:#bd93f9>1</span>:] <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>-</span>X[i, :] <span style=color:#ff79c6>*</span> y[i]
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        sol <span style=color:#ff79c6>=</span> solvers<span style=color:#ff79c6>.</span>qp(<span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>P, <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>q, <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>G, <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>h)  <span style=color:#6272a4># 构建二次规划求解</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#6272a4># 对权重和偏置寻优</span>
+</span></span><span style=display:flex><span>        <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>w <span style=color:#ff79c6>=</span> np<span style=color:#ff79c6>.</span>zeros(n, )
+</span></span><span style=display:flex><span>        <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>b <span style=color:#ff79c6>=</span> sol[<span style=color:#f1fa8c>&#39;x&#39;</span>][<span style=color:#bd93f9>0</span>]
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>for</span> i <span style=color:#ff79c6>in</span> <span style=color:#8be9fd;font-style:italic>range</span>(<span style=color:#bd93f9>1</span>, n <span style=color:#ff79c6>+</span> <span style=color:#bd93f9>1</span>):
+</span></span><span style=display:flex><span>            <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>w[i <span style=color:#ff79c6>-</span> <span style=color:#bd93f9>1</span>] <span style=color:#ff79c6>=</span> sol[<span style=color:#f1fa8c>&#39;x&#39;</span>][i]
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>w, <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>b
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4># 定义模型预测函数</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>def</span> <span style=color:#50fa7b>predict</span>(<span style=font-style:italic>self</span>, X):
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> np<span style=color:#ff79c6>.</span>sign(np<span style=color:#ff79c6>.</span>dot(<span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>w, X<span style=color:#ff79c6>.</span>T) <span style=color:#ff79c6>+</span> <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>b)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>hard_margin_svm <span style=color:#ff79c6>=</span> Hard_Margin_SVM()  <span style=color:#6272a4># 创建线性可分支持向量机模型实例</span>
+</span></span><span style=display:flex><span>hard_margin_svm<span style=color:#ff79c6>.</span>fit(X_train, y_train)  <span style=color:#6272a4># 执行训练</span>
+</span></span><span style=display:flex><span>y_pred <span style=color:#ff79c6>=</span> hard_margin_svm<span style=color:#ff79c6>.</span>predict(X_test)  <span style=color:#6272a4># 模型预测</span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(accuracy_score(y_test, y_pred))  <span style=color:#6272a4># 计算测试集准确率</span>
+</span></span></code></pre></div><h1 id=使用scikit-learn中的支持向量机算法对鸢尾花数据进行分类>使用scikit-learn中的支持向量机算法对鸢尾花数据进行分类</h1><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#ff79c6>import</span> numpy <span style=color:#ff79c6>as</span> np
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> matplotlib.pyplot <span style=color:#ff79c6>as</span> plt
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> sklearn.svm <span style=color:#ff79c6>import</span> SVC, LinearSVC
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> sklearn.datasets <span style=color:#ff79c6>import</span> load_iris
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> sklearn.model_selection <span style=color:#ff79c6>import</span> train_test_split
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> sklearn.metrics <span style=color:#ff79c6>import</span> classification_report
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>def</span> <span style=color:#50fa7b>plot_decision_boundary</span>(model, axis):
+</span></span><span style=display:flex><span>    <span style=color:#f1fa8c>&#34;&#34;&#34;
+</span></span></span><span style=display:flex><span><span style=color:#f1fa8c>    在axis范围内绘制模型model的决策边界
+</span></span></span><span style=display:flex><span><span style=color:#f1fa8c>    :param model: classification model which must have &#39;predict&#39; function
+</span></span></span><span style=display:flex><span><span style=color:#f1fa8c>    :param axis: [left, right, down, up]
+</span></span></span><span style=display:flex><span><span style=color:#f1fa8c>    &#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>    x0, x1 <span style=color:#ff79c6>=</span> np<span style=color:#ff79c6>.</span>meshgrid(
+</span></span><span style=display:flex><span>        np<span style=color:#ff79c6>.</span>linspace(axis[<span style=color:#bd93f9>0</span>], axis[<span style=color:#bd93f9>1</span>], <span style=color:#8be9fd;font-style:italic>int</span>((axis[<span style=color:#bd93f9>1</span>] <span style=color:#ff79c6>-</span> axis[<span style=color:#bd93f9>0</span>]) <span style=color:#ff79c6>*</span> <span style=color:#bd93f9>100</span>))<span style=color:#ff79c6>.</span>reshape(<span style=color:#ff79c6>-</span><span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>1</span>),
+</span></span><span style=display:flex><span>        np<span style=color:#ff79c6>.</span>linspace(axis[<span style=color:#bd93f9>2</span>], axis[<span style=color:#bd93f9>3</span>], <span style=color:#8be9fd;font-style:italic>int</span>((axis[<span style=color:#bd93f9>3</span>] <span style=color:#ff79c6>-</span> axis[<span style=color:#bd93f9>2</span>]) <span style=color:#ff79c6>*</span> <span style=color:#bd93f9>100</span>))<span style=color:#ff79c6>.</span>reshape(<span style=color:#ff79c6>-</span><span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>1</span>),
+</span></span><span style=display:flex><span>    )
+</span></span><span style=display:flex><span>    X_new <span style=color:#ff79c6>=</span> np<span style=color:#ff79c6>.</span>c_[x0<span style=color:#ff79c6>.</span>ravel(), x1<span style=color:#ff79c6>.</span>ravel()]
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    y_predict <span style=color:#ff79c6>=</span> model<span style=color:#ff79c6>.</span>predict(X_new)
+</span></span><span style=display:flex><span>    zz <span style=color:#ff79c6>=</span> y_predict<span style=color:#ff79c6>.</span>reshape(x0<span style=color:#ff79c6>.</span>shape)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>from</span> matplotlib.colors <span style=color:#ff79c6>import</span> ListedColormap
+</span></span><span style=display:flex><span>    custom_cmap <span style=color:#ff79c6>=</span> ListedColormap([<span style=color:#f1fa8c>&#39;#EF9A9A&#39;</span>, <span style=color:#f1fa8c>&#39;#FFF59D&#39;</span>, <span style=color:#f1fa8c>&#39;#90CAF9&#39;</span>])
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    plt<span style=color:#ff79c6>.</span>contourf(x0, x1, zz, linewidth<span style=color:#ff79c6>=</span><span style=color:#bd93f9>5</span>, cmap<span style=color:#ff79c6>=</span>custom_cmap)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>X, y <span style=color:#ff79c6>=</span> load_iris(return_X_y<span style=color:#ff79c6>=</span><span style=color:#ff79c6>True</span>)
+</span></span><span style=display:flex><span>X <span style=color:#ff79c6>=</span> X[:, :<span style=color:#bd93f9>2</span>]  <span style=color:#6272a4># 仅选择前两个特征，便于绘制决策边界</span>
+</span></span><span style=display:flex><span>X_train, X_test, y_train, y_test <span style=color:#ff79c6>=</span> train_test_split(X, y)
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(X_train<span style=color:#ff79c6>.</span>shape, X_test<span style=color:#ff79c6>.</span>shape, y_train<span style=color:#ff79c6>.</span>shape, y_test<span style=color:#ff79c6>.</span>shape)  <span style=color:#6272a4># (112, 2) (38, 2) (112,) (38,)</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>lin_svc <span style=color:#ff79c6>=</span> LinearSVC()
+</span></span><span style=display:flex><span>lin_svc<span style=color:#ff79c6>.</span>fit(X_train, y_train)
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#39;classification accuracy of LinearSVC: &#39;</span>, lin_svc<span style=color:#ff79c6>.</span>score(X_test, y_test))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>svc_rf <span style=color:#ff79c6>=</span> SVC(kernel<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#39;rbf&#39;</span>, degree<span style=color:#ff79c6>=</span><span style=color:#bd93f9>5</span>)
+</span></span><span style=display:flex><span>svc_rf<span style=color:#ff79c6>.</span>fit(X_train, y_train)
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#39;classification accuracy of SVC with RBF kernel: &#39;</span>, svc_rf<span style=color:#ff79c6>.</span>score(X_test, y_test))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>plt<span style=color:#ff79c6>.</span>subplot(<span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>2</span>, <span style=color:#bd93f9>1</span>)
+</span></span><span style=display:flex><span>plot_decision_boundary(lin_svc, axis<span style=color:#ff79c6>=</span>[<span style=color:#bd93f9>3</span>, <span style=color:#bd93f9>8</span>, <span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>5</span>])
+</span></span><span style=display:flex><span>plt<span style=color:#ff79c6>.</span>scatter(X_test[y_test <span style=color:#ff79c6>==</span> <span style=color:#bd93f9>0</span>, <span style=color:#bd93f9>0</span>], X_test[y_test <span style=color:#ff79c6>==</span> <span style=color:#bd93f9>0</span>, <span style=color:#bd93f9>1</span>])
+</span></span><span style=display:flex><span>plt<span style=color:#ff79c6>.</span>scatter(X_test[y_test <span style=color:#ff79c6>==</span> <span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>0</span>], X_test[y_test <span style=color:#ff79c6>==</span> <span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>1</span>])
+</span></span><span style=display:flex><span>plt<span style=color:#ff79c6>.</span>scatter(X_test[y_test <span style=color:#ff79c6>==</span> <span style=color:#bd93f9>2</span>, <span style=color:#bd93f9>0</span>], X_test[y_test <span style=color:#ff79c6>==</span> <span style=color:#bd93f9>2</span>, <span style=color:#bd93f9>1</span>])
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>plt<span style=color:#ff79c6>.</span>subplot(<span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>2</span>, <span style=color:#bd93f9>2</span>)
+</span></span><span style=display:flex><span>plot_decision_boundary(svc_rf, axis<span style=color:#ff79c6>=</span>[<span style=color:#bd93f9>3</span>, <span style=color:#bd93f9>8</span>, <span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>5</span>])
+</span></span><span style=display:flex><span>plt<span style=color:#ff79c6>.</span>scatter(X_test[y_test <span style=color:#ff79c6>==</span> <span style=color:#bd93f9>0</span>, <span style=color:#bd93f9>0</span>], X_test[y_test <span style=color:#ff79c6>==</span> <span style=color:#bd93f9>0</span>, <span style=color:#bd93f9>1</span>])
+</span></span><span style=display:flex><span>plt<span style=color:#ff79c6>.</span>scatter(X_test[y_test <span style=color:#ff79c6>==</span> <span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>0</span>], X_test[y_test <span style=color:#ff79c6>==</span> <span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>1</span>])
+</span></span><span style=display:flex><span>plt<span style=color:#ff79c6>.</span>scatter(X_test[y_test <span style=color:#ff79c6>==</span> <span style=color:#bd93f9>2</span>, <span style=color:#bd93f9>0</span>], X_test[y_test <span style=color:#ff79c6>==</span> <span style=color:#bd93f9>2</span>, <span style=color:#bd93f9>1</span>])
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>plt<span style=color:#ff79c6>.</span>show()
+</span></span></code></pre></div><h1 id=参考资料>参考资料</h1><ul><li>周志华. 机器学习. 北京: 清华大学出版社, 2016.</li><li>邱锡鹏. 神经网络与深度学习. 北京: 机械工业出版社, 2020.</li><li>鲁伟. 机器学习：公式推导与代码实现. 北京: 人民邮电出版社, 2022.</li><li>Stanford University机器学习笔记：https://stanford.edu/~shervine/teaching/</li></ul><hr><ul class=pager><li class=previous><a href=/post/3-ml/ml6-%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92%E4%B8%8E%E6%9C%80%E5%A4%A7%E7%86%B5%E6%A8%A1%E5%9E%8B/ data-toggle=tooltip data-placement=top title=机器学习：逻辑回归与最大熵模型>&larr;
+Previous Post</a></li><li class=next><a href=/post/3-ml/ml8-%E5%86%B3%E7%AD%96%E6%A0%91/ data-toggle=tooltip data-placement=top title=机器学习：决策树>Next
+Post &rarr;</a></li></ul><script src=https://giscus.app/client.js data-repo=XiangdiWu/XiangdiWu.github.io data-repo-id=R_kgDOP0pDUQ data-category=Announcements data-category-id=DIC_kwDOP0pDUc4CvwjG data-mapping=pathname data-reactions-enabled=1 data-emit-metadata=0 data-theme=light data-lang=zh-CN crossorigin=anonymous async></script></div><div class="col-lg-2 col-lg-offset-0
+visible-lg-block
+sidebar-container
+catalog-container"><div class=side-catalog><hr class="hidden-sm hidden-xs"><h5><a class=catalog-toggle href=#>CATALOG</a></h5><ul class=catalog-body></ul></div></div><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+sidebar-container"><section><hr class="hidden-sm hidden-xs"><h5><a href=/tags/>FEATURED TAGS</a></h5><div class=tags><a href=/tags/deep-learning title="deep learning">deep learning
+</a><a href=/tags/machine-learning title="machine learning">machine learning
+</a><a href=/tags/math title=math>math
+</a><a href=/tags/model title=model>model
+</a><a href=/tags/nlp title=nlp>nlp
+</a><a href=/tags/quant title=quant>quant</a></div></section><section><hr><h5>FRIENDS</h5><ul class=list-inline><li><a target=_blank href=https://www.factorwar.com/data/factor-models/>GetAstockFactors</a></li><li><a target=_blank href=https://datawhalechina.github.io/whale-quant/#/>Whale-Quant</a></li></ul></section></div></div></div></article><script type=module>  
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; 
+    mermaid.initialize({ startOnLoad: true });  
+</script><script>Array.from(document.getElementsByClassName("language-mermaid")).forEach(e=>{e.parentElement.outerHTML=`<div class="mermaid">${e.innerHTML}</div>`})</script><style>.mermaid svg{display:block;margin:auto}</style><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center"><li><a href=mailto:bernicewu2000@outlook.com><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-envelope fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=/img/wechat_qrcode.jpg><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-weixin fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=https://github.com/xiangdiwu><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-github fa-stack-1x fa-inverse"></i></span></a></li><li><a href rel=alternate type=application/rss+xml title="Xiangdi Blog"><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-rss fa-stack-1x fa-inverse"></i></span></a></li></ul><p class="copyright text-muted">Copyright &copy; Xiangdi Blog 2025</p></div></div></div></footer><script>function loadAsync(e,t){var s=document,o="script",n=s.createElement(o),i=s.getElementsByTagName(o)[0];n.src=e,t&&n.addEventListener("load",function(e){t(null,e)},!1),i.parentNode.insertBefore(n,i)}</script><script>$("#tag_cloud").length!==0&&loadAsync("/js/jquery.tagcloud.js",function(){$.fn.tagcloud.defaults={color:{start:"#bbbbee",end:"#0085a1"}},$("#tag_cloud a").tagcloud()})</script><script>loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js",function(){var e=document.querySelector("nav");e&&FastClick.attach(e)})</script><script type=text/javascript>function generateCatalog(e){_containerSelector="div.post-container";var t,n,s,o,i,a=$(_containerSelector),r=a.find("h1,h2,h3,h4,h5,h6");return $(e).html(""),r.each(function(){n=$(this).prop("tagName").toLowerCase(),o="#"+$(this).prop("id"),t=$(this).text(),i=$('<a href="'+o+'" rel="nofollow" title="'+t+'">'+t+"</a>"),s=$('<li class="'+n+'_nav"></li>').append(i),$(e).append(s)}),!0}generateCatalog(".catalog-body"),$(".catalog-toggle").click(function(e){e.preventDefault(),$(".side-catalog").toggleClass("fold")}),loadAsync("/js/jquery.nav.js",function(){$(".catalog-body").onePageNav({currentClass:"active",changeHash:!1,easing:"swing",filter:"",scrollSpeed:700,scrollOffset:0,scrollThreshold:.2,begin:null,end:null,scrollChange:null,padding:80})})</script><style>.markmap>svg{width:100%;height:300px}</style><script>window.markmap={autoLoader:{manual:!0,onReady(){const{autoLoader:e,builtInPlugins:t}=window.markmap;e.transformPlugins=t.filter(e=>e.name!=="prism")}}}</script><script src=https://cdn.jsdelivr.net/npm/markmap-autoloader></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css integrity="sha512-r2+FkHzf1u0+SQbZOoIz2RxWOIWfdEzRuYybGjzKq18jG9zaSfEy9s3+jMqG/zPtRor/q4qaUCYQpmSjTw8M+g==" crossorigin=anonymous><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js integrity="sha512-INps9zQ2GUEMCQD7xiZQbGUVnqnzEvlynVy6eqcTcHN4+aQiLo9/uaQqckDpdJ8Zm3M0QBs+Pktg4pz0kEklUg==" crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/mhchem.min.js integrity="sha512-mxjNw/u1lIsFC09k/unscDRY3ofIYPVFbWkP8slrePcS36ht4d/OZ8rRu5yddB2uiqajhTcLD8+jupOWuYPebg==" crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js integrity="sha512-YJVxTjqttjsU3cSvaTRqsSl0wbRgZUNF+NGGCgto/MUbIvaLdXQzGTCQu4CvyJZbZctgflVB0PXw9LLmTWm5/w==" crossorigin=anonymous onload='renderMathInElement(document.body,{delimiters:[{display:!0,left:"$$",right:"$$"},{display:!1,left:"$",right:"$"},{display:!1,left:"\\(",right:"\\)"},{display:!0,left:"\\[",right:"\\]"}],errorcolor:"#CD5C5C",throwonerror:!1})'></script></body></html>

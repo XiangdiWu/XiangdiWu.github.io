@@ -1,0 +1,377 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta property="og:site_name" content="Xiangdi Blog"><meta property="og:type" content="article"><meta property="og:image" con ’tent=https://images.pexels.com/photos/220301/pexels-photo-220301.jpeg><meta property="twitter:image" content="https://images.pexels.com/photos/220301/pexels-photo-220301.jpeg"><meta name=title content="深度学习：循环神经网络"><meta property="og:title" content="深度学习：循环神经网络"><meta property="twitter:title" content="深度学习：循环神经网络"><meta name=description content="本文主要介绍循环神经网络，包括循环神经网络的应用、训练、长程依赖问题，以及循环神经网络的变体，如LSTM、GRU等。"><meta property="og:description" content="本文主要介绍循环神经网络，包括循环神经网络的应用、训练、长程依赖问题，以及循环神经网络的变体，如LSTM、GRU等。"><meta property="twitter:description" content="本文主要介绍循环神经网络，包括循环神经网络的应用、训练、长程依赖问题，以及循环神经网络的变体，如LSTM、GRU等。"><meta property="twitter:card" content="summary"><meta property="og:url" content="https://xiangdiwu.github.io/post/4-dl/dl4-%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/"><meta name=keyword content="吴湘菂, WuXiangdi, XiangdiWu, 吴湘菂的网络日志, 吴湘菂的博客, Xiangdi Blog, 博客, 个人网站, Quant, 量化投资, 金融, 投资, 理财, 股票, 期货, 基金, 期权, 外汇, 比特币"><link rel="shortcut icon" href=/img/favicon.ico><title>深度学习：循环神经网络-吴湘菂的博客 | Xiangdi Blog</title><link rel=canonical href=/post/4-dl/dl4-%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/><link rel=stylesheet href=/css/bootstrap.min.css><link rel=stylesheet href=/css/hugo-theme-cleanwhite.min.css><link rel=stylesheet href=/css/zanshang.min.css><link rel=stylesheet href=/css/font-awesome.all.min.css><script src=/js/jquery.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/hux-blog.min.js></script><script src=/js/lazysizes.min.js></script></head><script async src="https://www.googletagmanager.com/gtag/js?id=G-R757MDJ6Y6"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-R757MDJ6Y6")}</script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css integrity=sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV crossorigin=anonymous><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js integrity=sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8 crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js integrity=sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05 crossorigin=anonymous></script><script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"\\[",right:"\\]",display:!0},{left:"$$",right:"$$",display:!0},{left:"\\(",right:"\\)",display:!1}],throwOnError:!1})})</script><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css><script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type=text/javascript></script><nav class="navbar navbar-default navbar-custom navbar-fixed-top"><div class=container-fluid><div class="navbar-header page-scroll"><button type=button class=navbar-toggle>
+<span class=sr-only>Toggle navigation</span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+</button>
+<a class=navbar-brand href=/>Xiangdi Blog</a></div><div id=huxblog_navbar><div class=navbar-collapse><ul class="nav navbar-nav navbar-right"><li><a href=/>All Posts</a></li><li><a href=/categories/quant/>quant</a></li><li><a href=/categories/reading/>reading</a></li><li><a href=/categories/tech/>tech</a></li><li><a href=/archive//>ARCHIVE</a></li><li><a href=/vibe//>Vibe</a></li><li><a href=/travel//>TRAVEL</a></li><li><a href=/about//>ABOUT</a></li><li><a href=/search><i class="fa fa-search"></i></a></li></ul></div></div></div></nav><script>var $body=document.body,$toggle=document.querySelector(".navbar-toggle"),$navbar=document.querySelector("#huxblog_navbar"),$collapse=document.querySelector(".navbar-collapse");$toggle.addEventListener("click",handleMagic);function handleMagic(){$navbar.className.indexOf("in")>0?($navbar.className=" ",setTimeout(function(){$navbar.className.indexOf("in")<0&&($collapse.style.height="0px")},400)):($collapse.style.height="auto",$navbar.className+=" in")}</script><style type=text/css>header.intro-header{background-image:url(https://images.pexels.com/photos/220301/pexels-photo-220301.jpeg)}</style><header class=intro-header><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class=post-heading><div class=tags><a class=tag href=/tags/quant title=Quant>Quant
+</a><a class=tag href=/tags/model title=Model>Model
+</a><a class=tag href=/tags/deep-learning title="Deep Learning">Deep Learning</a></div><h1>深度学习：循环神经网络</h1><h2 class=subheading>RNN-Recurrent Neural Network</h2><span class=meta>Posted by
+XiangdiWu
+on
+Wednesday, October 14, 2020</span></div></div></div></div></header><article><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+post-container"><h1 id=序列数据和语言模型>序列数据和语言模型</h1><p>全连接神经网络和卷积神经网络只能单独处理一个个的输入，<strong>前一个输入和后一个输入是完全没有关系的</strong>。但是，某些任务需要能够更好的处理序列的信息，即前面的输入和后面的输入是有关系的。比如，当我们在理解一句话意思时，孤立的理解这句话的每个词是不够的，我们需要处理这些词连接起来的整个序列；当我们处理视频的时候，我们也不能只单独的去分析每一帧，而要<strong>分析这些帧连接起来的整个序列</strong>。这时，就需要用到深度学习领域中另一类非常重要神经网络：<strong>循环神经网络(recurrent neural network)</strong>。</p><p>RNN是在自然语言处理领域中最先被用起来的，比如，RNN可以为语言模型来建模。例如我们可以和电脑玩一个游戏，我们写出一个句子前面的一些词，然后，让电脑帮我们写下接下来的一个词。比如下面这句：<strong>我昨天上学迟到了，老师批评了__</strong>。</p><p>语言模型是对一种语言的特征进行建模，它有很多很多用处。比如在<strong>语音转文本(STT)<strong>的应用中，<strong>声学模型输出</strong>的结果，往往是若干个可能的候选词，这时候就需要语言模型来从这些候选词中选择一个最可能的。当然，它同样也可以用在</strong>图像到文本的识别中(OCR)</strong>。</p><p>使用RNN之前，语言模型主要是采用<strong>N-gram语言模型</strong>。N可以是一个自然数，它的含义是，假设一个词出现的概率只与前面N个词相关。N-gram模型的缺陷是，<strong>当处理任意长度的句子，N设为多少都不合适</strong>；另外，<strong>模型的大小和N的关系是指数级的</strong>，4-gram模型会占用海量的存储空间。</p><p>与传统语言模型不同的是，循环神经网络理论上可以往前看(往后看)任意多个词。</p><h1 id=网络结构>网络结构</h1><p>给定一个输入序列</p>$$\boldsymbol x_{1:T}=(\boldsymbol{x}_{1}, \boldsymbol{x}_{2}, \ldots, \boldsymbol{x}_{t}, \cdots, \boldsymbol{x}_{T})$$<p>，RNN通过下面公式更新带反馈边的隐藏层的活性值$\boldsymbol h_t$：</p>$$
+\boldsymbol{h}_{t}=f(\boldsymbol{h}_{t-1}, \boldsymbol{x}_{t})
+$$<p>其中$\boldsymbol h_0=0$(<strong>即RNN隐藏层的初始值为0</strong>)，$f(·)$为一个<strong>非线性函数</strong>，也可以是一个<strong>前馈网络</strong>。</p><div align=center><img src=/Kimages/3/image-20200715160758686.png style=zoom:25%></div><p>循环层的基础结构如上图所示。循环神经网络可以看成一个<strong>动力系统(dynamic system)</strong>，指<strong>系统状态</strong>按照一定的规律<strong>随时间变化</strong>的系统。具体地讲，动力系统是使用一个函数来描述一个给定空间中所有点随时间的变化情况。因此，隐藏层的活性值$\boldsymbol h_t$在很多文献上也称为<strong>状态(state)<strong>或</strong>隐状态(hidden state)</strong>。<strong>理论上，循环神经网络可以近似任意的非线性动力系统</strong>。</p><p>最简单的循环神经网络是只有一层隐藏层的情况。假设在时刻$t$时，网络的输入为$\boldsymbol x_t$，隐藏层状态$\boldsymbol h_t$不仅和当前时刻的输入$\boldsymbol x_t$有关，也和上一个时刻的隐藏层状态$\boldsymbol h_{t-1}$有关：</p>$$
+\begin{aligned}
+\boldsymbol{z}_{t}&=U \boldsymbol{h}_{t-1}+W \boldsymbol{x}_{t}+\boldsymbol{b} \\
+\boldsymbol{h}_{t}&=f\left(\boldsymbol{z}_{t}\right)
+\end{aligned}
+$$<p>其中，$\boldsymbol z_t$为隐藏层的净输入，$f(·)$是非线性激活函数，通常为sigmoid函数或tanh函数，$U$为状态-状态权重矩阵，$W$为状态-输入权重矩阵，$b$为偏置。上式也可直接写为：</p>$$
+\boldsymbol{h}_{t}=f(U \boldsymbol{h}_{t-1}+W \boldsymbol{x}_{t}+\boldsymbol{b})
+$$<p>在时间步$t$的输出层输出可以写为：</p>$$
+\boldsymbol{y}_{t}=V \boldsymbol{h}_{t}
+$$<p>其中$V$是隐含层与输出层之间的连接权重。如果我们把每个时刻的状态都看作是前馈神经网络的一层，循环神经网络可以看作是<strong>在时间维度上权值共享的神经网络</strong>。</p><div align=center><img src=/Kimages/3/image-20200715161457977.png style=zoom:25%></div><p><strong>循环神经网络的通用近似定理</strong>：一个有<strong>足够数量的sigmoid型隐藏神经元</strong>的循环神经网络，可以以任意的准确率去近似任何一个非线性动力系统。</p><p><strong>循环神经网络的图灵完备性</strong>：所有的<strong>图灵机</strong>都可以被一个由使用sigmoid型激活函数的神经元构成的全连接循环网络来进行模拟。因此，一个完全连接的循环神经网络可以近似解决所有的可计算问题。</p><h1 id=循环神经网络的应用>循环神经网络的应用</h1><p>根据不同的任务特点，循环神经网络的应用可以分为如下几种模式：</p><p>(1) <strong>序列到类别模式(文本分类、情感分析等)</strong>：</p><div align=center><img src=/Kimages/3/image-20200715161712903.png style=zoom:25%></div><p>(2) <strong>同步的序列到序列模式(序列标注等)</strong>：</p><div align=center><img src=/Kimages/3/image-20200715161731143.png style=zoom:25%></div><p>(3) <strong>异步的序列到序列模式(机器翻译、对话系统等)</strong>：</p><div align=center><img src=/Kimages/3/image-20200715161812090.png style=zoom:25%></div><h1 id=循环神经网络的训练>循环神经网络的训练</h1><p>循环神经网络的参数可以通过梯度下降方法来进行学习。</p><p>给定一个训练样本$(\boldsymbol x,\boldsymbol y)$，其中$\boldsymbol x_{1:T}=(\boldsymbol x_1,\cdots,\boldsymbol x_T)$是长度为$T$的输入序列，$y1:T= (\boldsymbol y_1,\cdots,\boldsymbol y_T)$是长度为$T$的标签序列。即在每个时刻$t$，都有一个监督信息$\boldsymbol y_t$，我们定义时刻的$t$损失函数为：</p>$$
+\mathcal{L}_{t}=\mathcal{L}(y_{t}, g(\boldsymbol{h}_{t}))
+$$<p>其中$g(\boldsymbol{h}_{t})$为第$t$时刻的输出，$\mathcal L$为可微的损失函数，比如交叉熵等。整个序列的损失函数为：</p>$$
+\mathcal{L}=\sum_{t=1}^{T} \mathcal{L}_{t}
+$$<p>整个序列的损失函数$\mathcal L$关于参数$U$的梯度为：</p>$$
+\frac{\partial \mathcal{L}}{\partial U}=\sum_{t=1}^{T} \frac{\partial \mathcal{L}_{t}}{\partial U}
+$$<p>即每个时刻损失$\mathcal L_t$对参数$U$的偏导数之和。</p><p>循环神经网络中存在一个递归调用的函数$f(\cdot)$，因此其计算参数梯度的方式和前馈神经网络不太相同。在循环神经网络中主要有两种计算梯度的方式：<strong>随时间反向传播(BPTT)算法</strong>和<strong>实时循环学习(RTRL)算法</strong>。</p><h2 id=随时间反向传播算法>随时间反向传播算法</h2><p><strong>随时间反向传播(back-propagation through time, BPTT)算法</strong>的主要思想是通过<strong>类似前馈神经网络的错误反向传播算法</strong>来计算梯度。BPTT算法将循环神经网络看作是一个<strong>展开的多层前馈网络</strong>，其中 <strong>“每一层”对应循环网络中的“每个时刻”</strong> 。这样，循环神经网络就可以按照前馈网络中的反向传播算法计算参数梯度。在“展开”的前馈网络中，所有层的参数是共享的，因此参数的真实梯度是所有“展开层”的参数梯度之和。</p><p>(1) 计算偏导数$\frac{\partial \mathcal{L}_{t}}{\partial U}$</p><p>因为参数$U$和隐藏层在每个时刻$k(1 \leqslant k \leqslant t)$的净输入$\boldsymbol z_k=U \boldsymbol h_{k-1}+W \boldsymbol x_k + b$有关，因此第$t$时刻的损失函数$\mathcal L_t$关于参数$u_{ij}$的梯度为：</p>$$
+\frac{\partial \mathcal{L}_{t}}{\partial u_{i j}}=\sum_{k=1}^{t} \frac{\partial^{+} \boldsymbol{z}_{k}}{\partial u_{i j}} \frac{\partial \mathcal{L}_{t}}{\partial \boldsymbol{z}_{k}}
+$$<p>其中</p>$$\frac{\partial^{+} \boldsymbol{z}_{k}}{\partial u_{i j}} $$<p>表示“直接”偏导数，即公式</p>$$\boldsymbol {z}_{k}=U \boldsymbol{h}_{k-1}+W \boldsymbol{x}_{k}+\boldsymbol{b}$$<p>中保持$\boldsymbol h_{k-1}$不变，对$u_{ij}$进行求偏导数，得到：</p>$$
+\begin{aligned}
+\frac{\partial^{+} \boldsymbol{z}_{k}}{\partial u_{i j}} &=[0, \cdots,[\boldsymbol{h}_{k-1}]_{j}, \cdots, 0] \\
+& \triangleq \mathbb{I}_{i}([\boldsymbol{h}_{k-1}]_{j})
+\end{aligned}
+$$<p>其中</p>$$[\boldsymbol h_{k-1}]_j$$<p>为第$k-1$时刻隐状态的第$j$维，$\mathbb{I}_{i}(x)$是除了第$i$列值为$x$外，其余都为0的行向量。</p><p>定义误差项$\delta_{t,k}=\frac{\partial \mathcal L_t}{\partial \boldsymbol z_k}$为第$t$时刻损失对第$k$时刻隐藏神经层的净输入$\boldsymbol z_k$的导数，则当$1 \leqslant k \leqslant t$时，</p>$$
+\begin{aligned}
+\delta_{t, k} &=\frac{\partial \mathcal{L}_{t}}{\partial z_{k}} \\
+&=\frac{\partial \boldsymbol{h}_{k}}{\partial \boldsymbol{z}_{k}} \frac{\partial \boldsymbol{z}_{k+1}}{\partial \boldsymbol{h}_{k}} \frac{\partial \mathcal{L}_{t}}{\partial \boldsymbol{z}_{k+1}} \\
+&=\operatorname{diag}\left(f^{\prime}\left(\boldsymbol{z}_{k}\right)\right) U^{\text{T}} \delta_{t, k+1}
+\end{aligned}
+$$<p>合并以上公式，得到：</p>$$
+\frac{\partial \mathcal{L}_{t}}{\partial u_{i j}}=\sum_{k=1}^{t}[\delta_{t, k}]_{i}[\boldsymbol{h}_{k-1}]_{j}
+$$<p>将上式写成矩阵形式：</p>$$
+\frac{\partial \mathcal{L}_{t}}{\partial U}=\sum_{k=1}^{t} \delta_{t, k} \boldsymbol{h}_{k-1}^{\mathrm{T}}
+$$<p>下图给出了误差项随时间进行反向传播算法的示例：</p><div align=center><img src=/Kimages/3/image-20200716112346913.png style=zoom:25%></div><p>(2) 参数梯度</p><p>整个序列的损失函数$\mathcal L$关于参数$U$的梯度为：</p>$$
+\frac{\partial \mathcal{L}}{\partial U}=\sum_{t=1}^{T} \sum_{k=1}^{t} \delta_{t, k} \boldsymbol{h}_{k-1}^{\text{T}}
+$$<p>同理可得，$\mathcal L$关于权重$W$和偏置$\boldsymbol b$的梯度为：</p>$$
+\begin{aligned}
+\frac{\partial \mathcal{L}}{\partial W}&=\sum_{t=1}^{T} \sum_{k=1}^{t} \delta_{t, k} \boldsymbol{x}_{k}^{\mathrm{T}} \\
+\frac{\partial \mathcal{L}}{\partial \boldsymbol{b}}&=\sum_{t=1}^{T} \sum_{k=1}^{t} \delta_{t, k}
+\end{aligned}
+$$<p>(3) 计算复杂度</p><p>在BPTT算法中，参数的梯度需要在一个<strong>完整的“前向”计算和“反向”计算</strong>后才能得到并进行参数更新。</p><h2 id=实时循环学习算法>实时循环学习算法</h2><p>与反向传播的BPTT算法不同的是，<strong>实时循环学习(real-time recurrent learning, RTRL)</strong> 是通过前向传播的方式来计算梯度的。假设循环神经网络中第$t+1$时刻的状态$\boldsymbol h_{t+1}$为：</p>$$
+\boldsymbol{h}_{t+1}=f\left(\boldsymbol{z}_{t+1}\right)=f\left(U \boldsymbol{h}_{t}+W \boldsymbol{x}_{t+1}+\boldsymbol{b}\right)
+$$<p>其关于参数$u_{ij}$的偏导数为：</p>$$
+\begin{aligned}
+\frac{\partial \boldsymbol{h}_{t+1}}{\partial u_{i j}} &=\left(\frac{\partial^{+} \boldsymbol{z}_{t+1}}{\partial u_{i j}}+\frac{\partial \boldsymbol{h}_{t}}{\partial u_{i j}} U^{\mathrm{T}}\right) \frac{\partial \boldsymbol{h}_{t+1}}{\partial \boldsymbol{z}_{t+1}} \\
+&=\left(\mathbb{I}_{i}\left(\left[\boldsymbol{h}_{t}\right]_{j}\right)+\frac{\partial \boldsymbol{h}_{t}}{\partial u_{i j}} U^{\mathrm{T}}\right) \operatorname{diag}(f^{\prime}(\boldsymbol{z}_{t+1})) \\
+&=\left(\mathbb{I}_{i}\left(\left[\boldsymbol{h}_{t}\right]_{j}\right)+\frac{\partial \boldsymbol{h}_{t}}{\partial u_{i j}} U^{\mathrm{T}}\right) \odot(f^{\prime}(\boldsymbol{z}_{t+1}))^{\mathrm{T}}
+\end{aligned}
+$$<p>其中$\mathbb{I}_{i}(x)$是除了第$i$列值为$x$外，其余都为0的行向量。</p><p>RTRL算法从第一个时刻开始，，除了计算循环神经网络的隐状态之外，还利用上式依次前向计算偏导数</p>$$\frac{\partial \boldsymbol{h}_{1}}{\partial u_{i j}}, \frac{\partial \boldsymbol{h}_{2}}{\partial u_{i j}}, \frac{\partial \boldsymbol{h}_{3}}{\partial u_{i j}}, \cdots $$<p>。</p><p>这样，假设第$t$个时刻存在一个监督信息，其损失函数为$\mathcal L_t$，就可以同时计算损失函数对$u_{ij}$的偏导数</p>$$
+\frac{\partial \mathcal{L}_{t}}{\partial u_{i j}}=\frac{\partial \boldsymbol{h}_{t}}{\partial u_{i j}} \frac{\partial \mathcal{L}_{t}}{\partial \boldsymbol{h}_{t}}
+$$<p>这样在第$t$时刻，可以实时地计算损失$\mathcal L_t$关于参数$U$的梯度，并更新参数。参数$W$和$\boldsymbol b$的梯度也可以同样按上述方法实时计算。</p><p>RTRL算法和BPTT算法都是基于梯度下降的算法，分别通过前向模式和反向模式应用链式法则来计算梯度。在循环神经网络中，一般网络输出维度远低于输入维度，因此<strong>BPTT算法的计算量会更小</strong>，但是BPTT算法需要保存所有时刻的中间梯度，<strong>空间复杂度较高</strong>。RTRL算法不需要梯度回传，因此非常适合用于需要<strong>在线学习</strong>或<strong>无限序列</strong>的任务中。</p><h1 id=长程依赖问题>长程依赖问题</h1><p>循环神经网络在学习过程中的主要问题是由于梯度消失或爆炸问题，很难建模<strong>长时间间隔(long range)的状态之间的依赖关系</strong>。</p><p>在BPTT算法中，将误差项计算公式展开得到：</p>$$
+\delta_{t, k}=\prod_{\tau=k}^{t-1}(\operatorname{diag}(f^{\prime}(\boldsymbol{z}_{\tau})) U^{\mathrm{T}}) \delta_{t, t}
+$$<p>如果定义$\gamma \cong\left\|\operatorname{diag}(f^{\prime}(\boldsymbol{z}_{\tau})) U^{\mathrm{T}}\right\|$，则</p>$$
+\delta_{t, k} \cong \gamma^{t-k} \delta_{t, t}
+$$<p>若$\gamma > 1$，当$t-k \rightarrow \infty$时，$\gamma^{t-k} \rightarrow \infty$。当间隔$t-k$比较大时，梯度也变得很大，会造成系统不稳定，称为<strong>梯度爆炸问题(gradient exploding problem)</strong>。</p><p>相反，若$\gamma < 1$，当$t-k \rightarrow \infty$时，$\gamma^{t-k} \rightarrow 0$。当间隔$t-k$比较大时，梯度也变得非常小，会出现和深层前馈神经网络类似的<strong>梯度消失问题(gradient vanishing problem)</strong>。</p><p>由于循环神经网络经常使用非线性激活函数为<strong>logistic函数或tanh函数</strong>作为非线性激活函数，其导数值都小于1，并且权重矩阵$\|U\|$也不会太大，因此如果时间间隔$t-k$ 过大，$\delta_{t,k}$会趋向于0，因而经常会出现梯度消失问题。</p><p>虽然简单循环网络<strong>理论上</strong>可以建立<strong>长时间间隔的状态之间的依赖关系</strong>，但是由于<strong>梯度爆炸或消失问题</strong>，实际上只能学习到短期的依赖关系。这样，如果时刻$t$的输出$y_t$依赖于时刻$k$的输入$\boldsymbol x_k$，当间隔$t-k$比较大时，简单神经网络很难建模这种长距离的依赖关系，称为<strong>长程依赖问题(long-term dependencies problem)</strong>。</p><p>为了避免梯度爆炸或消失问题，一种最直接的方式就是选取合适的参数，同时使用非饱和的激活函数，尽量使得$\operatorname{diag}(f^{\prime}(\boldsymbol{z})) U^{\mathrm{T}} \approx 1$，这种方式需要足够的人工调参经验，限制了模型的广泛应用。比较有效的方式是通过<strong>改进模型</strong>或<strong>优化方法</strong>来缓解循环网络的梯度爆炸和梯度消失问题。</p><p>(1) <strong>梯度爆炸</strong>：一般而言，循环网络的梯度爆炸问题比较容易解决，一般通过权重衰减或梯度截断来避免。<strong>权重衰减</strong>是通过给参数增加$l_1$或$l_2$范数的正则化项来限制参数的取值范围，从而使得$\gamma < 1$。<strong>梯度截断</strong>是另一种有效的启发式方法，当梯度的模大于一定阈值时，就将它截断成为一个较小的数。</p><p>(2) <strong>梯度消失</strong>：梯度消失是循环网络的主要问题。除了使用一些优化技巧外，更有效的方式就是改变模型，比如让$U=I$，同时令$\frac{\partial \boldsymbol{h}_{t}}{\partial \boldsymbol{h}_{t-1}}=I$为单位矩阵，即</p>$$
+\boldsymbol{h}_{t}=\boldsymbol{h}_{t-1}+g(\boldsymbol{x}_{t} ; \theta)
+$$<p>其中$g(\cdot)$是一个非线性函数，$\theta$为参数。上式中，$\boldsymbol h_t$和$\boldsymbol h_{t-1}$之间为线性依赖关系，且权重系数为1，这样就不存在梯度爆炸或消失问题。但是，这种改变也丢失了神经元在反馈边上的非线性激活的性质，因此也降低了模型的表示能力。为了避免这个缺点，我们可以采用<strong>一种更加有效的改进策略</strong>：</p>$$
+\boldsymbol{h}_{t}=\boldsymbol{h}_{t-1}+g(\boldsymbol{x}_{t}, \boldsymbol{h}_{t-1} ; \theta)
+$$<p>这样$\boldsymbol h_t$和$\boldsymbol h_{t-1}$之间既有线性关系，也有非线性关系，并且可以缓解梯度消失问题。以上改进仍然存在两个问题：一是<strong>仍可能计算梯度时梯度过大</strong>，从而产生梯度爆炸问题；二是记忆容量问题，随着$\boldsymbol h_t$不断累积存储新的输入信息，会发生饱和现象。假设$g(\cdot)$为logistic函数，则随着时间$t$的增长，$\boldsymbol h_t$会变得越来越大，从而导致h变得饱和。也就是说，隐状态$\boldsymbol h_t$可以存储的信息是有限的，随着记忆单元存储的内容越来越多，其丢失的信息也越来越多。</p><p>为了解决这两个问题，可以通过引入<strong>门控机制</strong>来进一步改进模型。此外，还可以通过<strong>更换激活函数</strong>、<strong>批归一化</strong>、<strong>残差连接</strong>等方式缓解梯度消失问题。</p><h1 id=lstm>LSTM</h1><div align=center><img src=/Kimages/3/image-20200716112944445.png style=zoom:35%></div>$$
+\begin{aligned}
+\tilde{\boldsymbol{c}}_{t} &=\tanh (W_{c} \boldsymbol{x}_{t}+U_{c} \boldsymbol{h}_{t-1}+\boldsymbol{b}_{c})\\
+\boldsymbol{i}_{t} &=\sigma(W_{i} \boldsymbol{x}_{t}+U_{i} \boldsymbol{h}_{t-1}+\boldsymbol{b}_{i}) \\
+\boldsymbol{f}_{t} &=\sigma(W_{f} \boldsymbol{x}_{t}+U_{f} \boldsymbol{h}_{t-1}+\boldsymbol{b}_{f}) \\
+\boldsymbol{o}_{t} &=\sigma(W_{o} \boldsymbol{x}_{t}+U_{o} \boldsymbol{h}_{t-1}+\boldsymbol{b}_{o}) \\
+\boldsymbol{c}_{t} &=\boldsymbol{f}_{t} \odot \boldsymbol{c}_{t-1}+\boldsymbol{i}_{t} \odot \tilde{\boldsymbol{c}}_{t} \\
+\boldsymbol{h}_{t} &=\boldsymbol{o}_{t} \odot \tanh \left(\boldsymbol{c}_{t}\right)
+\end{aligned}
+$$<h1 id=gru>GRU</h1><div align=center><img src=/Kimages/3/image-20200716113028211.png style=zoom:35%></div>$$
+\begin{aligned}
+\boldsymbol{h}_{t} &=\boldsymbol{z}_{t} \odot \boldsymbol{h}_{t-1}+\left(1-\boldsymbol{z}_{t}\right) \odot g\left(\boldsymbol{x}_{t}, \boldsymbol{h}_{t-1} ; \theta\right) \\
+\boldsymbol{z}_{t} &=\sigma(\boldsymbol{W}_{z} \boldsymbol{x}_{t}+\boldsymbol{U}_{z} \boldsymbol{h}_{t-1}+\boldsymbol{b}_{z}) \\
+\tilde{\boldsymbol{h}}_{t} &=\tanh (W_{h} \boldsymbol{x}_{t}+U_{h}(\boldsymbol{r}_{t} \odot \boldsymbol{h}_{t-1})+\boldsymbol{b}_{h}) \\
+\boldsymbol{r}_{t} &=\sigma(W_{r} \boldsymbol{x}_{t}+U_{r} \boldsymbol{h}_{t-1}+\boldsymbol{b}_{r})
+\end{aligned}
+$$<h1 id=深层循环神经网络>深层循环神经网络</h1><h2 id=堆叠循环神经网络>堆叠循环神经网络</h2><p>为循环神经网络添加从输入到输出的纵向深度：</p><div align=center><img src=/Kimages/3/image-20200716150806191.png style=zoom:25%></div><p>计算公式如下：</p>$$
+\boldsymbol{h}_{t}^{(l)}=f(U^{(l)} \boldsymbol{h}_{t-1}^{(l)}+W^{(l)} \boldsymbol{h}_{t}^{(l-1)}+\boldsymbol{b}^{(l)})
+$$<h2 id=双向循环神经网络>双向循环神经网络</h2><p>在有些任务中，一个时刻的输出不但和过去时刻的信息有关，也<strong>和后续时刻的信息有关</strong>。比如给定一个句子，其中一个词的词性由它的上下文决定，即包含左右两边的信息。因此，在这些任务中，我们可以增加一个按照时间的逆序来传递信息的网络层，来增强网络的能力。</p><div align=center><img src=/Kimages/3/image-20200716150946254.png style=zoom:30%></div><p>计算公式如下：</p>$$
+\begin{aligned}
+\boldsymbol{h}_{t}^{(1)} &=f(U^{(1)} \boldsymbol{h}_{t-1}^{(1)}+W^{(1)} \boldsymbol{x}_{t}+\boldsymbol{b}^{(1)}) \\
+\boldsymbol{h}_{t}^{(2)} &=f(U^{(2)} \boldsymbol{h}_{t+1}^{(2)}+W^{(2)} \boldsymbol{x}_{t}+\boldsymbol{b}^{(2)}) \\
+\boldsymbol{h}_{t} &=\boldsymbol{h}_{t}^{(1)} \oplus \boldsymbol{h}_{t}^{(2)}
+\end{aligned}
+$$<p>其中$\oplus$为拼接操作。</p><h1 id=扩展到图结构>扩展到图结构</h1><p>如果将循环神经网络按时间展开，每个时刻的隐状态$\boldsymbol h_t$看做一个节点，那么这些节点构成一个链式结构，每个节点<em>t</em>都收到其<strong>父节点</strong>的<strong>消息(message)</strong>，更新自己的状态，并传递给其<strong>子节点</strong>。而链式结构是一种特殊的图结构，我们可以比较容易地将这种<strong>消息传递(message passing)</strong> 的思想扩展到<strong>任意的图结构</strong>上。</p><h2 id=递归神经网络>递归神经网络</h2><p><strong>递归神经网络(recursive neural network, RecNN)</strong> 是<strong>循环神经网络在有向无循环图上的扩展</strong>。其一般结构为<strong>树状</strong>的层次结构，如下图所示：</p><div align=center><img src=/Kimages/3/image-20200716152620411.png style=zoom:30%></div><p>当递归神经网络的结构退化为线性序列结构时，递归神经网络就等价于简单循环网络，如右图所示。</p><p>递归神经网络主要用来建模自然语言句子的语义。给定一个句子的<strong>语法结构(一般为树状结构)</strong>，可以使用递归神经网络来按照句法的组合关系来合成一个句子的语义。句子中每个短语成分又可以分成一些子成分，即每个短语的语义都可以由它的子成分语义组合而来，并进而合成整句的语义。</p><h2 id=图网络>图网络</h2><p>在实际应用中，很多数据是图结构的，比如知识图谱、社交网络、分子网络等。而前馈网络和反馈网络很难处理图结构的数据。<strong>图网络(graph network, GN)</strong> 是将消息传递的思想扩展到图结构数据上的神经网络。</p><p>对于一个任意的图结构$G(\mathcal V,\mathcal E)$，其中$\mathcal V$表示<strong>节点集合</strong>，$\mathcal E$表示<strong>边集合</strong>。每条边表示两个节点之间的依赖关系。节点之间的连接可以是有向的，也可以是无向的。图中每个节点$v$都用一组神经元来表示其状态$\boldsymbol h^{(v)}$，初始状态可以为节点的$v$输入特征$\boldsymbol x^{(v)}$。每个节点可以收到来自<strong>相邻节点</strong>的消息，并更新自己的状态。</p>$$
+\begin{aligned}
+\boldsymbol{m}_{t}^{(v)}&=\sum_{u \in N(v)} f(\boldsymbol{h}_{t-1}^{(v)}, \boldsymbol{h}_{t-1}^{(u)}, \boldsymbol{e}^{(u, v)})\\
+\boldsymbol{h}_{t}^{(v)}&=g(\boldsymbol{h}_{t-1}^{(v)}, \boldsymbol{m}_{t}^{(v)})
+\end{aligned}
+$$<p>其中$N(v)$表示节点$v$的<strong>邻居</strong>，$\boldsymbol m_t^{(v)}$表示在第$t$时刻节点$v$收到的信息，$\boldsymbol e^{(u,v)}$为 边$e(u,v)$上的特征。</p><h1 id=tensorflow实现循环神经网络进行情感分析>Tensorflow实现循环神经网络进行情感分析</h1><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#ff79c6>import</span> numpy <span style=color:#ff79c6>as</span> np
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> csv
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> tensorflow <span style=color:#ff79c6>as</span> tf
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> tensorflow.keras.layers <span style=color:#ff79c6>import</span> SimpleRNN, GRU, LSTM, Dense, Embedding
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> tensorflow.keras.models <span style=color:#ff79c6>import</span> Sequential
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> tensorflow.keras.preprocessing.sequence <span style=color:#ff79c6>import</span> pad_sequences
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> tensorflow.keras.preprocessing.text <span style=color:#ff79c6>import</span> Tokenizer
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> sklearn.model_selection <span style=color:#ff79c6>import</span> train_test_split
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> tensorflow.keras.models <span style=color:#ff79c6>import</span> load_model
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(tf<span style=color:#ff79c6>.</span>__version__)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>def</span> <span style=color:#50fa7b>read_data</span>():
+</span></span><span style=display:flex><span>    FILE_NAME <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#39;sentiment_analysis.csv&#39;</span>
+</span></span><span style=display:flex><span>    sentence <span style=color:#ff79c6>=</span> []
+</span></span><span style=display:flex><span>    sentiment <span style=color:#ff79c6>=</span> []
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>with</span> <span style=color:#8be9fd;font-style:italic>open</span>(FILE_NAME, <span style=color:#f1fa8c>&#39;r&#39;</span>, encoding<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#39;UTF-8&#39;</span>) <span style=color:#ff79c6>as</span> csvfile:
+</span></span><span style=display:flex><span>        csv_reader <span style=color:#ff79c6>=</span> csv<span style=color:#ff79c6>.</span>reader(csvfile)  <span style=color:#6272a4># 使用csv.reader来读取csv文件</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>for</span> row <span style=color:#ff79c6>in</span> csv_reader:
+</span></span><span style=display:flex><span>            sentence<span style=color:#ff79c6>.</span>append(row)
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#39;the first sentence is : &#39;</span>, sentence[<span style=color:#bd93f9>0</span>])
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>for</span> i <span style=color:#ff79c6>in</span> <span style=color:#8be9fd;font-style:italic>range</span>(<span style=color:#8be9fd;font-style:italic>len</span>(sentence)):
+</span></span><span style=display:flex><span>        s <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#39;&#39;</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>for</span> item <span style=color:#ff79c6>in</span> sentence[i]:
+</span></span><span style=display:flex><span>            s <span style=color:#ff79c6>+=</span> item
+</span></span><span style=display:flex><span>        sentence[i] <span style=color:#ff79c6>=</span> s<span style=color:#ff79c6>.</span>split(<span style=color:#f1fa8c>&#39;</span><span style=color:#f1fa8c>\t</span><span style=color:#f1fa8c>&#39;</span>)[<span style=color:#bd93f9>1</span>]
+</span></span><span style=display:flex><span>        sentiment<span style=color:#ff79c6>.</span>append(s<span style=color:#ff79c6>.</span>split(<span style=color:#f1fa8c>&#39;</span><span style=color:#f1fa8c>\t</span><span style=color:#f1fa8c>&#39;</span>)[<span style=color:#bd93f9>0</span>])
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#39;there are &#39;</span>, <span style=color:#8be9fd;font-style:italic>len</span>(sentence), <span style=color:#f1fa8c>&#39; sentences in total&#39;</span>)  <span style=color:#6272a4># 字符串列表</span>
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#39;there are &#39;</span>, <span style=color:#8be9fd;font-style:italic>len</span>(sentiment), <span style=color:#f1fa8c>&#39;sentimental labels in total (0/1)&#39;</span>)  <span style=color:#6272a4># 0/1的列表</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>return</span> sentence, sentiment
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 模型配置</span>
+</span></span><span style=display:flex><span>VOCAB_SIZE <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>5000</span>  <span style=color:#6272a4># 选取前5000个最频繁出现的单词</span>
+</span></span><span style=display:flex><span>EMBED_SIZE <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>200</span>  <span style=color:#6272a4># 词嵌入大小</span>
+</span></span><span style=display:flex><span>NUM_HIDDEN <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>128</span>  <span style=color:#6272a4># RNN中隐含层神经元个数</span>
+</span></span><span style=display:flex><span>BATCH_SIZE <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>64</span>
+</span></span><span style=display:flex><span>NUM_EPOCH <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>3</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 需要将数据导入当前目录</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>def</span> <span style=color:#50fa7b>process_data</span>(sentence, sentiment):
+</span></span><span style=display:flex><span>    <span style=color:#6272a4># word segmentation, padding and obtaining vocabulary</span>
+</span></span><span style=display:flex><span>    tokenizer <span style=color:#ff79c6>=</span> Tokenizer(VOCAB_SIZE, oov_token<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#39;&lt;UNK&gt;&#39;</span>)  <span style=color:#6272a4># 1. define tokenizer</span>
+</span></span><span style=display:flex><span>    tokenizer<span style=color:#ff79c6>.</span>fit_on_texts(sentence)  <span style=color:#6272a4># 2. fit on texts</span>
+</span></span><span style=display:flex><span>    sequence <span style=color:#ff79c6>=</span> tokenizer<span style=color:#ff79c6>.</span>texts_to_sequences(sentence)  <span style=color:#6272a4># 3. texts to sequences</span>
+</span></span><span style=display:flex><span>    X <span style=color:#ff79c6>=</span> pad_sequences(sequence, padding<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#39;post&#39;</span>)  <span style=color:#6272a4># 4. pad sequences</span>
+</span></span><span style=display:flex><span>    X <span style=color:#ff79c6>=</span> X[:, :<span style=color:#bd93f9>120</span>]  <span style=color:#6272a4># length cut</span>
+</span></span><span style=display:flex><span>    Y <span style=color:#ff79c6>=</span> np<span style=color:#ff79c6>.</span>array(sentiment)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4># for Tokenizer, although when the vocabulary size has been set, for example, 5000, </span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4># the vocabulary will contain all words in texts. However, when transfering texts to </span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4># sequences, only words with top 5000 frequency will be converted to corresponding </span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4># index, other words will be converted to &lt;UNK&gt;</span>
+</span></span><span style=display:flex><span>    vocab <span style=color:#ff79c6>=</span> tokenizer<span style=color:#ff79c6>.</span>word_index
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>print</span>(vocab)
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#8be9fd;font-style:italic>len</span>(vocab))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    vocab_size <span style=color:#ff79c6>=</span> VOCAB_SIZE <span style=color:#ff79c6>+</span> <span style=color:#bd93f9>1</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#39;X: &#39;</span>, X)
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#34;Y: &#34;</span>, Y)
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#39;X size: &#39;</span>, X<span style=color:#ff79c6>.</span>shape)
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#39;Y size: &#39;</span>, Y<span style=color:#ff79c6>.</span>shape)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    Xtrain, Xtest, Ytrain, Ytest <span style=color:#ff79c6>=</span> train_test_split(X, Y)
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#39;vocabulary size: &#39;</span>, vocab_size)  <span style=color:#6272a4># 5001，&#39;0&#39;用于填充</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>return</span> Xtrain, Xtest, Ytrain, Ytest, vocab_size
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>def</span> <span style=color:#50fa7b>run</span>(MODE<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#39;TRAIN&#39;</span>):
+</span></span><span style=display:flex><span>    sentence, sentiment <span style=color:#ff79c6>=</span> read_data()  <span style=color:#6272a4># 加载数据</span>
+</span></span><span style=display:flex><span>    Xtrain, Xtest, Ytrain, Ytest, vocab_size <span style=color:#ff79c6>=</span> process_data(sentence, sentiment)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>if</span> MODE <span style=color:#ff79c6>==</span> <span style=color:#f1fa8c>&#39;TRAIN&#39;</span>:
+</span></span><span style=display:flex><span>        model_rnn <span style=color:#ff79c6>=</span> Sequential()
+</span></span><span style=display:flex><span>        model_rnn<span style=color:#ff79c6>.</span>add(Embedding(input_dim<span style=color:#ff79c6>=</span>vocab_size, output_dim<span style=color:#ff79c6>=</span>EMBED_SIZE, input_length<span style=color:#ff79c6>=</span><span style=color:#bd93f9>120</span>, mask_zero<span style=color:#ff79c6>=</span><span style=color:#ff79c6>True</span>))
+</span></span><span style=display:flex><span>        model_rnn<span style=color:#ff79c6>.</span>add(SimpleRNN(NUM_HIDDEN, activation<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#39;relu&#39;</span>))  <span style=color:#6272a4># LSTM/GRU</span>
+</span></span><span style=display:flex><span>        model_rnn<span style=color:#ff79c6>.</span>add(Dense(NUM_HIDDEN, activation<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#39;relu&#39;</span>))
+</span></span><span style=display:flex><span>        model_rnn<span style=color:#ff79c6>.</span>add(Dense(<span style=color:#bd93f9>2</span>, activation<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#39;softmax&#39;</span>))
+</span></span><span style=display:flex><span>        model_rnn<span style=color:#ff79c6>.</span>summary()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        model_rnn<span style=color:#ff79c6>.</span>compile(optimizer<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#39;adam&#39;</span>, loss<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#39;sparse_categorical_crossentropy&#39;</span>, metrics<span style=color:#ff79c6>=</span>[<span style=color:#f1fa8c>&#39;accuracy&#39;</span>])
+</span></span><span style=display:flex><span>        history <span style=color:#ff79c6>=</span> model_rnn<span style=color:#ff79c6>.</span>fit(Xtrain, Ytrain, batch_size<span style=color:#ff79c6>=</span>BATCH_SIZE, epochs<span style=color:#ff79c6>=</span>NUM_EPOCH, validation_data<span style=color:#ff79c6>=</span>(Xtest, Ytest))
+</span></span><span style=display:flex><span>        model_rnn<span style=color:#ff79c6>.</span>save(<span style=color:#f1fa8c>&#39;rnn_classifier.h5&#39;</span>)  <span style=color:#6272a4># 保存模型为h5格式</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>elif</span> MODE <span style=color:#ff79c6>==</span> <span style=color:#f1fa8c>&#39;TEST&#39;</span>:
+</span></span><span style=display:flex><span>        model_rnn <span style=color:#ff79c6>=</span> load_model(<span style=color:#f1fa8c>&#39;rnn_classifier.h5&#39;</span>)
+</span></span><span style=display:flex><span>        result <span style=color:#ff79c6>=</span> model_rnn<span style=color:#ff79c6>.</span>evaluate(Xtest, Ytest)
+</span></span><span style=display:flex><span>        <span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#39;RNN sentiment analysis accuracy: &#39;</span>, result[<span style=color:#bd93f9>1</span>])
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>run(<span style=color:#f1fa8c>&#39;TRAIN&#39;</span>)
+</span></span><span style=display:flex><span>run(<span style=color:#f1fa8c>&#39;TEST&#39;</span>)
+</span></span></code></pre></div><h1 id=tensorflow实现循环神经网络进行文本生成>Tensorflow实现循环神经网络进行文本生成</h1><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#ff79c6>import</span> tensorflow <span style=color:#ff79c6>as</span> tf
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> numpy <span style=color:#ff79c6>as</span> np
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> os
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> time
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 读取数据，需要将数据导入当前目录</span>
+</span></span><span style=display:flex><span>text <span style=color:#ff79c6>=</span> <span style=color:#8be9fd;font-style:italic>open</span>(<span style=color:#f1fa8c>&#39;shakespeare.txt&#39;</span>, <span style=color:#f1fa8c>&#39;rb&#39;</span>)<span style=color:#ff79c6>.</span>read()<span style=color:#ff79c6>.</span>decode(encoding<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#39;utf-8&#39;</span>)
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#39;Length of text: </span><span style=color:#f1fa8c>{}</span><span style=color:#f1fa8c> characters&#39;</span><span style=color:#ff79c6>.</span>format(<span style=color:#8be9fd;font-style:italic>len</span>(text)))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 查看文章中的前250个字符</span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(text[:<span style=color:#bd93f9>250</span>])
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 查看文件中不同字符的种类</span>
+</span></span><span style=display:flex><span>vocab <span style=color:#ff79c6>=</span> <span style=color:#8be9fd;font-style:italic>sorted</span>(<span style=color:#8be9fd;font-style:italic>set</span>(text))
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#39;</span><span style=color:#f1fa8c>{}</span><span style=color:#f1fa8c> unique characters&#39;</span><span style=color:#ff79c6>.</span>format(<span style=color:#8be9fd;font-style:italic>len</span>(vocab)))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 将文本向量化</span>
+</span></span><span style=display:flex><span>char2idx <span style=color:#ff79c6>=</span> {u: i <span style=color:#ff79c6>for</span> i, u <span style=color:#ff79c6>in</span> <span style=color:#8be9fd;font-style:italic>enumerate</span>(vocab)}  <span style=color:#6272a4># 词典</span>
+</span></span><span style=display:flex><span>idx2char <span style=color:#ff79c6>=</span> np<span style=color:#ff79c6>.</span>array(vocab)  <span style=color:#6272a4># 反向词典</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>text_as_int <span style=color:#ff79c6>=</span> np<span style=color:#ff79c6>.</span>array([char2idx[c] <span style=color:#ff79c6>for</span> c <span style=color:#ff79c6>in</span> text])
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(text_as_int<span style=color:#ff79c6>.</span>shape)  <span style=color:#6272a4># (1115394,)</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 查看文章中前13个字符是如何被映射到13个整数的</span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#39;</span><span style=color:#f1fa8c>{}</span><span style=color:#f1fa8c> ---- characters mapped to int ---- &gt; </span><span style=color:#f1fa8c>{}</span><span style=color:#f1fa8c>&#39;</span><span style=color:#ff79c6>.</span>format(<span style=color:#8be9fd;font-style:italic>repr</span>(text[:<span style=color:#bd93f9>13</span>]), text_as_int[:<span style=color:#bd93f9>13</span>]))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 一条字符序列的最大长度</span>
+</span></span><span style=display:flex><span>seq_length <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>100</span>
+</span></span><span style=display:flex><span>examples_per_epoch <span style=color:#ff79c6>=</span> <span style=color:#8be9fd;font-style:italic>len</span>(text) <span style=color:#ff79c6>//</span> (seq_length <span style=color:#ff79c6>+</span> <span style=color:#bd93f9>1</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 将数据转为tf.data.Dataset格式</span>
+</span></span><span style=display:flex><span>char_dataset <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>data<span style=color:#ff79c6>.</span>Dataset<span style=color:#ff79c6>.</span>from_tensor_slices(text_as_int)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>sequences <span style=color:#ff79c6>=</span> char_dataset<span style=color:#ff79c6>.</span>batch(seq_length <span style=color:#ff79c6>+</span> <span style=color:#bd93f9>1</span>, drop_remainder<span style=color:#ff79c6>=</span><span style=color:#ff79c6>True</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>for</span> item <span style=color:#ff79c6>in</span> sequences<span style=color:#ff79c6>.</span>take(<span style=color:#bd93f9>5</span>):
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#8be9fd;font-style:italic>repr</span>(<span style=color:#f1fa8c>&#39;&#39;</span><span style=color:#ff79c6>.</span>join(idx2char[item<span style=color:#ff79c6>.</span>numpy()])))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 利用右移的方式构造target</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>def</span> <span style=color:#50fa7b>split_input_target</span>(chunk):
+</span></span><span style=display:flex><span>    input_text <span style=color:#ff79c6>=</span> chunk[:<span style=color:#ff79c6>-</span><span style=color:#bd93f9>1</span>]
+</span></span><span style=display:flex><span>    target_text <span style=color:#ff79c6>=</span> chunk[<span style=color:#bd93f9>1</span>:]
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>return</span> input_text, target_text
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>dataset <span style=color:#ff79c6>=</span> sequences<span style=color:#ff79c6>.</span>map(split_input_target)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(dataset)
+</span></span><span style=display:flex><span><span style=color:#ff79c6>for</span> input_example, target_example <span style=color:#ff79c6>in</span> dataset<span style=color:#ff79c6>.</span>take(<span style=color:#bd93f9>1</span>):
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#39;Input data: &#39;</span>, <span style=color:#8be9fd;font-style:italic>repr</span>(<span style=color:#f1fa8c>&#39;&#39;</span><span style=color:#ff79c6>.</span>join(idx2char[input_example<span style=color:#ff79c6>.</span>numpy()])))
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#39;Target data:&#39;</span>, <span style=color:#8be9fd;font-style:italic>repr</span>(<span style=color:#f1fa8c>&#39;&#39;</span><span style=color:#ff79c6>.</span>join(idx2char[target_example<span style=color:#ff79c6>.</span>numpy()])))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># Batch size</span>
+</span></span><span style=display:flex><span>BATCH_SIZE <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>64</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># Buffer size to shuffle the dataset</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># (TF data is designed to work with possibly infinite sequences,</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># so it doesn&#39;t attempt to shuffle the entire sequence in memory. Instead,</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># it maintains a buffer in which it shuffles elements).</span>
+</span></span><span style=display:flex><span>BUFFER_SIZE <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>10000</span>
+</span></span><span style=display:flex><span>dataset <span style=color:#ff79c6>=</span> dataset<span style=color:#ff79c6>.</span>shuffle(BUFFER_SIZE)<span style=color:#ff79c6>.</span>batch(BATCH_SIZE, drop_remainder<span style=color:#ff79c6>=</span><span style=color:#ff79c6>True</span>)
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(dataset)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 词典大小</span>
+</span></span><span style=display:flex><span>vocab_size <span style=color:#ff79c6>=</span> <span style=color:#8be9fd;font-style:italic>len</span>(vocab)
+</span></span><span style=display:flex><span><span style=color:#6272a4># 词嵌入大小</span>
+</span></span><span style=display:flex><span>embedding_dim <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>300</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># RNN隐含层单元数</span>
+</span></span><span style=display:flex><span>rnn_units <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>512</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 构造模型</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>def</span> <span style=color:#50fa7b>build_model</span>(vocab_size, embedding_dim, rnn_units, batch_size):
+</span></span><span style=display:flex><span>    model <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>keras<span style=color:#ff79c6>.</span>Sequential([
+</span></span><span style=display:flex><span>        tf<span style=color:#ff79c6>.</span>keras<span style=color:#ff79c6>.</span>layers<span style=color:#ff79c6>.</span>Embedding(vocab_size, embedding_dim, batch_input_shape<span style=color:#ff79c6>=</span>[batch_size, <span style=color:#ff79c6>None</span>]),
+</span></span><span style=display:flex><span>        tf<span style=color:#ff79c6>.</span>keras<span style=color:#ff79c6>.</span>layers<span style=color:#ff79c6>.</span>GRU(rnn_units, return_sequences<span style=color:#ff79c6>=</span><span style=color:#ff79c6>True</span>, stateful<span style=color:#ff79c6>=</span><span style=color:#ff79c6>True</span>, recurrent_initializer<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#39;glorot_uniform&#39;</span>),
+</span></span><span style=display:flex><span>        tf<span style=color:#ff79c6>.</span>keras<span style=color:#ff79c6>.</span>layers<span style=color:#ff79c6>.</span>Dense(vocab_size)
+</span></span><span style=display:flex><span>    ])
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>return</span> model
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>model <span style=color:#ff79c6>=</span> build_model(vocab_size<span style=color:#ff79c6>=</span><span style=color:#8be9fd;font-style:italic>len</span>(vocab), embedding_dim<span style=color:#ff79c6>=</span>embedding_dim, rnn_units<span style=color:#ff79c6>=</span>rnn_units, batch_size<span style=color:#ff79c6>=</span>BATCH_SIZE)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 尝试模型的输出</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>for</span> input_example_batch, target_example_batch <span style=color:#ff79c6>in</span> dataset<span style=color:#ff79c6>.</span>take(<span style=color:#bd93f9>1</span>):
+</span></span><span style=display:flex><span>    example_batch_predictions <span style=color:#ff79c6>=</span> model(input_example_batch)
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>print</span>(example_batch_predictions<span style=color:#ff79c6>.</span>shape, <span style=color:#f1fa8c>&#34;# (batch_size, sequence_length, vocab_size)&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>model<span style=color:#ff79c6>.</span>summary()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>def</span> <span style=color:#50fa7b>loss</span>(labels, logits):
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>return</span> tf<span style=color:#ff79c6>.</span>keras<span style=color:#ff79c6>.</span>losses<span style=color:#ff79c6>.</span>sparse_categorical_crossentropy(labels, logits, from_logits<span style=color:#ff79c6>=</span><span style=color:#ff79c6>True</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>example_batch_loss <span style=color:#ff79c6>=</span> loss(target_example_batch, example_batch_predictions)
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#34;Prediction shape: &#34;</span>, example_batch_predictions<span style=color:#ff79c6>.</span>shape, <span style=color:#f1fa8c>&#34; # (batch_size, sequence_length, vocab_size)&#34;</span>)
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#34;scalar_loss:      &#34;</span>, example_batch_loss<span style=color:#ff79c6>.</span>numpy()<span style=color:#ff79c6>.</span>mean())
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 配置检查点</span>
+</span></span><span style=display:flex><span>checkpoint_dir <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#39;./training_checkpoints&#39;</span>
+</span></span><span style=display:flex><span>checkpoint_prefix <span style=color:#ff79c6>=</span> os<span style=color:#ff79c6>.</span>path<span style=color:#ff79c6>.</span>join(checkpoint_dir, <span style=color:#f1fa8c>&#34;ckpt_</span><span style=color:#f1fa8c>{epoch}</span><span style=color:#f1fa8c>&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>checkpoint_callback <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>keras<span style=color:#ff79c6>.</span>callbacks<span style=color:#ff79c6>.</span>ModelCheckpoint(filepath<span style=color:#ff79c6>=</span>checkpoint_prefix, save_weights_only<span style=color:#ff79c6>=</span><span style=color:#ff79c6>True</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>model<span style=color:#ff79c6>.</span>compile(optimizer<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#39;adam&#39;</span>, loss<span style=color:#ff79c6>=</span>loss)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>EPOCHS <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>10</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>model<span style=color:#ff79c6>.</span>fit(dataset, epochs<span style=color:#ff79c6>=</span>EPOCHS, callbacks<span style=color:#ff79c6>=</span>[checkpoint_callback])
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 从检查点中恢复模型，并设置batch_size为1</span>
+</span></span><span style=display:flex><span>model <span style=color:#ff79c6>=</span> build_model(vocab_size, embedding_dim, rnn_units, batch_size<span style=color:#ff79c6>=</span><span style=color:#bd93f9>1</span>)
+</span></span><span style=display:flex><span>model<span style=color:#ff79c6>.</span>load_weights(tf<span style=color:#ff79c6>.</span>train<span style=color:#ff79c6>.</span>latest_checkpoint(checkpoint_dir))
+</span></span><span style=display:flex><span>model<span style=color:#ff79c6>.</span>build(tf<span style=color:#ff79c6>.</span>TensorShape([<span style=color:#bd93f9>1</span>, <span style=color:#ff79c6>None</span>]))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>def</span> <span style=color:#50fa7b>generate_text</span>(model, start_string):
+</span></span><span style=display:flex><span>    <span style=color:#6272a4># Evaluation step (generating text using the learned model)</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4># Number of characters to generate</span>
+</span></span><span style=display:flex><span>    num_generate <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>1000</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4># Converting our start string to numbers (vectorizing)</span>
+</span></span><span style=display:flex><span>    input_eval <span style=color:#ff79c6>=</span> [char2idx[s] <span style=color:#ff79c6>for</span> s <span style=color:#ff79c6>in</span> start_string]
+</span></span><span style=display:flex><span>    input_eval <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>expand_dims(input_eval, <span style=color:#bd93f9>0</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4># Empty string to store our results</span>
+</span></span><span style=display:flex><span>    text_generated <span style=color:#ff79c6>=</span> []
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4># Low temperatures results in more predictable text.</span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4># Higher temperatures results in more surprising text.</span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4># Experiment to find the best setting.</span>
+</span></span><span style=display:flex><span>    temperature <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>1.0</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4># Here batch size == 1</span>
+</span></span><span style=display:flex><span>    model<span style=color:#ff79c6>.</span>reset_states()
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>for</span> i <span style=color:#ff79c6>in</span> <span style=color:#8be9fd;font-style:italic>range</span>(num_generate):
+</span></span><span style=display:flex><span>        predictions <span style=color:#ff79c6>=</span> model(input_eval)
+</span></span><span style=display:flex><span>        <span style=color:#6272a4># remove the batch dimension</span>
+</span></span><span style=display:flex><span>        predictions <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>squeeze(predictions, <span style=color:#bd93f9>0</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#6272a4># using a categorical distribution to predict the character returned by the model</span>
+</span></span><span style=display:flex><span>        predictions <span style=color:#ff79c6>=</span> predictions <span style=color:#ff79c6>/</span> temperature
+</span></span><span style=display:flex><span>        predicted_id <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>random<span style=color:#ff79c6>.</span>categorical(predictions, num_samples<span style=color:#ff79c6>=</span><span style=color:#bd93f9>1</span>)[<span style=color:#ff79c6>-</span><span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>0</span>]<span style=color:#ff79c6>.</span>numpy()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#6272a4># We pass the predicted character as the next input to the model</span>
+</span></span><span style=display:flex><span>        <span style=color:#6272a4># along with the previous hidden state</span>
+</span></span><span style=display:flex><span>        input_eval <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>expand_dims([predicted_id], <span style=color:#bd93f9>0</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        text_generated<span style=color:#ff79c6>.</span>append(idx2char[predicted_id])
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>return</span> start_string <span style=color:#ff79c6>+</span> <span style=color:#f1fa8c>&#39;&#39;</span><span style=color:#ff79c6>.</span>join(text_generated)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(generate_text(model, start_string<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>u</span><span style=color:#f1fa8c>&#34;ROMEO: &#34;</span>))
+</span></span></code></pre></div><h1 id=参考资料>参考资料</h1><ul><li>邱锡鹏. 神经网络与深度学习. 北京: 机械工业出版社, 2020.</li><li>Lipton Z C, Berkowitz J, Elkan C. A critical review of recurrent neural networks for sequence learning[J]. arXiv preprint arXiv:1506.00019, 2015.</li><li>循环神经网络维基百科：https://en.wikipedia.org/wiki/Recurrent_neural_network</li></ul><hr><ul class=pager><li class=previous><a href=/post/4-dl/dl3-%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/ data-toggle=tooltip data-placement=top title=深度学习：卷积神经网络>&larr;
+Previous Post</a></li><li class=next><a href=/post/4-dl/dl5-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9A%84%E4%BC%98%E5%8C%96/ data-toggle=tooltip data-placement=top title=深度学习：神经网络的优化>Next
+Post &rarr;</a></li></ul><script src=https://giscus.app/client.js data-repo=XiangdiWu/XiangdiWu.github.io data-repo-id=R_kgDOP0pDUQ data-category=Announcements data-category-id=DIC_kwDOP0pDUc4CvwjG data-mapping=pathname data-reactions-enabled=1 data-emit-metadata=0 data-theme=light data-lang=zh-CN crossorigin=anonymous async></script></div><div class="col-lg-2 col-lg-offset-0
+visible-lg-block
+sidebar-container
+catalog-container"><div class=side-catalog><hr class="hidden-sm hidden-xs"><h5><a class=catalog-toggle href=#>CATALOG</a></h5><ul class=catalog-body></ul></div></div><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+sidebar-container"><section><hr class="hidden-sm hidden-xs"><h5><a href=/tags/>FEATURED TAGS</a></h5><div class=tags><a href=/tags/deep-learning title="deep learning">deep learning
+</a><a href=/tags/machine-learning title="machine learning">machine learning
+</a><a href=/tags/math title=math>math
+</a><a href=/tags/model title=model>model
+</a><a href=/tags/nlp title=nlp>nlp
+</a><a href=/tags/quant title=quant>quant</a></div></section><section><hr><h5>FRIENDS</h5><ul class=list-inline><li><a target=_blank href=https://www.factorwar.com/data/factor-models/>GetAstockFactors</a></li><li><a target=_blank href=https://datawhalechina.github.io/whale-quant/#/>Whale-Quant</a></li></ul></section></div></div></div></article><script type=module>  
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; 
+    mermaid.initialize({ startOnLoad: true });  
+</script><script>Array.from(document.getElementsByClassName("language-mermaid")).forEach(e=>{e.parentElement.outerHTML=`<div class="mermaid">${e.innerHTML}</div>`})</script><style>.mermaid svg{display:block;margin:auto}</style><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center"><li><a href=mailto:bernicewu2000@outlook.com><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-envelope fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=/img/wechat_qrcode.jpg><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-weixin fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=https://github.com/xiangdiwu><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-github fa-stack-1x fa-inverse"></i></span></a></li><li><a href rel=alternate type=application/rss+xml title="Xiangdi Blog"><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-rss fa-stack-1x fa-inverse"></i></span></a></li></ul><p class="copyright text-muted">Copyright &copy; Xiangdi Blog 2025</p></div></div></div></footer><script>function loadAsync(e,t){var s=document,o="script",n=s.createElement(o),i=s.getElementsByTagName(o)[0];n.src=e,t&&n.addEventListener("load",function(e){t(null,e)},!1),i.parentNode.insertBefore(n,i)}</script><script>$("#tag_cloud").length!==0&&loadAsync("/js/jquery.tagcloud.js",function(){$.fn.tagcloud.defaults={color:{start:"#bbbbee",end:"#0085a1"}},$("#tag_cloud a").tagcloud()})</script><script>loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js",function(){var e=document.querySelector("nav");e&&FastClick.attach(e)})</script><script type=text/javascript>function generateCatalog(e){_containerSelector="div.post-container";var t,n,s,o,i,a=$(_containerSelector),r=a.find("h1,h2,h3,h4,h5,h6");return $(e).html(""),r.each(function(){n=$(this).prop("tagName").toLowerCase(),o="#"+$(this).prop("id"),t=$(this).text(),i=$('<a href="'+o+'" rel="nofollow" title="'+t+'">'+t+"</a>"),s=$('<li class="'+n+'_nav"></li>').append(i),$(e).append(s)}),!0}generateCatalog(".catalog-body"),$(".catalog-toggle").click(function(e){e.preventDefault(),$(".side-catalog").toggleClass("fold")}),loadAsync("/js/jquery.nav.js",function(){$(".catalog-body").onePageNav({currentClass:"active",changeHash:!1,easing:"swing",filter:"",scrollSpeed:700,scrollOffset:0,scrollThreshold:.2,begin:null,end:null,scrollChange:null,padding:80})})</script><style>.markmap>svg{width:100%;height:300px}</style><script>window.markmap={autoLoader:{manual:!0,onReady(){const{autoLoader:e,builtInPlugins:t}=window.markmap;e.transformPlugins=t.filter(e=>e.name!=="prism")}}}</script><script src=https://cdn.jsdelivr.net/npm/markmap-autoloader></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css integrity="sha512-r2+FkHzf1u0+SQbZOoIz2RxWOIWfdEzRuYybGjzKq18jG9zaSfEy9s3+jMqG/zPtRor/q4qaUCYQpmSjTw8M+g==" crossorigin=anonymous><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js integrity="sha512-INps9zQ2GUEMCQD7xiZQbGUVnqnzEvlynVy6eqcTcHN4+aQiLo9/uaQqckDpdJ8Zm3M0QBs+Pktg4pz0kEklUg==" crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/mhchem.min.js integrity="sha512-mxjNw/u1lIsFC09k/unscDRY3ofIYPVFbWkP8slrePcS36ht4d/OZ8rRu5yddB2uiqajhTcLD8+jupOWuYPebg==" crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js integrity="sha512-YJVxTjqttjsU3cSvaTRqsSl0wbRgZUNF+NGGCgto/MUbIvaLdXQzGTCQu4CvyJZbZctgflVB0PXw9LLmTWm5/w==" crossorigin=anonymous onload='renderMathInElement(document.body,{delimiters:[{display:!0,left:"$$",right:"$$"},{display:!1,left:"$",right:"$"},{display:!1,left:"\\(",right:"\\)"},{display:!0,left:"\\[",right:"\\]"}],errorcolor:"#CD5C5C",throwonerror:!1})'></script></body></html>

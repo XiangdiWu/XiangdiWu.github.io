@@ -1,0 +1,329 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta property="og:site_name" content="Xiangdi Blog"><meta property="og:type" content="article"><meta property="og:image" con ’tent=https://images.pexels.com/photos/220301/pexels-photo-220301.jpeg><meta property="twitter:image" content="https://images.pexels.com/photos/220301/pexels-photo-220301.jpeg"><meta name=title content="机器学习：逻辑回归与最大熵模型"><meta property="og:title" content="机器学习：逻辑回归与最大熵模型"><meta property="twitter:title" content="机器学习：逻辑回归与最大熵模型"><meta name=description content="本文主要介绍逻辑回归与最大熵模型，包括逻辑回归模型、softmax回归模型、最大熵模型。"><meta property="og:description" content="本文主要介绍逻辑回归与最大熵模型，包括逻辑回归模型、softmax回归模型、最大熵模型。"><meta property="twitter:description" content="本文主要介绍逻辑回归与最大熵模型，包括逻辑回归模型、softmax回归模型、最大熵模型。"><meta property="twitter:card" content="summary"><meta property="og:url" content="https://xiangdiwu.github.io/post/3-ml/ml6-%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92%E4%B8%8E%E6%9C%80%E5%A4%A7%E7%86%B5%E6%A8%A1%E5%9E%8B/"><meta name=keyword content="吴湘菂, WuXiangdi, XiangdiWu, 吴湘菂的网络日志, 吴湘菂的博客, Xiangdi Blog, 博客, 个人网站, Quant, 量化投资, 金融, 投资, 理财, 股票, 期货, 基金, 期权, 外汇, 比特币"><link rel="shortcut icon" href=/img/favicon.ico><title>机器学习：逻辑回归与最大熵模型-吴湘菂的博客 | Xiangdi Blog</title><link rel=canonical href=/post/3-ml/ml6-%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92%E4%B8%8E%E6%9C%80%E5%A4%A7%E7%86%B5%E6%A8%A1%E5%9E%8B/><link rel=stylesheet href=/css/bootstrap.min.css><link rel=stylesheet href=/css/hugo-theme-cleanwhite.min.css><link rel=stylesheet href=/css/zanshang.min.css><link rel=stylesheet href=/css/font-awesome.all.min.css><script src=/js/jquery.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/hux-blog.min.js></script><script src=/js/lazysizes.min.js></script></head><script async src="https://www.googletagmanager.com/gtag/js?id=G-R757MDJ6Y6"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-R757MDJ6Y6")}</script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css integrity=sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV crossorigin=anonymous><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js integrity=sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8 crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js integrity=sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05 crossorigin=anonymous></script><script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"\\[",right:"\\]",display:!0},{left:"$$",right:"$$",display:!0},{left:"\\(",right:"\\)",display:!1}],throwOnError:!1})})</script><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css><script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type=text/javascript></script><nav class="navbar navbar-default navbar-custom navbar-fixed-top"><div class=container-fluid><div class="navbar-header page-scroll"><button type=button class=navbar-toggle>
+<span class=sr-only>Toggle navigation</span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+</button>
+<a class=navbar-brand href=/>Xiangdi Blog</a></div><div id=huxblog_navbar><div class=navbar-collapse><ul class="nav navbar-nav navbar-right"><li><a href=/>All Posts</a></li><li><a href=/categories/quant/>quant</a></li><li><a href=/categories/reading/>reading</a></li><li><a href=/categories/tech/>tech</a></li><li><a href=/archive//>ARCHIVE</a></li><li><a href=/vibe//>Vibe</a></li><li><a href=/travel//>TRAVEL</a></li><li><a href=/about//>ABOUT</a></li><li><a href=/search><i class="fa fa-search"></i></a></li></ul></div></div></div></nav><script>var $body=document.body,$toggle=document.querySelector(".navbar-toggle"),$navbar=document.querySelector("#huxblog_navbar"),$collapse=document.querySelector(".navbar-collapse");$toggle.addEventListener("click",handleMagic);function handleMagic(){$navbar.className.indexOf("in")>0?($navbar.className=" ",setTimeout(function(){$navbar.className.indexOf("in")<0&&($collapse.style.height="0px")},400)):($collapse.style.height="auto",$navbar.className+=" in")}</script><style type=text/css>header.intro-header{background-image:url(https://images.pexels.com/photos/220301/pexels-photo-220301.jpeg)}</style><header class=intro-header><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class=post-heading><div class=tags><a class=tag href=/tags/quant title=Quant>Quant
+</a><a class=tag href=/tags/model title=Model>Model
+</a><a class=tag href=/tags/machine-learning title="Machine Learning">Machine Learning</a></div><h1>机器学习：逻辑回归与最大熵模型</h1><h2 class=subheading>Logistic Regression and Maximum Entropy Model</h2><span class=meta>Posted by
+XiangdiWu
+on
+Friday, October 2, 2020</span></div></div></div></div></header><article><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+post-container"><h1 id=逻辑回归模型>逻辑回归模型</h1><p><strong>逻辑回归(logistic regression, LR)</strong> 模型是一种处理<strong>二分类</strong>问题的线性模型。逻辑回归模型由logistic分布(logistic distribution)导出。设$X$是连续随机变量，$X$服从logistic分布是指$X$具有下列<strong>分布函数</strong>和<strong>密度函数</strong>：</p>$$
+\begin{aligned}
+F(x)&=P(X\leqslant x)=\frac{1}{1+e^{-(x-\mu)/\gamma}}\\
+f(x)&=F'(x)=\frac{e^{-(x-\mu)/\gamma}}{\gamma(1+e^{-(x-\mu)/\gamma})^2}
+\end{aligned}
+$$<p>式中，$\mu$为未知参数，$\gamma>0$为形状参数。其分布函数$F(x)$以点$(\mu,\frac 1 2)$为中心对称。</p><p>二分类的逻辑回归模型是如下的条件概率分布：</p>$$
+\begin{aligned}
+P(Y=1|x)&=\frac{\exp(w\cdot x+b)}{1+\exp(w\cdot x+b)}=\frac{1}{1+e^{-(w \cdot x+b)}}\\
+P(Y=0|x)&=\frac{1}{1+\exp(w\cdot x+b)}=1-P(Y=1|x)
+\end{aligned}
+$$<p>二分类逻辑回归模型比较两个条件概率值$P(Y=1|x)$和$P(Y=0|x)$的大小，将实例$x$分到概率值较大的那一类。将$w$和$x$变为增广形式，可得：</p>$$
+\begin{aligned}
+P(Y=1|x)&=\frac{\exp(w\cdot x)}{1+\exp(w\cdot x)}=\frac{1}{1+e^{-(w \cdot x)}}\\
+P(Y=0|x)&=\frac{1}{1+\exp(w\cdot x)}=1-P(Y=1|x)
+\end{aligned}
+$$<p>将上式变形后得到：</p>$$
+\begin{aligned}
+w\cdot x&=\log \frac{p(Y=1|x)}{1-p(Y=1|x)}\\
+&=\log \frac{p(Y=1|x)}{p(Y=0|x)}
+\end{aligned}
+$$<p>其中，$\log$中的形式称为<strong>几率(odds)</strong>，指一个事件发生与不发生的比值。</p><p>逻辑回归采用<strong>交叉熵(cross entropy)</strong> 作为损失函数，而<strong>交叉熵损失函数可以直接利用极大似然估计推到得到</strong>。</p><p>对于给定的训练集$T=\{(x_1,y_1),(x_2,y_2),\cdots,(x_N,y_N)\}$，其中$x_i \in \mathbb R^n,y_i \in \{0,1\}$，令$P(Y=1|x)=\pi(x)$，$P(Y=0|x)=1-\pi(x)$，由训练集可以得到似然函数：</p>$$
+L(w)=\prod_{i=1}^{N}[\pi(x_i)]^{y_i}[1-\pi(x_i)]^{1-y_i}
+$$<p>取对数，得到对数似然函数：</p>$$
+LL(w)=\sum_{i=1}^{N}[y_i\log\pi(x_i)+(1-y_i)\log(1-\pi(x_i))]
+$$<p>将上式取负号并除以$N$，便在训练集上的二分类交叉熵风险函数$\mathcal R(w)$。最小化风险函数和最大化似然函数是等价的，在逻辑回归中通常通过梯度下降法实现：</p>$$
+\begin{aligned}
+\frac{\partial \mathcal{R}({w})}{\partial {w}} &=-\frac{1}{N} \sum_{i=1}^{N}\left(y_i \frac{\pi(x_i)(1-\pi(x_i))}{\pi(x_i)} {x}_i-(1-y_i) \frac{\pi(x_i)(1-\pi(x_i))}{1-\pi(x_i)} {x}_i\right) \\
+&=-\frac{1}{N} \sum_{i=1}^{N}(y_i(1-\pi(x_i)) {x}_i-(1-y_i) \pi(x_i) {x}_i) \\
+&=-\frac{1}{N} \sum_{i=1}^{N} {x}_i(y_i-\pi(x_i))
+\end{aligned}
+$$<p>从上式可知，逻辑回归的风险函数是关于参数$w$的连续可到的凸函数。因此除了梯度下降法之外，逻辑回归还可以用<strong>高阶的优化方法(比如牛顿法)</strong> 来进行优化。</p><h1 id=softmax回归模型>softmax回归模型</h1><p><strong>softmax回归(softmax regression)</strong>，也称多项逻辑回归，是<strong>逻辑回归在多分类问题上的推广</strong>。对于多类问题，类别标签$y \{\in 1,2,\cdots,C\}$可以有$C$个取值。给定一个样本$x$，softmax回归预测$x$术语类别$c$的条件概率为：</p>$$
+\begin{aligned}
+p(y=c | {x}) &=\operatorname{softmax}({w}_{c}^{\mathrm{T}} {x}) \\
+&=\frac{\exp ({w}_{c}^{\mathrm{T}} {x})}{\sum_{c^{\prime}=1}^{C} \exp ({w}_{c^{\prime}}^{\mathrm{T}} {x})}
+\end{aligned}
+$$<p>其中，$w_c$是第$c$类的权重向量。softmax回归的决策函数可以表示为：</p>$$
+\hat{y} =\underset{c=1}{\arg\max}\ p(y=c | {x}) =\underset{c=1}{\arg\max}\ {w}_{c}^{\mathrm{T}} {x}
+$$<p>softmax可以用<strong>向量形式</strong>写为：</p>$$
+\hat{\boldsymbol{y}}=\operatorname{softmax}(W^{\mathrm{T}} {x})=\frac{\exp (W^{\mathrm{T}} {x})}{1^{\mathrm{T}} \exp (W^{\mathrm{T}} {x})}
+$$<p>其中，$W=[w_1,w_2,\cdots,w_C]$是由$C$个类的权重向量组成的矩阵，$\boldsymbol 1$为全1向量，$\hat{ \boldsymbol y} \in \mathbb R^C$为<strong>所有类别的预测条件概率组成的向量</strong>，即第$c$维的值是第$c$类的预测条件概率。</p><p>softmax回归也使用交叉熵损失函数来学习最优的参数矩阵$W$。其风险函数为：</p>$$
+\begin{aligned}
+\mathcal{R}(W) &=-\frac{1}{N} \sum_{n=1}^{N} \sum_{c=1}^{C} {y}_{c}^{(n)} \log \hat{{y}}_{c}^{(n)} \\
+&=-\frac{1}{N} \sum_{n=1}^{N}({y}^{(n)})^{\mathrm{T}} \log \hat{{y}}^{(n)}
+\end{aligned}
+$$<p>可求得风险函数$\mathcal R(W)$关于$W$的梯度为：</p>$$
+\frac{\partial \mathcal{R}(W)}{\partial W}=-\frac{1}{N} \sum_{n=1}^{N} {x}^{(n)}({y}^{(n)}-\hat{{y}}^{(n)})^{\mathrm{T}}
+$$<p>求得梯度后，便可采用梯度下降法对$W$进行迭代更新：</p>$$
+W_{t+1} \leftarrow W_{t}+\alpha\left(\frac{1}{N} \sum_{n=1}^{N} {x}^{(n)}({y}^{(n)}-\hat{{y}}_{W_{t}}^{(n)})^{\mathrm{T}}\right)
+$$<h1 id=最大熵模型>最大熵模型</h1><h2 id=最大熵原理>最大熵原理</h2><p><strong>最大熵模型(maximum entropy model)</strong> 由<strong>最大熵原理</strong>推导实现。最大熵原理是概率模型学习的一个准则。最大熵原理认为，学习概率模型时，在所有可能的概率模型(分布)中，熵最大的模型是最好的模型。假设离散随机变量$X$的概率分布式$P(X)$，则其熵为：</p>$$
+H(P)=-\sum_x P(x)\log P(x)
+$$<p>熵满足下列不等式：</p>$$
+0 \leqslant H(P) \leqslant \log |X|
+$$<p>式中，$|X|$是$X$的取值个数，当且仅当$X$为均匀分布时右边的等号成立。也就是说，当$X$服从均匀分布时熵最大。</p><p>直观地，最大熵原理认为要选择的概率模型首先必须满足已有的事实，即约束条件。在没有更多信息的情况下，那些不确定的部分都是“等可能的”。最大熵原理通过熵的最大化来表示等可能性。“等可能”不容易操作，而<strong>熵则是一个可优化的数值指标</strong>。</p><p>首先通过一个例子来引入最大熵原理。假设随机变量$X$有5个取值$\{A,B,C,D,E\}$，要估计取各个值的概率$P(A),P(B),P(C),P(D),P(E)$。这些概率满足约束条件：$P(A)+P(B)+P(C)+P(D)+P(E)=1$。满足这个约束条件的概率分布有无穷多个，如果没有任何其他信息，仍要对概率分布进行估计，一个办法就是认为这个分布中取各个值的概率是相等的，即：</p>$$
+P(A)=P(B)=P(C)=P(D)=P(E)=\frac{1}{5}
+$$<p>等概率表示了对事实的无知，因为没有更多信息，这种判断是合理的。</p><p>有时，能从一些先验知识中得到一些对概率值的约束条件，例如：</p>$$
+P(A)+P(B)=\frac{3}{10}\\
+P(A)+P(B)+P(C)+P(D)+P(E)=1
+$$<p>满足这两个约束条件的概率分布仍然有无数多个。在缺少其他信息的情况下，可以认为$A$与$B$是等概率的，$C$，$D$与$E$是等概率的，于是$P(A)=P(B)=\frac{3}{10}$，$P(C)=P(D)=P(E)=\frac{7}{30}$。其他约束条件可以继续按照满足约束条件下求等概率的方法估计概率分布。上述概率模型的学习方法正是遵循了最大熵原理。</p><h2 id=最大熵模型的定义>最大熵模型的定义</h2><p><strong>最大熵原理是统计学习的一般原理</strong>，将最大熵原理应用到分类问题，即得到最大熵模型。假设<strong>分类模型是一个条件概率分布</strong>$P(Y|X)$，$X \in \mathcal X \subseteq \mathbb R^n$表示输入，$Y \in \mathcal Y$表示输出，$\mathcal X$和$\mathcal Y$分别是输入和输出的集合。这个模型表示的是对于给定的输入$X$，以条件概率$P(Y|X)$输出$Y$。</p><p>给定一个训练数据集$T=\{(x_1,y_1),(x_2,y_2),\cdots,(x_N,y_N)\}$，学习的目标是用最大熵原理选择最好的分类模型。首先考虑模型应该满足的条件。给定训练数据集，可以确定联合分布$P(X,Y)$的经验分布和边缘分布$P(X)$的经验分布，分别以$\tilde P(X,Y)$和$\tilde P(X)$表示，这里：</p>$$
+\begin{aligned}
+&\tilde P(X=x,Y=y)=\frac{\nu(X=x,Y=y)}{N}\\
+&\tilde P(X=x)=\frac{\nu(X=x)}{N}
+\end{aligned}
+$$<p>其中，$\nu(X=x,Y=y)$表示训练数据中样本$(x,y)$出现的频数，$\nu(X=x)$表示训练数据中输入$x$出现的频数，$N$表示训练样本的容量。</p><p>用<strong>特征函数(feature function)</strong>$f(x,y)$描述输入$x$和输出$y$之间的<strong>某一个事实</strong>。其定义为若$x$和$y$满足某一事实，则$f(x,y)$值为1，否则为0。它是一个二值函数。</p><p><strong>特征函数</strong>$f(x,y)$关于<strong>经验分布</strong>$\tilde P(X,Y)$的<strong>期望值</strong>为：</p>$$
+E_{\tilde P}(f)=\sum_{x,y}\tilde P(x,y)f(x,y)
+$$<p><strong>特征函数</strong>$f(x,y)$关于<strong>模型</strong>$P(Y|X)$与<strong>经验分布</strong>$\tilde P(X)$的<strong>期望值</strong>为：</p>$$
+E_P(f)=\sum_{x,y}\tilde P(x)P(y|x)f(x,y)
+$$<p>如果模型能够获取训练数据中的信息，那么就可以假设这两个期望值相等，即$E_P(f)=E_{\tilde P}(f)$，或：</p>$$
+\sum_{x,y}\tilde P(x)P(y|x)f(x,y)=\sum_{x,y}\tilde P(x,y)f(x,y)
+$$<p>上式即为模型学习的约束条件。假如有$n$个特征函数$f_i(x,y),i=1,2,\cdots,n$，那么就有$n$个约束条件。假设满足所有约束条件的模型集合为：</p>$$
+\mathcal C = \{P\in \mathcal P|E_P(f_i)=E_{\tilde P}(f_i),\ \ i=1,2,\cdots,n\}
+$$<p>定义在条件概率分布$P(Y|X)$上的条件熵为：</p>$$
+H(P)=-\sum_{x,y}\tilde P(x)P(y|x)\log P(y|x)
+$$<p>则<strong>模型集合</strong>$\mathcal C$中条件熵$H(P)$最大的模型称为<strong>最大熵模型</strong>。式中的对数为<strong>自然对数</strong>。</p><h2 id=最大熵模型的学习>最大熵模型的学习</h2><p>最大熵模型的学习过程就是求解最大熵模型的过程。最大熵模型的学习可以形式化为约束最优化问题。</p><p>对于给定的训练数据集$T=\{(x_1,y_1),(x_2,y_2),\cdots,(x_N,y_N)\}$以及特征函数$f_i(x,y),\ \ i=1,2,\cdots,n$，最大熵模型的学习等价于约束最优化问题：</p>$$
+\begin{aligned}
+\max _{P \in \mathcal C}\quad & -\sum_{x, y} \widetilde{P}(x) P(y|x) \log P(y|x)\\
+\text {s.t.}\quad & \ E_{p}(f_{i})=E_{\tilde{P}}(f_{i}),\ \ i=1,2,\cdots,n\\
+&\sum_{y} P(y|x)=1
+\end{aligned}
+$$<p>按照最优化问题的习惯，<strong>将求最大值问题改写为等价的求最小值问题</strong>：</p>$$
+\begin{aligned}
+\min _{P \in \mathcal C}\quad & \sum_{x, y} \widetilde{P}(x) P(y|x) \log P(y|x)\\
+\text {s.t.}\quad & \ E_{p}(f_{i})-E_{\tilde{P}}(f_{i})=0,\ \ i=1,2,\cdots,n\\
+&\sum_{y} P(y|x)=1
+\end{aligned}
+$$<p>求解上式约束最优化问题所得出的解就是最大熵模型学习的解。具体地，将约束最优化问题转换为无约束最优化的对偶问题。通过求解对偶问题来求解原始问题。</p><p>首先引入拉格朗日乘子$w_0, w_1, w_2, \cdots, w_n$，定义拉格朗日函数$L(P, w)$：</p>$$
+\begin{aligned}
+L(P, w) &=-H(P)+w_{0}(1-\sum_{y} P(y | x))+\sum_{i=1}^{n} w_{i}(E_{\tilde{p}}(f_{i})-E_{p}(f_{i})) \\
+&=\sum_{x, y} \tilde{P}(x) P(y | x) \log P(y | x)+w_{0}(1-\sum_{y} P(y | x))\\
+&+\sum_{i=1}^{n} w_{i}(\sum_{x, y} \tilde{P}(x, y) f(x, y)-\sum_{x, y} \tilde{P}(x) p(y | x) f(x, y))
+\end{aligned}
+$$<p>最优化的原始问题是：</p>$$
+\min _{P \in C} \max _{w} L(P, w)
+$$<p>对偶问题是：</p>$$
+\max _{w} \min _{P \in C} L(P, w)
+$$<p>由于拉格朗日函数$L(P, w)$是$P$的凸函数，因此原始问题的解与对偶问题的解是等价的。因此可以通过求解对偶问题来求解原始问题。首先求解对偶问题内部的极小化问题$\min _{P \in C} L(P, w)$。$\min _{P \in C} L(P, w)$是$w$的函数，记作</p>$$
+\Psi(w)=\min _{P \in C} L(P, w)=L\left(P_{w}, w\right)
+$$<p>$\Psi(w)$称为对偶函数。同时，将其解$P_w$记作</p>$$
+P_{w}=\arg \min _{P \in C} L(P, w)=P_{w}(y | x)
+$$<p>具体地，求$L(P, w)$对$P(y|x)$的偏导数：</p>$$
+\begin{aligned}
+\frac{\partial L(P, w)}{\partial P(y | x)} &=\sum_{x, y} \widetilde{P}(x)(\log P(y | x)+1)-\sum_{y} w_{0}-\sum_{x, y}(\widetilde{P}(x) \sum_{i=1}^{n} w_{i} f_{i}(x, y)) \\
+&=\sum_{x, y} \widetilde{P}(x)(\log P(y | x)+1-w_{0}-\sum_{i=1}^{n} w_{i} f_{i}(x, y))
+\end{aligned}
+$$<p>令偏导数等于0，解得：</p>$$
+P(y | x) = \frac{1}{\exp \left(1-w_{0}\right)} \sum_{y} \exp (\sum_{i=1}^{n} w_{i} f_{i}(x, y))
+$$<p>由于$\sum_y P(y | x) = 1$，得</p>$$
+\begin{aligned}
+P_{w}(y | x) &=\frac{1}{Z_{w}(x)} \exp (\sum_{i=1}^{n} w_{i} f_{i}(x, y)) \\
+Z_{w}(x) &=\sum_{y} \exp (\sum_{i=1}^{n} w_{i} f_{i}(x, y))
+\end{aligned}
+$$<p>上式表示的模型$P_W = P_w(y|x)$就是最大熵模型。之后，求解对偶问题外部的极大化问题</p>$$
+\max_w \Psi(w)
+$$<p>将其解记为$w^*$，即</p>$$
+w^* = \arg \max_w \Psi(w)
+$$<p>便可以应用最优化算法(梯度下降法、拟牛顿法等)求对偶函数的极大化，得到$w^*$，用来表示$P^* \in \mathcal C$。这里，$P^* = P_{w^*} = P_{w^*}(y | x)$是学习到的最优模型，即最大熵模型。<strong>最大熵的模型可以归结为对偶函数的极大化</strong>。</p><h1 id=基于numpy的逻辑回归实现>基于numpy的逻辑回归实现</h1><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#ff79c6>import</span> numpy <span style=color:#ff79c6>as</span> np
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> matplotlib.pyplot <span style=color:#ff79c6>as</span> plt
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> sklearn.datasets <span style=color:#ff79c6>import</span> make_classification
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> sklearn.metrics <span style=color:#ff79c6>import</span> accuracy_score, classification_report
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 定义sigmoid函数</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>def</span> <span style=color:#50fa7b>sigmoid</span>(x):
+</span></span><span style=display:flex><span>    z <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>1</span> <span style=color:#ff79c6>/</span> (<span style=color:#bd93f9>1</span> <span style=color:#ff79c6>+</span> np<span style=color:#ff79c6>.</span>exp(<span style=color:#ff79c6>-</span>x))
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>return</span> z
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 定义参数初始化函数</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>def</span> <span style=color:#50fa7b>initialize_params</span>(dims):
+</span></span><span style=display:flex><span>    W <span style=color:#ff79c6>=</span> np<span style=color:#ff79c6>.</span>zeros((dims, <span style=color:#bd93f9>1</span>))
+</span></span><span style=display:flex><span>    b <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>0</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>return</span> W, b
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 定义对数几率回归模型主体</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>def</span> <span style=color:#50fa7b>logistic</span>(X, y, W, b):
+</span></span><span style=display:flex><span>    num_train <span style=color:#ff79c6>=</span> X<span style=color:#ff79c6>.</span>shape[<span style=color:#bd93f9>0</span>]  <span style=color:#6272a4># 训练样本量</span>
+</span></span><span style=display:flex><span>    num_feature <span style=color:#ff79c6>=</span> X<span style=color:#ff79c6>.</span>shape[<span style=color:#bd93f9>1</span>]  <span style=color:#6272a4># 训练特征数</span>
+</span></span><span style=display:flex><span>    a <span style=color:#ff79c6>=</span> sigmoid(np<span style=color:#ff79c6>.</span>dot(X, W) <span style=color:#ff79c6>+</span> b)  <span style=color:#6272a4># 逻辑回归模型输出</span>
+</span></span><span style=display:flex><span>    cost <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>-</span><span style=color:#bd93f9>1</span> <span style=color:#ff79c6>/</span> num_train <span style=color:#ff79c6>*</span> np<span style=color:#ff79c6>.</span>sum(y <span style=color:#ff79c6>*</span> np<span style=color:#ff79c6>.</span>log(a) <span style=color:#ff79c6>+</span> (<span style=color:#bd93f9>1</span> <span style=color:#ff79c6>-</span> y) <span style=color:#ff79c6>*</span> np<span style=color:#ff79c6>.</span>log(<span style=color:#bd93f9>1</span> <span style=color:#ff79c6>-</span> a))  <span style=color:#6272a4># 交叉熵损失</span>
+</span></span><span style=display:flex><span>    dW <span style=color:#ff79c6>=</span> np<span style=color:#ff79c6>.</span>dot(X<span style=color:#ff79c6>.</span>T, (a <span style=color:#ff79c6>-</span> y)) <span style=color:#ff79c6>/</span> num_train  <span style=color:#6272a4># 权值梯度</span>
+</span></span><span style=display:flex><span>    db <span style=color:#ff79c6>=</span> np<span style=color:#ff79c6>.</span>sum(a <span style=color:#ff79c6>-</span> y) <span style=color:#ff79c6>/</span> num_train  <span style=color:#6272a4># 偏置梯度</span>
+</span></span><span style=display:flex><span>    cost <span style=color:#ff79c6>=</span> np<span style=color:#ff79c6>.</span>squeeze(cost)  <span style=color:#6272a4># 压缩损失数组维度</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>return</span> a, cost, dW, db
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 定义对数几率回归模型训练过程</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>def</span> <span style=color:#50fa7b>logistic_train</span>(X, y, learning_rate, epochs):
+</span></span><span style=display:flex><span>    W, b <span style=color:#ff79c6>=</span> initialize_params(X<span style=color:#ff79c6>.</span>shape[<span style=color:#bd93f9>1</span>])  <span style=color:#6272a4># 初始化模型参数</span>
+</span></span><span style=display:flex><span>    cost_list <span style=color:#ff79c6>=</span> []  <span style=color:#6272a4># 初始化损失列表</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>for</span> i <span style=color:#ff79c6>in</span> <span style=color:#8be9fd;font-style:italic>range</span>(epochs):  <span style=color:#6272a4># 迭代训练</span>
+</span></span><span style=display:flex><span>        a, cost, dW, db <span style=color:#ff79c6>=</span> logistic(X, y, W, b)
+</span></span><span style=display:flex><span>        <span style=color:#6272a4># 参数更新</span>
+</span></span><span style=display:flex><span>        W <span style=color:#ff79c6>=</span> W <span style=color:#ff79c6>-</span> learning_rate <span style=color:#ff79c6>*</span> dW
+</span></span><span style=display:flex><span>        b <span style=color:#ff79c6>=</span> b <span style=color:#ff79c6>-</span> learning_rate <span style=color:#ff79c6>*</span> db
+</span></span><span style=display:flex><span>        <span style=color:#6272a4># 记录损失</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>if</span> i <span style=color:#ff79c6>%</span> <span style=color:#bd93f9>100</span> <span style=color:#ff79c6>==</span> <span style=color:#bd93f9>0</span>:
+</span></span><span style=display:flex><span>            cost_list<span style=color:#ff79c6>.</span>append(cost)
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>if</span> i <span style=color:#ff79c6>%</span> <span style=color:#bd93f9>100</span> <span style=color:#ff79c6>==</span> <span style=color:#bd93f9>0</span>:
+</span></span><span style=display:flex><span>            <span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#39;epoch </span><span style=color:#f1fa8c>%d</span><span style=color:#f1fa8c> cost </span><span style=color:#f1fa8c>%f</span><span style=color:#f1fa8c>&#39;</span> <span style=color:#ff79c6>%</span> (i, cost))
+</span></span><span style=display:flex><span>    params <span style=color:#ff79c6>=</span> {<span style=color:#f1fa8c>&#39;W&#39;</span>: W, <span style=color:#f1fa8c>&#39;b&#39;</span>: b}  <span style=color:#6272a4># 保存参数</span>
+</span></span><span style=display:flex><span>    grads <span style=color:#ff79c6>=</span> {<span style=color:#f1fa8c>&#39;dW&#39;</span>: dW, <span style=color:#f1fa8c>&#39;db&#39;</span>: db}  <span style=color:#6272a4># 保存梯度</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>return</span> cost_list, params, grads
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 定义预测函数</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>def</span> <span style=color:#50fa7b>predict</span>(X, params):
+</span></span><span style=display:flex><span>    <span style=color:#6272a4># 模型预测值</span>
+</span></span><span style=display:flex><span>    y_prediction <span style=color:#ff79c6>=</span> sigmoid(np<span style=color:#ff79c6>.</span>dot(X, params[<span style=color:#f1fa8c>&#39;W&#39;</span>]) <span style=color:#ff79c6>+</span> params[<span style=color:#f1fa8c>&#39;b&#39;</span>])
+</span></span><span style=display:flex><span>    <span style=color:#6272a4># 基于分类阈值对概率预测值进行类别转换</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>for</span> i <span style=color:#ff79c6>in</span> <span style=color:#8be9fd;font-style:italic>range</span>(<span style=color:#8be9fd;font-style:italic>len</span>(y_prediction)):
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>if</span> y_prediction[i] <span style=color:#ff79c6>&gt;</span> <span style=color:#bd93f9>0.5</span>:
+</span></span><span style=display:flex><span>            y_prediction[i] <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>1</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>else</span>:
+</span></span><span style=display:flex><span>            y_prediction[i] <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>0</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>return</span> y_prediction
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 生成100*2的模拟二分类数据集</span>
+</span></span><span style=display:flex><span>X, labels <span style=color:#ff79c6>=</span> make_classification(
+</span></span><span style=display:flex><span>    n_samples<span style=color:#ff79c6>=</span><span style=color:#bd93f9>100</span>,
+</span></span><span style=display:flex><span>    n_features<span style=color:#ff79c6>=</span><span style=color:#bd93f9>2</span>,
+</span></span><span style=display:flex><span>    n_redundant<span style=color:#ff79c6>=</span><span style=color:#bd93f9>0</span>,
+</span></span><span style=display:flex><span>    n_informative<span style=color:#ff79c6>=</span><span style=color:#bd93f9>2</span>,
+</span></span><span style=display:flex><span>    random_state<span style=color:#ff79c6>=</span><span style=color:#bd93f9>1</span>,
+</span></span><span style=display:flex><span>    n_clusters_per_class<span style=color:#ff79c6>=</span><span style=color:#bd93f9>2</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 设置随机数种子</span>
+</span></span><span style=display:flex><span>rng <span style=color:#ff79c6>=</span> np<span style=color:#ff79c6>.</span>random<span style=color:#ff79c6>.</span>RandomState(<span style=color:#bd93f9>2</span>)
+</span></span><span style=display:flex><span><span style=color:#6272a4># 对生成的特征数据添加一组均匀分布噪声</span>
+</span></span><span style=display:flex><span>X <span style=color:#ff79c6>+=</span> <span style=color:#bd93f9>2</span> <span style=color:#ff79c6>*</span> rng<span style=color:#ff79c6>.</span>uniform(size<span style=color:#ff79c6>=</span>X<span style=color:#ff79c6>.</span>shape)
+</span></span><span style=display:flex><span><span style=color:#6272a4># 标签类别数</span>
+</span></span><span style=display:flex><span>unique_lables <span style=color:#ff79c6>=</span> <span style=color:#8be9fd;font-style:italic>set</span>(labels)
+</span></span><span style=display:flex><span><span style=color:#6272a4># 根据标签类别数设置颜色</span>
+</span></span><span style=display:flex><span>colors <span style=color:#ff79c6>=</span> plt<span style=color:#ff79c6>.</span>cm<span style=color:#ff79c6>.</span>Spectral(np<span style=color:#ff79c6>.</span>linspace(<span style=color:#bd93f9>0</span>, <span style=color:#bd93f9>1</span>, <span style=color:#8be9fd;font-style:italic>len</span>(unique_lables)))
+</span></span><span style=display:flex><span><span style=color:#6272a4># 绘制模拟数据的散点图</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>for</span> k, col <span style=color:#ff79c6>in</span> <span style=color:#8be9fd;font-style:italic>zip</span>(unique_lables, colors):
+</span></span><span style=display:flex><span>    x_k <span style=color:#ff79c6>=</span> X[labels <span style=color:#ff79c6>==</span> k]
+</span></span><span style=display:flex><span>    plt<span style=color:#ff79c6>.</span>plot(x_k[:, <span style=color:#bd93f9>0</span>], x_k[:, <span style=color:#bd93f9>1</span>], <span style=color:#f1fa8c>&#39;o&#39;</span>, markerfacecolor<span style=color:#ff79c6>=</span>col, markeredgecolor<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#34;k&#34;</span>,
+</span></span><span style=display:flex><span>             markersize<span style=color:#ff79c6>=</span><span style=color:#bd93f9>14</span>)
+</span></span><span style=display:flex><span>plt<span style=color:#ff79c6>.</span>title(<span style=color:#f1fa8c>&#39;Simulated binary data set&#39;</span>)
+</span></span><span style=display:flex><span>plt<span style=color:#ff79c6>.</span>show()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(X<span style=color:#ff79c6>.</span>shape, labels<span style=color:#ff79c6>.</span>shape)
+</span></span><span style=display:flex><span>labels <span style=color:#ff79c6>=</span> labels<span style=color:#ff79c6>.</span>reshape((<span style=color:#ff79c6>-</span><span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>1</span>))
+</span></span><span style=display:flex><span>data <span style=color:#ff79c6>=</span> np<span style=color:#ff79c6>.</span>concatenate((X, labels), axis<span style=color:#ff79c6>=</span><span style=color:#bd93f9>1</span>)
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(data<span style=color:#ff79c6>.</span>shape)
+</span></span><span style=display:flex><span><span style=color:#6272a4># 训练集与测试集的简单划分</span>
+</span></span><span style=display:flex><span>offset <span style=color:#ff79c6>=</span> <span style=color:#8be9fd;font-style:italic>int</span>(X<span style=color:#ff79c6>.</span>shape[<span style=color:#bd93f9>0</span>] <span style=color:#ff79c6>*</span> <span style=color:#bd93f9>0.9</span>)
+</span></span><span style=display:flex><span>X_train, y_train <span style=color:#ff79c6>=</span> X[:offset], labels[:offset]
+</span></span><span style=display:flex><span>X_test, y_test <span style=color:#ff79c6>=</span> X[offset:], labels[offset:]
+</span></span><span style=display:flex><span>y_train <span style=color:#ff79c6>=</span> y_train<span style=color:#ff79c6>.</span>reshape((<span style=color:#ff79c6>-</span><span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>1</span>))
+</span></span><span style=display:flex><span>y_test <span style=color:#ff79c6>=</span> y_test<span style=color:#ff79c6>.</span>reshape((<span style=color:#ff79c6>-</span><span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>1</span>))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#39;X_train=&#39;</span>, X_train<span style=color:#ff79c6>.</span>shape)
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#39;X_test=&#39;</span>, X_test<span style=color:#ff79c6>.</span>shape)
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#39;y_train=&#39;</span>, y_train<span style=color:#ff79c6>.</span>shape)
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#39;y_test=&#39;</span>, y_test<span style=color:#ff79c6>.</span>shape)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>cost_list, params, grads <span style=color:#ff79c6>=</span> logistic_train(X_train, y_train, <span style=color:#bd93f9>0.01</span>, <span style=color:#bd93f9>1000</span>)
+</span></span><span style=display:flex><span>y_pred <span style=color:#ff79c6>=</span> predict(X_test, params)
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(classification_report(y_test, y_pred))
+</span></span></code></pre></div><h1 id=使用scikit-learn中的逻辑回归算法完成自定义数据集上的分类任务>使用scikit-learn中的逻辑回归算法完成自定义数据集上的分类任务</h1><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#ff79c6>import</span> numpy <span style=color:#ff79c6>as</span> np
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> matplotlib.pyplot <span style=color:#ff79c6>as</span> plt
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> sklearn.model_selection <span style=color:#ff79c6>import</span> train_test_split
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> sklearn.linear_model <span style=color:#ff79c6>import</span> LogisticRegression
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> sklearn.preprocessing <span style=color:#ff79c6>import</span> PolynomialFeatures
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> sklearn.pipeline <span style=color:#ff79c6>import</span> Pipeline
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> sklearn.preprocessing <span style=color:#ff79c6>import</span> StandardScaler
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>def</span> <span style=color:#50fa7b>plot_decision_boundary</span>(model, axis):
+</span></span><span style=display:flex><span>    <span style=color:#f1fa8c>&#34;&#34;&#34;
+</span></span></span><span style=display:flex><span><span style=color:#f1fa8c>    在axis范围内绘制模型model的决策边界
+</span></span></span><span style=display:flex><span><span style=color:#f1fa8c>    :param model: classification model which must have &#39;predict&#39; function
+</span></span></span><span style=display:flex><span><span style=color:#f1fa8c>    :param axis: [left, right, down, up]
+</span></span></span><span style=display:flex><span><span style=color:#f1fa8c>    &#34;&#34;&#34;</span>
+</span></span><span style=display:flex><span>    x0, x1 <span style=color:#ff79c6>=</span> np<span style=color:#ff79c6>.</span>meshgrid(
+</span></span><span style=display:flex><span>        np<span style=color:#ff79c6>.</span>linspace(axis[<span style=color:#bd93f9>0</span>], axis[<span style=color:#bd93f9>1</span>], <span style=color:#8be9fd;font-style:italic>int</span>((axis[<span style=color:#bd93f9>1</span>] <span style=color:#ff79c6>-</span> axis[<span style=color:#bd93f9>0</span>]) <span style=color:#ff79c6>*</span> <span style=color:#bd93f9>100</span>))<span style=color:#ff79c6>.</span>reshape(<span style=color:#ff79c6>-</span><span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>1</span>),
+</span></span><span style=display:flex><span>        np<span style=color:#ff79c6>.</span>linspace(axis[<span style=color:#bd93f9>2</span>], axis[<span style=color:#bd93f9>3</span>], <span style=color:#8be9fd;font-style:italic>int</span>((axis[<span style=color:#bd93f9>3</span>] <span style=color:#ff79c6>-</span> axis[<span style=color:#bd93f9>2</span>]) <span style=color:#ff79c6>*</span> <span style=color:#bd93f9>100</span>))<span style=color:#ff79c6>.</span>reshape(<span style=color:#ff79c6>-</span><span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>1</span>),
+</span></span><span style=display:flex><span>    )
+</span></span><span style=display:flex><span>    X_new <span style=color:#ff79c6>=</span> np<span style=color:#ff79c6>.</span>c_[x0<span style=color:#ff79c6>.</span>ravel(), x1<span style=color:#ff79c6>.</span>ravel()]
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    y_predict <span style=color:#ff79c6>=</span> model<span style=color:#ff79c6>.</span>predict(X_new)
+</span></span><span style=display:flex><span>    zz <span style=color:#ff79c6>=</span> y_predict<span style=color:#ff79c6>.</span>reshape(x0<span style=color:#ff79c6>.</span>shape)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>from</span> matplotlib.colors <span style=color:#ff79c6>import</span> ListedColormap
+</span></span><span style=display:flex><span>    custom_cmap <span style=color:#ff79c6>=</span> ListedColormap([<span style=color:#f1fa8c>&#39;#EF9A9A&#39;</span>, <span style=color:#f1fa8c>&#39;#FFF59D&#39;</span>, <span style=color:#f1fa8c>&#39;#90CAF9&#39;</span>])
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    plt<span style=color:#ff79c6>.</span>contourf(x0, x1, zz, linewidth<span style=color:#ff79c6>=</span><span style=color:#bd93f9>5</span>, cmap<span style=color:#ff79c6>=</span>custom_cmap)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 使用numpy库构建自定义数据集</span>
+</span></span><span style=display:flex><span>np<span style=color:#ff79c6>.</span>random<span style=color:#ff79c6>.</span>seed(<span style=color:#bd93f9>666</span>)
+</span></span><span style=display:flex><span>X <span style=color:#ff79c6>=</span> np<span style=color:#ff79c6>.</span>random<span style=color:#ff79c6>.</span>normal(<span style=color:#bd93f9>0</span>, <span style=color:#bd93f9>1</span>, size<span style=color:#ff79c6>=</span>(<span style=color:#bd93f9>200</span>, <span style=color:#bd93f9>2</span>))
+</span></span><span style=display:flex><span>y <span style=color:#ff79c6>=</span> np<span style=color:#ff79c6>.</span>array((X[:, <span style=color:#bd93f9>0</span>] <span style=color:#ff79c6>**</span> <span style=color:#bd93f9>2</span> <span style=color:#ff79c6>+</span> X[:, <span style=color:#bd93f9>1</span>]) <span style=color:#ff79c6>&lt;</span> <span style=color:#bd93f9>1.5</span>, dtype<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#39;int&#39;</span>)
+</span></span><span style=display:flex><span><span style=color:#ff79c6>for</span> _ <span style=color:#ff79c6>in</span> <span style=color:#8be9fd;font-style:italic>range</span>(<span style=color:#bd93f9>20</span>):
+</span></span><span style=display:flex><span>    y[np<span style=color:#ff79c6>.</span>random<span style=color:#ff79c6>.</span>randint(<span style=color:#bd93f9>200</span>)] <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>1</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>plt<span style=color:#ff79c6>.</span>scatter(X[y <span style=color:#ff79c6>==</span> <span style=color:#bd93f9>0</span>, <span style=color:#bd93f9>0</span>], X[y <span style=color:#ff79c6>==</span> <span style=color:#bd93f9>0</span>, <span style=color:#bd93f9>1</span>])
+</span></span><span style=display:flex><span>plt<span style=color:#ff79c6>.</span>scatter(X[y <span style=color:#ff79c6>==</span> <span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>0</span>], X[y <span style=color:#ff79c6>==</span> <span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>1</span>])
+</span></span><span style=display:flex><span>plt<span style=color:#ff79c6>.</span>show()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>X_train, X_test, y_train, y_test <span style=color:#ff79c6>=</span> train_test_split(X, y, random_state<span style=color:#ff79c6>=</span><span style=color:#bd93f9>666</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>log_reg <span style=color:#ff79c6>=</span> LogisticRegression()  <span style=color:#6272a4># 定义逻辑回归类的对象</span>
+</span></span><span style=display:flex><span>log_reg<span style=color:#ff79c6>.</span>fit(X_train, y_train)  <span style=color:#6272a4># 训练</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#39;classification accuracy of original logistic regression: &#39;</span>, log_reg<span style=color:#ff79c6>.</span>score(X_test, y_test))  <span style=color:#6272a4># 评分函数</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 绘制原始逻辑回归模型的决策边界</span>
+</span></span><span style=display:flex><span>plot_decision_boundary(log_reg, axis<span style=color:#ff79c6>=</span>[<span style=color:#ff79c6>-</span><span style=color:#bd93f9>4</span>, <span style=color:#bd93f9>4</span>, <span style=color:#ff79c6>-</span><span style=color:#bd93f9>4</span>, <span style=color:#bd93f9>4</span>])
+</span></span><span style=display:flex><span>plt<span style=color:#ff79c6>.</span>scatter(X[y <span style=color:#ff79c6>==</span> <span style=color:#bd93f9>0</span>, <span style=color:#bd93f9>0</span>], X[y <span style=color:#ff79c6>==</span> <span style=color:#bd93f9>0</span>, <span style=color:#bd93f9>1</span>])
+</span></span><span style=display:flex><span>plt<span style=color:#ff79c6>.</span>scatter(X[y <span style=color:#ff79c6>==</span> <span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>0</span>], X[y <span style=color:#ff79c6>==</span> <span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>1</span>])
+</span></span><span style=display:flex><span>plt<span style=color:#ff79c6>.</span>show()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 使用Pipeline添加多项式特征、归一化后再应用逻辑回归算法</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>def</span> <span style=color:#50fa7b>PolynomialLogisticRegression</span>(degree):
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>return</span> Pipeline([
+</span></span><span style=display:flex><span>        (<span style=color:#f1fa8c>&#39;poly&#39;</span>, PolynomialFeatures(degree<span style=color:#ff79c6>=</span>degree)),
+</span></span><span style=display:flex><span>        (<span style=color:#f1fa8c>&#39;std_scaler&#39;</span>, StandardScaler()),
+</span></span><span style=display:flex><span>        (<span style=color:#f1fa8c>&#39;log_reg&#39;</span>, LogisticRegression())
+</span></span><span style=display:flex><span>    ])
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>poly_log_reg <span style=color:#ff79c6>=</span> PolynomialLogisticRegression(degree<span style=color:#ff79c6>=</span><span style=color:#bd93f9>2</span>)
+</span></span><span style=display:flex><span>poly_log_reg<span style=color:#ff79c6>.</span>fit(X_train, y_train)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#39;classification accuracy of polynomial logistic regression: &#39;</span>, poly_log_reg<span style=color:#ff79c6>.</span>score(X_test, y_test))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 绘制添加了多项式特征后的逻辑回归算法的决策边界</span>
+</span></span><span style=display:flex><span>plot_decision_boundary(poly_log_reg, axis<span style=color:#ff79c6>=</span>[<span style=color:#ff79c6>-</span><span style=color:#bd93f9>4</span>, <span style=color:#bd93f9>4</span>, <span style=color:#ff79c6>-</span><span style=color:#bd93f9>4</span>, <span style=color:#bd93f9>4</span>])
+</span></span><span style=display:flex><span>plt<span style=color:#ff79c6>.</span>scatter(X[y <span style=color:#ff79c6>==</span> <span style=color:#bd93f9>0</span>, <span style=color:#bd93f9>0</span>], X[y <span style=color:#ff79c6>==</span> <span style=color:#bd93f9>0</span>, <span style=color:#bd93f9>1</span>])
+</span></span><span style=display:flex><span>plt<span style=color:#ff79c6>.</span>scatter(X[y <span style=color:#ff79c6>==</span> <span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>0</span>], X[y <span style=color:#ff79c6>==</span> <span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>1</span>])
+</span></span><span style=display:flex><span>plt<span style=color:#ff79c6>.</span>show()
+</span></span></code></pre></div><h1 id=参考资料>参考资料</h1><ul><li>李航. 统计学习方法. 北京: 清华大学出版社, 2019.</li><li>邱锡鹏. 神经网络与深度学习. 北京: 机械工业出版社, 2020.</li><li>鲁伟. 机器学习：公式推导与代码实现. 北京: 人民邮电出版社, 2022.</li></ul><hr><ul class=pager><li class=previous><a href=/post/3-ml/ml4-%E6%84%9F%E7%9F%A5%E6%9C%BA/ data-toggle=tooltip data-placement=top title=机器学习：感知机>&larr;
+Previous Post</a></li><li class=next><a href=/post/3-ml/ml7-%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/ data-toggle=tooltip data-placement=top title=机器学习：支持向量机>Next
+Post &rarr;</a></li></ul><script src=https://giscus.app/client.js data-repo=XiangdiWu/XiangdiWu.github.io data-repo-id=R_kgDOP0pDUQ data-category=Announcements data-category-id=DIC_kwDOP0pDUc4CvwjG data-mapping=pathname data-reactions-enabled=1 data-emit-metadata=0 data-theme=light data-lang=zh-CN crossorigin=anonymous async></script></div><div class="col-lg-2 col-lg-offset-0
+visible-lg-block
+sidebar-container
+catalog-container"><div class=side-catalog><hr class="hidden-sm hidden-xs"><h5><a class=catalog-toggle href=#>CATALOG</a></h5><ul class=catalog-body></ul></div></div><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+sidebar-container"><section><hr class="hidden-sm hidden-xs"><h5><a href=/tags/>FEATURED TAGS</a></h5><div class=tags><a href=/tags/deep-learning title="deep learning">deep learning
+</a><a href=/tags/machine-learning title="machine learning">machine learning
+</a><a href=/tags/math title=math>math
+</a><a href=/tags/model title=model>model
+</a><a href=/tags/nlp title=nlp>nlp
+</a><a href=/tags/quant title=quant>quant</a></div></section><section><hr><h5>FRIENDS</h5><ul class=list-inline><li><a target=_blank href=https://www.factorwar.com/data/factor-models/>GetAstockFactors</a></li><li><a target=_blank href=https://datawhalechina.github.io/whale-quant/#/>Whale-Quant</a></li></ul></section></div></div></div></article><script type=module>  
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; 
+    mermaid.initialize({ startOnLoad: true });  
+</script><script>Array.from(document.getElementsByClassName("language-mermaid")).forEach(e=>{e.parentElement.outerHTML=`<div class="mermaid">${e.innerHTML}</div>`})</script><style>.mermaid svg{display:block;margin:auto}</style><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center"><li><a href=mailto:bernicewu2000@outlook.com><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-envelope fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=/img/wechat_qrcode.jpg><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-weixin fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=https://github.com/xiangdiwu><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-github fa-stack-1x fa-inverse"></i></span></a></li><li><a href rel=alternate type=application/rss+xml title="Xiangdi Blog"><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-rss fa-stack-1x fa-inverse"></i></span></a></li></ul><p class="copyright text-muted">Copyright &copy; Xiangdi Blog 2025</p></div></div></div></footer><script>function loadAsync(e,t){var s=document,o="script",n=s.createElement(o),i=s.getElementsByTagName(o)[0];n.src=e,t&&n.addEventListener("load",function(e){t(null,e)},!1),i.parentNode.insertBefore(n,i)}</script><script>$("#tag_cloud").length!==0&&loadAsync("/js/jquery.tagcloud.js",function(){$.fn.tagcloud.defaults={color:{start:"#bbbbee",end:"#0085a1"}},$("#tag_cloud a").tagcloud()})</script><script>loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js",function(){var e=document.querySelector("nav");e&&FastClick.attach(e)})</script><script type=text/javascript>function generateCatalog(e){_containerSelector="div.post-container";var t,n,s,o,i,a=$(_containerSelector),r=a.find("h1,h2,h3,h4,h5,h6");return $(e).html(""),r.each(function(){n=$(this).prop("tagName").toLowerCase(),o="#"+$(this).prop("id"),t=$(this).text(),i=$('<a href="'+o+'" rel="nofollow" title="'+t+'">'+t+"</a>"),s=$('<li class="'+n+'_nav"></li>').append(i),$(e).append(s)}),!0}generateCatalog(".catalog-body"),$(".catalog-toggle").click(function(e){e.preventDefault(),$(".side-catalog").toggleClass("fold")}),loadAsync("/js/jquery.nav.js",function(){$(".catalog-body").onePageNav({currentClass:"active",changeHash:!1,easing:"swing",filter:"",scrollSpeed:700,scrollOffset:0,scrollThreshold:.2,begin:null,end:null,scrollChange:null,padding:80})})</script><style>.markmap>svg{width:100%;height:300px}</style><script>window.markmap={autoLoader:{manual:!0,onReady(){const{autoLoader:e,builtInPlugins:t}=window.markmap;e.transformPlugins=t.filter(e=>e.name!=="prism")}}}</script><script src=https://cdn.jsdelivr.net/npm/markmap-autoloader></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css integrity="sha512-r2+FkHzf1u0+SQbZOoIz2RxWOIWfdEzRuYybGjzKq18jG9zaSfEy9s3+jMqG/zPtRor/q4qaUCYQpmSjTw8M+g==" crossorigin=anonymous><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js integrity="sha512-INps9zQ2GUEMCQD7xiZQbGUVnqnzEvlynVy6eqcTcHN4+aQiLo9/uaQqckDpdJ8Zm3M0QBs+Pktg4pz0kEklUg==" crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/mhchem.min.js integrity="sha512-mxjNw/u1lIsFC09k/unscDRY3ofIYPVFbWkP8slrePcS36ht4d/OZ8rRu5yddB2uiqajhTcLD8+jupOWuYPebg==" crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js integrity="sha512-YJVxTjqttjsU3cSvaTRqsSl0wbRgZUNF+NGGCgto/MUbIvaLdXQzGTCQu4CvyJZbZctgflVB0PXw9LLmTWm5/w==" crossorigin=anonymous onload='renderMathInElement(document.body,{delimiters:[{display:!0,left:"$$",right:"$$"},{display:!1,left:"$",right:"$"},{display:!1,left:"\\(",right:"\\)"},{display:!0,left:"\\[",right:"\\]"}],errorcolor:"#CD5C5C",throwonerror:!1})'></script></body></html>

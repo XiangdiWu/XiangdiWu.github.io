@@ -1,0 +1,147 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta property="og:site_name" content="Xiangdi Blog"><meta property="og:type" content="article"><meta property="og:image" con ’tent=https://images.pexels.com/photos/220301/pexels-photo-220301.jpeg><meta property="twitter:image" content="https://images.pexels.com/photos/220301/pexels-photo-220301.jpeg"><meta name=title content="机器学习：贝叶斯分类器"><meta property="og:title" content="机器学习：贝叶斯分类器"><meta property="twitter:title" content="机器学习：贝叶斯分类器"><meta name=description content="本文主要介绍贝叶斯分类器的基本原理，以及基于numpy和scikit-learn的实现。"><meta property="og:description" content="本文主要介绍贝叶斯分类器的基本原理，以及基于numpy和scikit-learn的实现。"><meta property="twitter:description" content="本文主要介绍贝叶斯分类器的基本原理，以及基于numpy和scikit-learn的实现。"><meta property="twitter:card" content="summary"><meta property="og:url" content="https://xiangdiwu.github.io/post/3-ml/ml5-%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB%E5%99%A8/"><meta name=keyword content="吴湘菂, WuXiangdi, XiangdiWu, 吴湘菂的网络日志, 吴湘菂的博客, Xiangdi Blog, 博客, 个人网站, Quant, 量化投资, 金融, 投资, 理财, 股票, 期货, 基金, 期权, 外汇, 比特币"><link rel="shortcut icon" href=/img/favicon.ico><title>机器学习：贝叶斯分类器-吴湘菂的博客 | Xiangdi Blog</title><link rel=canonical href=/post/3-ml/ml5-%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB%E5%99%A8/><link rel=stylesheet href=/css/bootstrap.min.css><link rel=stylesheet href=/css/hugo-theme-cleanwhite.min.css><link rel=stylesheet href=/css/zanshang.min.css><link rel=stylesheet href=/css/font-awesome.all.min.css><script src=/js/jquery.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/hux-blog.min.js></script><script src=/js/lazysizes.min.js></script></head><script async src="https://www.googletagmanager.com/gtag/js?id=G-R757MDJ6Y6"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-R757MDJ6Y6")}</script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css integrity=sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV crossorigin=anonymous><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js integrity=sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8 crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js integrity=sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05 crossorigin=anonymous></script><script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"\\[",right:"\\]",display:!0},{left:"$$",right:"$$",display:!0},{left:"\\(",right:"\\)",display:!1}],throwOnError:!1})})</script><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css><script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type=text/javascript></script><nav class="navbar navbar-default navbar-custom navbar-fixed-top"><div class=container-fluid><div class="navbar-header page-scroll"><button type=button class=navbar-toggle>
+<span class=sr-only>Toggle navigation</span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+</button>
+<a class=navbar-brand href=/>Xiangdi Blog</a></div><div id=huxblog_navbar><div class=navbar-collapse><ul class="nav navbar-nav navbar-right"><li><a href=/>All Posts</a></li><li><a href=/categories/quant/>quant</a></li><li><a href=/categories/reading/>reading</a></li><li><a href=/categories/tech/>tech</a></li><li><a href=/archive//>ARCHIVE</a></li><li><a href=/vibe//>Vibe</a></li><li><a href=/travel//>TRAVEL</a></li><li><a href=/about//>ABOUT</a></li><li><a href=/search><i class="fa fa-search"></i></a></li></ul></div></div></div></nav><script>var $body=document.body,$toggle=document.querySelector(".navbar-toggle"),$navbar=document.querySelector("#huxblog_navbar"),$collapse=document.querySelector(".navbar-collapse");$toggle.addEventListener("click",handleMagic);function handleMagic(){$navbar.className.indexOf("in")>0?($navbar.className=" ",setTimeout(function(){$navbar.className.indexOf("in")<0&&($collapse.style.height="0px")},400)):($collapse.style.height="auto",$navbar.className+=" in")}</script><style type=text/css>header.intro-header{background-image:url(https://images.pexels.com/photos/220301/pexels-photo-220301.jpeg)}</style><header class=intro-header><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class=post-heading><div class=tags><a class=tag href=/tags/quant title=Quant>Quant
+</a><a class=tag href=/tags/model title=Model>Model
+</a><a class=tag href=/tags/machine-learning title="Machine Learning">Machine Learning</a></div><h1>机器学习：贝叶斯分类器</h1><h2 class=subheading>Bayesian Classifier</h2><span class=meta>Posted by
+XiangdiWu
+on
+Thursday, October 1, 2020</span></div></div></div></div></header><article><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+post-container"><h1 id=朴素贝叶斯的学习与分类>朴素贝叶斯的学习与分类</h1><p><strong>朴素贝叶斯(naive Bayse)</strong> 算法是基于<strong>贝叶斯定理</strong>与<strong>特征条件独立假设</strong>的分类方法。设输入空间$\mathcal X \subseteq \mathbb R^n$为$n$维向量的集合，输出空间为类标记集合$\mathcal Y={c_1,c_2,\cdots,c_K}$。输入为特征向量$x \in \mathcal X$，输出为类标记$y \in \mathcal Y$。$P(X,Y)$是输入空间和输出空间上的随机变量$X$和$Y$的联合概率分布，训练数据集(含$N$个数据)由$P(X,Y)$独立同分布产生。朴素贝叶斯在数据集上学习<strong>联合概率分布</strong>$P(X,Y)$。具体地，先学习以下先验概率分布及条件概率分布：</p><p>(1) <strong>先验概率分布</strong>：$P(Y=c_k),k=1,2,\cdots,K$。</p><p>(2) <strong>条件概率分布</strong>：$P(X=x|Y=c_k)=P(X^{(1)}=x^{(1)},\cdots,X^{(n)}=x^{(n)}|Y=c_k),k=1,2,\cdots,K$。</p><p>朴素贝叶斯对条件概率分布作了<strong>条件独立性假设</strong>：</p>$$
+P(X=x | Y=c_{k})=P(X^{(1)}=x^{(1)}, \ldots, X^{(n)}=x^{(n)} | Y=c_{k})=\prod_{j=1}^{n} P(X^{(j)}=x^{(j)} | Y=c_{k})
+$$<p>朴素贝叶斯算法实际上学习到生成数据的机制，属于<strong>生成模型</strong>。条件独立性假设等于是说用于分类的特征<strong>在类确定的条件下</strong>都是条件独立的。这一假设使朴素贝叶斯算法变得简单，但会牺牲一定的分类准确率。</p><p>朴素贝叶斯分类时，对给定的输入$x$，通过学习到的模型计算后验概率，最后将<strong>后验概率最大的类别</strong>作为$x$的类输出(<strong>后验概率最大化</strong>)：</p>$$
+y=f(x)=\arg \max _{c_{k}} P(Y=c_{k}) \prod_{j=1}^{n} P(X^{(j)}=x^{(j)} | Y=c_{k})
+$$<p>朴素贝叶斯将实例分到后验概率最大的类，这<strong>等价于期望风险最小化</strong>。假设使用0-1损失函数：</p>$$
+L(Y, f(X))=\left\{\begin{array}{ll}
+1, & Y \neq f(X) \\
+0, & Y=f(X)
+\end{array}\right.
+$$<p>式中的$f(X)$是分类决策函数。这时，<strong>期望风险函数</strong>是为$R_{\exp}(f)=E[L(Y,f(X))]$ 。</p><p>此期望是对联合分布$P(X,Y)$取的。由此取<strong>条件期望</strong>：</p>$$
+R_{\exp }(f)=E_{X} \sum_{k=1}^{K}[L(c_{k}, f(X))] P(c_{k} | X)
+$$<p>上式<strong>条件期望的推导过程</strong>如下：</p>$$
+\begin{aligned}
+R_{\exp}(f)&=E[L(Y,f(X))]\\
+&=\int_{\mathcal X \times \mathcal Y}L(y,f(x))P(x,y)\text dx \text dy\\
+&=\int_{\mathcal X \times \mathcal Y}L(y,f(x))P(y|x)P(x)\text dx \text dy\\
+&=\int_{\mathcal X} \left( \int_{\mathcal Y} L(y,f(x))P(y|x)\text dy \right)P(x)\text dx\\
+&=E_{X} \sum_{k=1}^{K}[L(c_{k}, f(X))] P(c_{k} | X)
+\end{aligned}
+$$<p>为了使期望风险最小化，只需对$X=x$逐个极小化，由此得到：</p>$$
+\begin{aligned}
+f(x) &=\arg \min _{y \in Y} \sum_{k=1}^{K} L(c_{k}, y) P(c_{k} | X=x)\\
+&=\arg \min _{y \in Y} \sum_{k=1}^{K} P(c_{k} \neq Y | X=x) \\
+&=\arg \min _{y \in Y} \sum_{k=1}^{K}(1-P(c_{k}=Y | X=x))\\
+&=\arg \max _{y \in Y} \sum_{k=1}^{K} P(c_{k}=Y | X=x)
+\end{aligned}
+$$<p>通过以上推导，根据期望风险最小化得到了后验概率最大化准则：</p>$$
+f(x)=\arg \max _{c_{k}} P\left(c_{k} | X=x\right)
+$$<h1 id=朴素贝叶斯的参数估计>朴素贝叶斯的参数估计</h1><h2 id=极大似然估计>极大似然估计</h2><p>在朴素贝叶斯算法中，学习意味着估计$P(Y=c_k)$和$P(X=x|Y=c_k)$。可以应用<strong>极大似然估计</strong>法估计相应的概率。先验概率$P(Y=c_k)$的极大似然估计是第$k$类的样本数除以总样本数：</p>$$
+P(Y=c_{k})=\frac{\sum_{i=1}^{N}I(y_{i}=c_{k})}{N}, k=1,2, \cdots, K
+$$<p>设第$j$个特征$x^{(j)}$<strong>可能取值的集合</strong>为$\{a_{j1},a_{j2},\cdots,a_{jS_j}\}$，条件概率$P(X^{(j)}=a_{jl}|Y=c_k)$的极大似然估计第$k$类中$x^{(j)}$特征的值为$a_{jl}$的样本个数除以第$k$类总样本数：</p>$$
+P(X^{(j)}=a_{j l} | Y=c_{k})=\frac{\sum_{i=1}^{N} I(x_{i}^{(j)}=a_{j l}, y_{i}=c_{k})}{\sum_{i=1}^{N} I(y_{i}=c_{k})}\\
+j=1,2,\cdots,n;\quad l=1,2,\cdots,S_j;\quad k=1,2,\cdots,K
+$$<p>式中，$x_i^{(j)}$是第$i$个样本的第$j$个特征，$a_{jl}$是第$j$个特征可能取的第$l$个值，$I$为指示函数。</p><p>注意，以上是输入特征为离散值的情况。若输入数据特征的数值是连续值，应进行<strong>离散化等处理</strong>。</p><h2 id=贝叶斯估计>贝叶斯估计</h2><p>用极大似然估计可能会出现所要估计的概率值为0的情况，这会影响到后验概率的计算结果，使分类产生偏差。解决方法是采用贝叶斯估计。具体地，条件概率的贝叶斯估计是：</p>$$
+P_{\lambda}(X^{(j)}=a_{j l} | Y=c_{k})=\frac{\sum_{i=1}^{N} I(x_{i}^{(j)}=a_{j l}, y_{i}=c_{k})+\lambda}{\sum_{i=1}^{N} I(y_{i}=c_{k})+S_{j} \lambda}
+$$<p>式中$\lambda \geqslant 0$。当$\lambda=0$时为极大似然估计。常取$\lambda=1$，这时称为拉普拉斯平滑。</p><p>同样，先验概率的贝叶斯估计是：</p>$$
+P_\lambda(Y=c_k)=\frac{\sum_{i=1}^N I(y_i=c_k)+\lambda}{N+K\lambda}
+$$<h1 id=高斯朴素贝叶斯>高斯朴素贝叶斯</h1><p>如果要处理的是<strong>连续数据</strong>，一种通常的假设是这些连续数值为<strong>高斯分布</strong>。 例如，假设训练集中有一个连续属性$X_i$。我们首先对数据根据类别分类，然后计算每个类别中$X_i$的均值和方差，即计算$X_i$在某一个类别$y$类内的均值$μ_y$，和$X_i$在$y$类内的方差$σ_y^2$。计算$y$类中$X_i$取值为$x_i$的概率的公式如下：</p>$$
+P(x_{i} | y)=\frac{1}{\sqrt{2 \pi \sigma_{y}^{2}}} \exp \left(-\frac{(x_{i}-\mu_{y})^{2}}{2 \sigma_{y}^{2}}\right)
+$$<p>处理连续数值问题的另一种常用的技术是<strong>离散化连续数值</strong>。通常，当训练样本数量较少或者是精确的分布已知时，通过概率分布的方法是一种更好的选择。<strong>在大量样本的情形下离散化的方法表现更优</strong>，因为大量的样本可以学习到数据的分布。由于朴素贝叶斯是一种典型的用到大量样本的方法(越大计算量的模型可以产生越高的分类精确度)，所以<strong>朴素贝叶斯方法一般都使用离散化方法</strong>，而不是概率分布估计的方法。</p><h1 id=半朴素贝叶斯分类器>半朴素贝叶斯分类器</h1><p>为了方便计算估计条件概率，朴素贝叶斯分类器采用了属性条件独立性假设，但在现实任务中这个假设往往很难成立。半朴素贝叶斯分类器的基本想法是适当考虑一部分属性间的相互依赖信息，从而既不需要进行完全联合概率计算，又不至于彻底忽略了比较强的属性依赖关系。</p><p><strong>独依赖估计(one-dependent estimator, ODE)</strong> 是半朴素贝叶斯分类器最常用的一种策略，即假设每个属性在类别之外最多仅依赖于其他一个属性，该属性称为父属性。因此，问题的关键转化为如何确定每个属性的父属性，不同的做法产生不同的独依赖分类器：</p><p>(1) <strong>SPODE(super-parent ODE)</strong>：最直接的做法是假设所有属性都依赖于同一个属性“超父”(super-parent)，然后通过交叉验证等方法选择超父。</p><p>(2) <strong>TAN(tree augmented naive Bayes)</strong>：在最大带权生成树算法的基础上，通过计算属性之间的条件互信息来计算属性间的相关性。TAN实际上仅保留了强相关属性间的依赖性。</p><p>(3) <strong>AODE(averated one-dependent estimator)</strong>：一种基于集成学习机制、更为强大的独依赖分类器。</p><p>既然将条件独立性假设放松为独依赖假设可能获得泛化性能的提升，那么，能否通过考虑属性间的<strong>高阶依赖</strong>来进一步提升泛化性能？需注意的是，随着依赖属性数目的增加，在样本有限的条件下，又会陷入估计高阶联合概率的泥沼。根据对属性间依赖的涉及程度，贝叶斯分类器形成了一个“谱”：<strong>朴素贝叶斯分类器</strong>不考虑属性间的依赖性，<strong>贝叶斯网</strong>能表示任意属性间的依赖性，介于两者之间的则是一系列<strong>半朴素贝叶斯分类器</strong>，它们基于各种假设和约束来对属性间的部分依赖性进行建模。</p><h1 id=基于numpy的朴素贝叶斯实现>基于numpy的朴素贝叶斯实现</h1><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#ff79c6>import</span> numpy <span style=color:#ff79c6>as</span> np
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> pandas <span style=color:#ff79c6>as</span> pd
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 构造数据集 (来自于李航统计学习方法表4.1)</span>
+</span></span><span style=display:flex><span>x1 <span style=color:#ff79c6>=</span> [<span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>2</span>, <span style=color:#bd93f9>2</span>, <span style=color:#bd93f9>2</span>, <span style=color:#bd93f9>2</span>, <span style=color:#bd93f9>2</span>, <span style=color:#bd93f9>3</span>, <span style=color:#bd93f9>3</span>, <span style=color:#bd93f9>3</span>, <span style=color:#bd93f9>3</span>, <span style=color:#bd93f9>3</span>]
+</span></span><span style=display:flex><span>x2 <span style=color:#ff79c6>=</span> [<span style=color:#f1fa8c>&#39;S&#39;</span>, <span style=color:#f1fa8c>&#39;M&#39;</span>, <span style=color:#f1fa8c>&#39;M&#39;</span>, <span style=color:#f1fa8c>&#39;S&#39;</span>, <span style=color:#f1fa8c>&#39;S&#39;</span>, <span style=color:#f1fa8c>&#39;S&#39;</span>, <span style=color:#f1fa8c>&#39;M&#39;</span>, <span style=color:#f1fa8c>&#39;M&#39;</span>, <span style=color:#f1fa8c>&#39;L&#39;</span>, <span style=color:#f1fa8c>&#39;L&#39;</span>, <span style=color:#f1fa8c>&#39;L&#39;</span>, <span style=color:#f1fa8c>&#39;M&#39;</span>, <span style=color:#f1fa8c>&#39;M&#39;</span>, <span style=color:#f1fa8c>&#39;L&#39;</span>, <span style=color:#f1fa8c>&#39;L&#39;</span>]
+</span></span><span style=display:flex><span>y <span style=color:#ff79c6>=</span> [<span style=color:#ff79c6>-</span><span style=color:#bd93f9>1</span>, <span style=color:#ff79c6>-</span><span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>1</span>, <span style=color:#ff79c6>-</span><span style=color:#bd93f9>1</span>, <span style=color:#ff79c6>-</span><span style=color:#bd93f9>1</span>, <span style=color:#ff79c6>-</span><span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>1</span>, <span style=color:#ff79c6>-</span><span style=color:#bd93f9>1</span>]
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>df <span style=color:#ff79c6>=</span> pd<span style=color:#ff79c6>.</span>DataFrame({<span style=color:#f1fa8c>&#39;x1&#39;</span>: x1, <span style=color:#f1fa8c>&#39;x2&#39;</span>: x2, <span style=color:#f1fa8c>&#39;y&#39;</span>: y})
+</span></span><span style=display:flex><span>df<span style=color:#ff79c6>.</span>head()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>X <span style=color:#ff79c6>=</span> df[[<span style=color:#f1fa8c>&#39;x1&#39;</span>, <span style=color:#f1fa8c>&#39;x2&#39;</span>]]
+</span></span><span style=display:flex><span>y <span style=color:#ff79c6>=</span> df[[<span style=color:#f1fa8c>&#39;y&#39;</span>]]
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>def</span> <span style=color:#50fa7b>nb_fit</span>(X, y):
+</span></span><span style=display:flex><span>    classes <span style=color:#ff79c6>=</span> y[y<span style=color:#ff79c6>.</span>columns[<span style=color:#bd93f9>0</span>]]<span style=color:#ff79c6>.</span>unique()
+</span></span><span style=display:flex><span>    class_count <span style=color:#ff79c6>=</span> y[y<span style=color:#ff79c6>.</span>columns[<span style=color:#bd93f9>0</span>]]<span style=color:#ff79c6>.</span>value_counts()
+</span></span><span style=display:flex><span>    class_prior <span style=color:#ff79c6>=</span> class_count <span style=color:#ff79c6>/</span> <span style=color:#8be9fd;font-style:italic>len</span>(y)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    prior <span style=color:#ff79c6>=</span> <span style=color:#8be9fd;font-style:italic>dict</span>()
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>for</span> col <span style=color:#ff79c6>in</span> X<span style=color:#ff79c6>.</span>columns:
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>for</span> j <span style=color:#ff79c6>in</span> classes:
+</span></span><span style=display:flex><span>            p_x_y <span style=color:#ff79c6>=</span> X[(y <span style=color:#ff79c6>==</span> j)<span style=color:#ff79c6>.</span>values][col]<span style=color:#ff79c6>.</span>value_counts()
+</span></span><span style=display:flex><span>            <span style=color:#ff79c6>for</span> i <span style=color:#ff79c6>in</span> p_x_y<span style=color:#ff79c6>.</span>index:
+</span></span><span style=display:flex><span>                prior[(col, i, j)] <span style=color:#ff79c6>=</span> p_x_y[i] <span style=color:#ff79c6>/</span> class_count[j]
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>return</span> classes, class_prior, prior
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>classes, class_prior, prior <span style=color:#ff79c6>=</span> nb_fit(X, y)
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(classes, class_prior, prior)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>X_test <span style=color:#ff79c6>=</span> {<span style=color:#f1fa8c>&#39;x1&#39;</span>: <span style=color:#bd93f9>2</span>, <span style=color:#f1fa8c>&#39;x2&#39;</span>: <span style=color:#f1fa8c>&#39;S&#39;</span>}
+</span></span><span style=display:flex><span>classes, class_prior, prior <span style=color:#ff79c6>=</span> nb_fit(X, y)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>def</span> <span style=color:#50fa7b>predict</span>(X_test):
+</span></span><span style=display:flex><span>    res <span style=color:#ff79c6>=</span> []
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>for</span> c <span style=color:#ff79c6>in</span> classes:
+</span></span><span style=display:flex><span>        p_y <span style=color:#ff79c6>=</span> class_prior[c]
+</span></span><span style=display:flex><span>        p_x_y <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>1</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>for</span> i <span style=color:#ff79c6>in</span> X_test<span style=color:#ff79c6>.</span>items():
+</span></span><span style=display:flex><span>            p_x_y <span style=color:#ff79c6>*=</span> prior[<span style=color:#8be9fd;font-style:italic>tuple</span>(<span style=color:#8be9fd;font-style:italic>list</span>(i) <span style=color:#ff79c6>+</span> [c])]
+</span></span><span style=display:flex><span>        res<span style=color:#ff79c6>.</span>append(p_y <span style=color:#ff79c6>*</span> p_x_y)
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>return</span> classes[np<span style=color:#ff79c6>.</span>argmax(res)]
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(predict(X_test))
+</span></span></code></pre></div><h1 id=使用scikit-learn中的多项式朴素贝叶斯算法对新闻文本进行分类>使用scikit-learn中的多项式朴素贝叶斯算法对新闻文本进行分类</h1><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#ff79c6>import</span> numpy <span style=color:#ff79c6>as</span> np
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> matplotlib.pyplot <span style=color:#ff79c6>as</span> plt
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> sklearn.naive_bayes <span style=color:#ff79c6>import</span> MultinomialNB
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> sklearn.datasets <span style=color:#ff79c6>import</span> fetch_20newsgroups_vectorized
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> sklearn.model_selection <span style=color:#ff79c6>import</span> train_test_split
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> sklearn.metrics <span style=color:#ff79c6>import</span> accuracy_score, classification_report
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 加载数据，vectorized数据表示已将文本变为向量表示(这里使用tf-idf作为特征)</span>
+</span></span><span style=display:flex><span>newsgroups_train <span style=color:#ff79c6>=</span> fetch_20newsgroups_vectorized(<span style=color:#f1fa8c>&#39;train&#39;</span>)
+</span></span><span style=display:flex><span>X_train <span style=color:#ff79c6>=</span> newsgroups_train[<span style=color:#f1fa8c>&#39;data&#39;</span>]
+</span></span><span style=display:flex><span>y_train <span style=color:#ff79c6>=</span> newsgroups_train[<span style=color:#f1fa8c>&#39;target&#39;</span>]
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>newsgroups_test <span style=color:#ff79c6>=</span> fetch_20newsgroups_vectorized(<span style=color:#f1fa8c>&#39;test&#39;</span>)
+</span></span><span style=display:flex><span>X_test <span style=color:#ff79c6>=</span> newsgroups_test[<span style=color:#f1fa8c>&#39;data&#39;</span>]
+</span></span><span style=display:flex><span>y_test <span style=color:#ff79c6>=</span> newsgroups_test[<span style=color:#f1fa8c>&#39;target&#39;</span>]
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>y_train <span style=color:#ff79c6>=</span> np<span style=color:#ff79c6>.</span>array(y_train)  <span style=color:#6272a4># 变为numpy数组</span>
+</span></span><span style=display:flex><span>y_test <span style=color:#ff79c6>=</span> np<span style=color:#ff79c6>.</span>array(y_test)  <span style=color:#6272a4># 变为numpy数组</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(X_train<span style=color:#ff79c6>.</span>shape, X_test<span style=color:#ff79c6>.</span>shape, y_train<span style=color:#ff79c6>.</span>shape, y_test<span style=color:#ff79c6>.</span>shape)
+</span></span><span style=display:flex><span><span style=color:#6272a4># (11314, 130107) (7532, 130107) (11314,) (7532,)</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>nb <span style=color:#ff79c6>=</span> MultinomialNB()  <span style=color:#6272a4># 定义多项式朴素贝叶斯分类器</span>
+</span></span><span style=display:flex><span>nb<span style=color:#ff79c6>.</span>fit(X_train, y_train)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(accuracy_score(y_test, nb<span style=color:#ff79c6>.</span>predict(X_test)))  <span style=color:#6272a4># 打印分类准确率</span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(classification_report(y_test, nb<span style=color:#ff79c6>.</span>predict(X_test)))  <span style=color:#6272a4># 分类报告中包含precision/recall/f1-score</span>
+</span></span></code></pre></div><h1 id=参考资料>参考资料</h1><ul><li>李航. 统计学习方法. 北京: 清华大学出版社, 2019.</li><li>周志华. 机器学习. 北京: 清华大学出版社, 2016.</li><li>鲁伟. 机器学习：公式推导与代码实现. 北京: 人民邮电出版社, 2022.</li></ul><hr><ul class=pager><li class=previous><a href=/post/3-ml/ml3-k%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/ data-toggle=tooltip data-placement=top title=机器学习：K近邻算法>&larr;
+Previous Post</a></li><li class=next><a href=/post/3-ml/ml4-%E6%84%9F%E7%9F%A5%E6%9C%BA/ data-toggle=tooltip data-placement=top title=机器学习：感知机>Next
+Post &rarr;</a></li></ul><script src=https://giscus.app/client.js data-repo=XiangdiWu/XiangdiWu.github.io data-repo-id=R_kgDOP0pDUQ data-category=Announcements data-category-id=DIC_kwDOP0pDUc4CvwjG data-mapping=pathname data-reactions-enabled=1 data-emit-metadata=0 data-theme=light data-lang=zh-CN crossorigin=anonymous async></script></div><div class="col-lg-2 col-lg-offset-0
+visible-lg-block
+sidebar-container
+catalog-container"><div class=side-catalog><hr class="hidden-sm hidden-xs"><h5><a class=catalog-toggle href=#>CATALOG</a></h5><ul class=catalog-body></ul></div></div><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+sidebar-container"><section><hr class="hidden-sm hidden-xs"><h5><a href=/tags/>FEATURED TAGS</a></h5><div class=tags><a href=/tags/deep-learning title="deep learning">deep learning
+</a><a href=/tags/machine-learning title="machine learning">machine learning
+</a><a href=/tags/math title=math>math
+</a><a href=/tags/model title=model>model
+</a><a href=/tags/nlp title=nlp>nlp
+</a><a href=/tags/quant title=quant>quant</a></div></section><section><hr><h5>FRIENDS</h5><ul class=list-inline><li><a target=_blank href=https://www.factorwar.com/data/factor-models/>GetAstockFactors</a></li><li><a target=_blank href=https://datawhalechina.github.io/whale-quant/#/>Whale-Quant</a></li></ul></section></div></div></div></article><script type=module>  
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; 
+    mermaid.initialize({ startOnLoad: true });  
+</script><script>Array.from(document.getElementsByClassName("language-mermaid")).forEach(e=>{e.parentElement.outerHTML=`<div class="mermaid">${e.innerHTML}</div>`})</script><style>.mermaid svg{display:block;margin:auto}</style><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center"><li><a href=mailto:bernicewu2000@outlook.com><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-envelope fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=/img/wechat_qrcode.jpg><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-weixin fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=https://github.com/xiangdiwu><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-github fa-stack-1x fa-inverse"></i></span></a></li><li><a href rel=alternate type=application/rss+xml title="Xiangdi Blog"><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-rss fa-stack-1x fa-inverse"></i></span></a></li></ul><p class="copyright text-muted">Copyright &copy; Xiangdi Blog 2025</p></div></div></div></footer><script>function loadAsync(e,t){var s=document,o="script",n=s.createElement(o),i=s.getElementsByTagName(o)[0];n.src=e,t&&n.addEventListener("load",function(e){t(null,e)},!1),i.parentNode.insertBefore(n,i)}</script><script>$("#tag_cloud").length!==0&&loadAsync("/js/jquery.tagcloud.js",function(){$.fn.tagcloud.defaults={color:{start:"#bbbbee",end:"#0085a1"}},$("#tag_cloud a").tagcloud()})</script><script>loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js",function(){var e=document.querySelector("nav");e&&FastClick.attach(e)})</script><script type=text/javascript>function generateCatalog(e){_containerSelector="div.post-container";var t,n,s,o,i,a=$(_containerSelector),r=a.find("h1,h2,h3,h4,h5,h6");return $(e).html(""),r.each(function(){n=$(this).prop("tagName").toLowerCase(),o="#"+$(this).prop("id"),t=$(this).text(),i=$('<a href="'+o+'" rel="nofollow" title="'+t+'">'+t+"</a>"),s=$('<li class="'+n+'_nav"></li>').append(i),$(e).append(s)}),!0}generateCatalog(".catalog-body"),$(".catalog-toggle").click(function(e){e.preventDefault(),$(".side-catalog").toggleClass("fold")}),loadAsync("/js/jquery.nav.js",function(){$(".catalog-body").onePageNav({currentClass:"active",changeHash:!1,easing:"swing",filter:"",scrollSpeed:700,scrollOffset:0,scrollThreshold:.2,begin:null,end:null,scrollChange:null,padding:80})})</script><style>.markmap>svg{width:100%;height:300px}</style><script>window.markmap={autoLoader:{manual:!0,onReady(){const{autoLoader:e,builtInPlugins:t}=window.markmap;e.transformPlugins=t.filter(e=>e.name!=="prism")}}}</script><script src=https://cdn.jsdelivr.net/npm/markmap-autoloader></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css integrity="sha512-r2+FkHzf1u0+SQbZOoIz2RxWOIWfdEzRuYybGjzKq18jG9zaSfEy9s3+jMqG/zPtRor/q4qaUCYQpmSjTw8M+g==" crossorigin=anonymous><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js integrity="sha512-INps9zQ2GUEMCQD7xiZQbGUVnqnzEvlynVy6eqcTcHN4+aQiLo9/uaQqckDpdJ8Zm3M0QBs+Pktg4pz0kEklUg==" crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/mhchem.min.js integrity="sha512-mxjNw/u1lIsFC09k/unscDRY3ofIYPVFbWkP8slrePcS36ht4d/OZ8rRu5yddB2uiqajhTcLD8+jupOWuYPebg==" crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js integrity="sha512-YJVxTjqttjsU3cSvaTRqsSl0wbRgZUNF+NGGCgto/MUbIvaLdXQzGTCQu4CvyJZbZctgflVB0PXw9LLmTWm5/w==" crossorigin=anonymous onload='renderMathInElement(document.body,{delimiters:[{display:!0,left:"$$",right:"$$"},{display:!1,left:"$",right:"$"},{display:!1,left:"\\(",right:"\\)"},{display:!0,left:"\\[",right:"\\]"}],errorcolor:"#CD5C5C",throwonerror:!1})'></script></body></html>

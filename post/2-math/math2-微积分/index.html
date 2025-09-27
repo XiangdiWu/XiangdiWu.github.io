@@ -1,0 +1,174 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta property="og:site_name" content="Xiangdi Blog"><meta property="og:type" content="article"><meta property="og:image" con ’tent=https://images.pexels.com/photos/3781338/pexels-photo-3781338.jpeg><meta property="twitter:image" content="https://images.pexels.com/photos/3781338/pexels-photo-3781338.jpeg"><meta name=title content="量化数学基础：微积分"><meta property="og:title" content="量化数学基础：微积分"><meta property="twitter:title" content="量化数学基础：微积分"><meta name=description content="本文主要介绍微积分的基础知识，包括导数、积分、矩阵微积分等。"><meta property="og:description" content="本文主要介绍微积分的基础知识，包括导数、积分、矩阵微积分等。"><meta property="twitter:description" content="本文主要介绍微积分的基础知识，包括导数、积分、矩阵微积分等。"><meta property="twitter:card" content="summary"><meta property="og:url" content="https://xiangdiwu.github.io/post/2-math/math2-%E5%BE%AE%E7%A7%AF%E5%88%86/"><meta name=keyword content="吴湘菂, WuXiangdi, XiangdiWu, 吴湘菂的网络日志, 吴湘菂的博客, Xiangdi Blog, 博客, 个人网站, Quant, 量化投资, 金融, 投资, 理财, 股票, 期货, 基金, 期权, 外汇, 比特币"><link rel="shortcut icon" href=/img/favicon.ico><title>量化数学基础：微积分-吴湘菂的博客 | Xiangdi Blog</title><link rel=canonical href=/post/2-math/math2-%E5%BE%AE%E7%A7%AF%E5%88%86/><link rel=stylesheet href=/css/bootstrap.min.css><link rel=stylesheet href=/css/hugo-theme-cleanwhite.min.css><link rel=stylesheet href=/css/zanshang.min.css><link rel=stylesheet href=/css/font-awesome.all.min.css><script src=/js/jquery.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/hux-blog.min.js></script><script src=/js/lazysizes.min.js></script></head><script async src="https://www.googletagmanager.com/gtag/js?id=G-R757MDJ6Y6"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-R757MDJ6Y6")}</script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css integrity=sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV crossorigin=anonymous><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js integrity=sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8 crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js integrity=sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05 crossorigin=anonymous></script><script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"\\[",right:"\\]",display:!0},{left:"$$",right:"$$",display:!0},{left:"\\(",right:"\\)",display:!1}],throwOnError:!1})})</script><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css><script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type=text/javascript></script><nav class="navbar navbar-default navbar-custom navbar-fixed-top"><div class=container-fluid><div class="navbar-header page-scroll"><button type=button class=navbar-toggle>
+<span class=sr-only>Toggle navigation</span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+</button>
+<a class=navbar-brand href=/>Xiangdi Blog</a></div><div id=huxblog_navbar><div class=navbar-collapse><ul class="nav navbar-nav navbar-right"><li><a href=/>All Posts</a></li><li><a href=/categories/quant/>quant</a></li><li><a href=/categories/reading/>reading</a></li><li><a href=/categories/tech/>tech</a></li><li><a href=/archive//>ARCHIVE</a></li><li><a href=/vibe//>Vibe</a></li><li><a href=/travel//>TRAVEL</a></li><li><a href=/about//>ABOUT</a></li><li><a href=/search><i class="fa fa-search"></i></a></li></ul></div></div></div></nav><script>var $body=document.body,$toggle=document.querySelector(".navbar-toggle"),$navbar=document.querySelector("#huxblog_navbar"),$collapse=document.querySelector(".navbar-collapse");$toggle.addEventListener("click",handleMagic);function handleMagic(){$navbar.className.indexOf("in")>0?($navbar.className=" ",setTimeout(function(){$navbar.className.indexOf("in")<0&&($collapse.style.height="0px")},400)):($collapse.style.height="auto",$navbar.className+=" in")}</script><style type=text/css>header.intro-header{background-image:url(https://images.pexels.com/photos/3781338/pexels-photo-3781338.jpeg)}</style><header class=intro-header><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class=post-heading><div class=tags><a class=tag href=/tags/quant title=Quant>Quant
+</a><a class=tag href=/tags/math title=Math>Math</a></div><h1>量化数学基础：微积分</h1><h2 class=subheading>Foundations of Quantitative Mathematics: Calculus</h2><span class=meta>Posted by
+XiangdiWu
+on
+Thursday, September 24, 2020</span></div></div></div></div></header><article><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+post-container"><p><strong>微积分(calculus)</strong>是研究函数的<strong>微分(differentiation)</strong>、<strong>积分(integration)</strong>及其相关应用的数学分支。</p><h1 id=微分>微分</h1><h2 id=导数>导数</h2><p>对于定义域和值域都是实数域的函数$f: \mathbb R \rightarrow \mathbb R$，若$f(x)$在点$x_0$的某个邻域$\Delta x$内，极限</p>$$
+f^{\prime}(x_{0})=\lim _{\Delta x \rightarrow 0} \frac{f(x_{0}+\Delta x)-f(x_{0})}{\Delta x}
+$$<p>存在，则称函数$f(x)$在点$x_0$处可导，$f^{\prime}(x_0)$称为其<strong>导数(derivative)</strong>，或<strong>导函数</strong>，也可以记为${\text d f(x_0)}/{\text d x}$。在几何上，导数可以看做函数曲线上的切线斜率。下图给出了一个函数导数的可视化示例，其中函数$g(x)$的斜率为函数$f(x)$在点$x$的导数，$\Delta y=f(x+\Delta x)-f(x)$。</p><div align=center><img src=/Kimages/1/image-20200509113346911.png style=zoom:30%></div><p>下表中给出了几个机器学习领域常见函数的导数：</p><div align=center><img src=/Kimages/1/image-20200509113448001.png style=zoom:30%></div><p><strong>高阶导数</strong>：对一个函数的导数继续求导，可以得到高阶导数。函数$f(x)$的导数$f^\prime(x)$称为一阶导数，$f^\prime(x)$的导数称为<strong>二阶导数</strong>，记为$f^{\prime\prime}(x)$、$f^{(2)}(x)$或$\text d^2f(x)/\text d x^2$。</p><p><strong>偏导数(partial derrivative)</strong>：对于一个多元变量函数$f:\mathbb R^d \rightarrow \mathbb R$，其偏导数是关于其中一个变量$x_i$的导数，而保持其他变量固定，可以记为$f_{x_{i}}^{\prime}(\boldsymbol{x})$，$\nabla_{x_{i}} f(\boldsymbol{x})$或$\partial f(\boldsymbol x)/\partial x_i$。</p><h2 id=微分-1>微分</h2><p>给定一个连续函数，计算其导数的过程称为<strong>微分(differentiation)</strong>。若函数$f(x)$在其定义域包含的某区间内每一个点都可导，那么也可以说函数$f(x)$在这个区间内可导。如果一个函数$f(x)$在定义域中的所有点都存在导数，则$f(x)$为<strong>可微函数(differentiable function)</strong>。可微函数一定连续，但连续函数不一定可微。例如函数$|x|$为连续函数，但在点$x=0$处不可导。</p><h2 id=泰勒公式>泰勒公式</h2><p><b>泰勒公式(Taylor&rsquo;s formula)</b>是一个函数$f(x)$在已知某一点的各阶导数值的情况之下，可以用这些导数值作系数构建一个多项式来近似函数在这一点的邻域中的值。如果函数$f(x)$在$a$点处$n$次可导$(n \geqslant 1)$，在一个包含点$a$的区间上的任意$x$，都有：</p>$$
+\begin{aligned}
+f(x)=f(a)+& \frac{1}{1 !} f^{\prime}(a)(x-a)+\frac{1}{2 !} f^{(2)}(a)(x-a)^{2}+\cdots \\
+&+\frac{1}{n !} f^{(n)}(a)(x-a)^{n}+R_{n}(x)
+\end{aligned}
+$$<p>其中$f^{(n)}(a)$表示函数$f(x)$在点$a$的$n$阶导数。上式中的多项式部分称为函数$f(x)$在$a$出的$n$阶泰勒展开式，剩余的$R_n(x)$是泰勒公式的余项，是$(x-a)^n$的高阶无穷小。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#6272a4># sympy实现自动微分</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> sympy
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 使用diff()函数来计算导数</span>
+</span></span><span style=display:flex><span>x <span style=color:#ff79c6>=</span> sympy<span style=color:#ff79c6>.</span>Symbol(<span style=color:#f1fa8c>&#39;x&#39;</span>)
+</span></span><span style=display:flex><span>f1 <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>2</span> <span style=color:#ff79c6>*</span> x <span style=color:#ff79c6>**</span> <span style=color:#bd93f9>4</span> <span style=color:#ff79c6>+</span> <span style=color:#bd93f9>3</span> <span style=color:#ff79c6>*</span> x <span style=color:#ff79c6>+</span> <span style=color:#bd93f9>6</span>
+</span></span><span style=display:flex><span>f1_ <span style=color:#ff79c6>=</span> sympy<span style=color:#ff79c6>.</span>diff(f1, x)
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(f1_)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>f2 <span style=color:#ff79c6>=</span> sympy<span style=color:#ff79c6>.</span>sin(x)
+</span></span><span style=display:flex><span>f2_ <span style=color:#ff79c6>=</span> sympy<span style=color:#ff79c6>.</span>diff(f2, x)
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(f2_)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 计算偏导数</span>
+</span></span><span style=display:flex><span>y <span style=color:#ff79c6>=</span> sympy<span style=color:#ff79c6>.</span>Symbol(<span style=color:#f1fa8c>&#39;y&#39;</span>)
+</span></span><span style=display:flex><span>f3 <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>2</span> <span style=color:#ff79c6>*</span> x <span style=color:#ff79c6>**</span> <span style=color:#bd93f9>2</span> <span style=color:#ff79c6>+</span> <span style=color:#bd93f9>3</span> <span style=color:#ff79c6>*</span> y <span style=color:#ff79c6>**</span> <span style=color:#bd93f9>4</span> <span style=color:#ff79c6>+</span> <span style=color:#bd93f9>2</span> <span style=color:#ff79c6>*</span> y
+</span></span><span style=display:flex><span><span style=color:#6272a4># 分别计算函数f3对于变量x和y的偏导数</span>
+</span></span><span style=display:flex><span>f3_x <span style=color:#ff79c6>=</span> sympy<span style=color:#ff79c6>.</span>diff(f3, x)
+</span></span><span style=display:flex><span>f3_y <span style=color:#ff79c6>=</span> sympy<span style=color:#ff79c6>.</span>diff(f3, y)
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#39;partial derivative of x: &#39;</span>, f3_x)
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#39;partial derivative of y: &#39;</span>, f3_y)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 链式法则</span>
+</span></span><span style=display:flex><span>x <span style=color:#ff79c6>=</span> sympy<span style=color:#ff79c6>.</span>Symbol(<span style=color:#f1fa8c>&#39;x&#39;</span>)
+</span></span><span style=display:flex><span>u <span style=color:#ff79c6>=</span> sympy<span style=color:#ff79c6>.</span>sin(x)
+</span></span><span style=display:flex><span>v <span style=color:#ff79c6>=</span> u <span style=color:#ff79c6>**</span> <span style=color:#bd93f9>2</span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(sympy<span style=color:#ff79c6>.</span>diff(v, x))
+</span></span></code></pre></div><h1 id=积分>积分</h1><p>积分(integration)是微分的逆过程，即如何从导数推算出原函数。积分通常可以分为<strong>定积分(definite integral)<strong>和</strong>不定积分(indefinite integral)</strong>。</p><p>函数$f(x)$的不定积分可以写为：</p>$$
+F(x)=\int f(x) \mathrm{d} x
+$$<p>其中$F(x)$称为$f(x)$的<strong>原函数</strong>或反导函数，$\text d x$表示积分变量为$x$。当$f(x)$是$F(x)$的导数时，$F(x)$是的不定积分。根$f(x)$据导数的性质，一个函数$f(x)$的不定积分是不唯一的。若$F(x)$是$f(x)$的不定积分，$F(x)+C$也是$f(x)$的不定积分，其中$C$为一个常数。</p><p>给定一个变量为$x$的实值函数$f(x)$和闭区间$[a,b]$，定积分可以理解为在坐标平面上由$f(x)$，垂直直线$x=a,x=b$以及$x$轴围起来的区域的带符号的面积，记为：</p>$$
+\int_{a}^{b} f(x) \mathrm{d} x
+$$<p>带符号的面积表示$x$轴以上的面积为正，$x$轴以下的面积为负。</p><p>积分的定义有很多种，最常见的积分定义之一是<strong>黎曼积分(Riemann integral)</strong>。对于闭区间$[a,b]$，我们定义$[a,b]$的一个分割为此区间中取一个有限的点列$a=x_{0}<x_{1}<x_{2}<\ldots<x_{n}=b$。这些点将区间$[a,b]$分割为$n$个子区间$[x_{i-1},x_i]$，其中$1\leqslant i \leqslant n$。每个区间取出一个点$t \in [x_{i-1},x_i]$作为代表。在这个分割上，函数$f(x)$的<strong>黎曼和</strong>定义为：</p>$$
+\sum_{i=1}^{n} f(t_{i})(x_{i}-x_{i-1})
+$$<p>即<strong>所有子区间的带符号面积之和</strong>。</p><p>不同分割的黎曼和不同。当$n$足够大时，如果黎曼和趋于某个极限，那么这个极限就叫做函数$f(x)$在闭区间$[a,b]$上的黎曼积分。下图给出了不同分割的黎曼和示例：</p><div align=center><img src=/Kimages/1/image-20200509120615922.png style=zoom:30%></div><h1 id=矩阵微积分>矩阵微积分</h1><p>为了方便并行计算，有时会把单个函数对多个变量或者多元函数对单个变量的偏导数写成向量和矩阵的形式，使其可以被当成一个整体处理。<strong>矩阵微积分(matrix calculus)<strong>是多元微积分的一种表达方式，即</strong>使用矩阵和向量来表示因变量每个成分关于自变量每个成分的偏导数</strong>。</p><h2 id=向量求导>向量求导</h2><p>矩阵微积分的表示通常由两种符号约定：<strong>分子布局(numerator layout)<strong>和</strong>分母布局(demoninator layout)</strong>。两者的区别是导数的结果写成列向量还是行向量。<strong>一般默认采用分母布局</strong>。</p><h3 id=标量关于向量的偏导数>标量关于向量的偏导数</h3><p>对于一个$p$维向量$\boldsymbol{x} \in \mathbb{R}^{p}$，函数 $y=f(\boldsymbol{x})=f\left(x_{1}, \cdots, x_{p}\right) \in\mathbb{R}$，则$y$关于$\boldsymbol{x}$的偏导数为：</p>$$
+\begin{aligned}
+&\text { 分母布局 } \quad \frac{\partial y}{\partial \boldsymbol{x}}=\left[\frac{\partial y}{\partial x_{1}}, \cdots, \frac{\partial y}{\partial x_{p}}\right]^{\mathrm{T}} \in \mathbb{R}^{p \times 1}\\
+&\text { 分子布局 } \quad \frac{\partial y}{\partial \boldsymbol{x}}=\left[\frac{\partial y}{\partial x_{1}}, \cdots, \frac{\partial y}{\partial x_{p}}\right] \ \ \in \mathbb{R}^{1 \times p}
+\end{aligned}
+$$<p>分母布局为列向量，分子布局为行向量。</p><h3 id=向量关于标量的偏导数>向量关于标量的偏导数</h3><p>对于一个标量$x \in \mathbb{R}$，函数$\boldsymbol{y}=f(x) \in \mathbb{R}^{q}$，则$\boldsymbol{y}$关于$x$的偏导数为：</p>$$
+\begin{aligned}
+&\text { 分母布局 } \quad \frac{\partial \boldsymbol{y}}{\partial x}=\left[\frac{\partial y_{1}}{\partial x}, \cdots, \frac{\partial y_{q}}{\partial x}\right] \quad \in \mathbb{R}^{1 \times q}\\
+&\text { 分子布局 } \quad \frac{\partial \boldsymbol{y}}{\partial x}=\left[\frac{\partial y_{1}}{\partial x}, \cdots, \frac{\partial y_{q}}{\partial x}\right]^{\mathrm{T}} \ \ \in \mathbb{R}^{q \times 1}
+\end{aligned}
+$$<p>与标量关于向量的偏导数相反，分母布局为行向量，分子布局为列向量。</p><h3 id=向量关于向量的偏导数>向量关于向量的偏导数</h3><p>对于一个$d$维向量$\boldsymbol{x} \in \mathbb{R}^{p}$，函数$\boldsymbol{y}=f(\boldsymbol{x}) \in \mathbb{R}^{q}$的值也为一个向量，则$f(\boldsymbol{x})$关于$\boldsymbol{x}$的偏导数(<strong>分母布局</strong>)为：</p>$$
+\frac{\partial f(\boldsymbol{x})}{\partial \boldsymbol{x}}=\left[\begin{array}{ccc}
+\frac{\partial y_{1}}{\partial x_{1}} & \cdots & \frac{\partial y_{q}}{\partial x_{1}} \\
+\vdots & \vdots & \vdots \\
+\frac{\partial y_{1}}{\partial x_{p}} & \cdots & \frac{\partial y_{q}}{\partial x_{p}}
+\end{array}\right] \in \mathbb{R}^{p \times q}
+$$<p>该矩阵称为<strong>雅克比矩阵(Jacobian matrix)</strong>。</p><h2 id=导数法则>导数法则</h2><p>(1) <strong>加减法则</strong>：若$\boldsymbol{x} \in \mathbb{R}^{p}, \boldsymbol{y}=f(\boldsymbol{x}) \in \mathbb{R}^{q}, \boldsymbol{z}=g(\boldsymbol{x}) \in \mathbb{R}^{q}$，则：</p>$$
+\frac{\partial(\boldsymbol{y}+\boldsymbol{z})}{\partial \boldsymbol{x}}=\frac{\partial \boldsymbol{y}}{\partial \boldsymbol{x}}+\frac{\partial \boldsymbol{z}}{\partial \boldsymbol{x}} \in \mathbb{R}^{p \times q}
+$$<p>(2) <strong>乘法法则</strong>：</p><p>若$\boldsymbol{x} \in \mathbb{R}^{p}, \boldsymbol{y}=f(\boldsymbol{x}) \in \mathbb{R}^{q}, \boldsymbol{z}=g(\boldsymbol{x}) \in \mathbb{R}^{q}$，则：</p>$$
+\frac{\partial \boldsymbol{y}^{\mathrm{T}} \boldsymbol{z}}{\partial \boldsymbol{x}}=\frac{\partial \boldsymbol{y}}{\partial \boldsymbol{x}} \boldsymbol{z}+\frac{\partial \boldsymbol{z}}{\partial \boldsymbol{x}} \boldsymbol{y} \in \mathbb{R}^{p}
+$$<p>若 $\boldsymbol{x} \in \mathbb{R}^{p}, \boldsymbol{y}=f(\boldsymbol{x}) \in \mathbb{R}^{s}, \boldsymbol{z}=g(\boldsymbol{x}) \in \mathbb{R}^{t}, A \in \mathbb{R}^{s \times t}$和$\boldsymbol{x}$无关，则：</p>$$
+\frac{\partial \boldsymbol{y}^{\mathrm{T}} A \boldsymbol{z}}{\partial \boldsymbol{x}}=\frac{\partial \boldsymbol{y}}{\partial \boldsymbol{x}} A \boldsymbol{z}+\frac{\partial \boldsymbol{z}}{\partial \boldsymbol{x}} A^{\mathrm{T}} \boldsymbol{y} \in \mathbb{R}^{p}
+$$<p>若$\boldsymbol{x} \in \mathbb{R}^{p}, y=f(\boldsymbol{x}) \in \mathbb{R}, \boldsymbol{z}=g(\boldsymbol{x}) \in \mathbb{R}^{q}$，则：</p>$$
+\frac{\partial y z}{\partial x}=y \frac{\partial z}{\partial x}+\frac{\partial y}{\partial x} z^{\mathrm{T}} \quad \in \mathbb{R}^{p \times q}
+$$<p>(3) <strong>链式法则(chain rule)</strong>：</p><p>若$x \in \mathbb{R}, \boldsymbol{u}=u(x) \in \mathbb{R}^{s}, \boldsymbol{g}=g(\boldsymbol{u}) \in \mathbb{R}^{t}$，则：</p>$$
+\frac{\partial \boldsymbol{g}}{\partial x}=\frac{\partial \boldsymbol{u}}{\partial x} \frac{\partial \boldsymbol{g}}{\partial \boldsymbol{u}} \in \mathbb{R}^{1 \times t}
+$$<p>若$\boldsymbol{x} \in \mathbb{R}^{p}, \boldsymbol{y}=g(\boldsymbol{x}) \in \mathbb{R}^{s}, \boldsymbol{z}=f(\boldsymbol{y}) \in \mathbb{R}^{t}$，则：</p>$$
+\frac{\partial \boldsymbol{z}}{\partial \boldsymbol{x}}=\frac{\partial \boldsymbol{y}}{\partial \boldsymbol{x}} \frac{\partial \boldsymbol{z}}{\partial \boldsymbol{y}} \in \mathbb{R}^{p \times t}
+$$<p>若$X \in \mathbb{R}^{p \times q}$为矩阵，$\boldsymbol{y}=g(X) \in \mathbb{R}^{s}, z=f(\boldsymbol{y}) \in \mathbb{R}$，则：</p>$$
+\frac{\partial z}{\partial X_{i j}}=\frac{\partial \boldsymbol{y}}{\partial X_{i j}} \frac{\partial z}{\partial \boldsymbol{y}}
+$$<h2 id=常见函数的导数>常见函数的导数</h2><p>(1) <strong>向量函数</strong>及其导数：</p>$$
+\begin{aligned} \frac{\partial \boldsymbol{x}}{\partial \boldsymbol{x}} &=I \\ \frac{\partial A \boldsymbol{x}}{\partial \boldsymbol{x}} &=A^{\mathrm{T}} \\ \frac{\partial \boldsymbol{x}^{\mathrm{T}} A}{\partial \boldsymbol{x}} &=A \end{aligned}
+$$<p>(2) <strong>按位计算的向量函数</strong>及其导数：</p><p>假设一个函数$f(x)$的输入是标量$x$。对于一组$K$个标量$x_1,\cdots,x_K$，我们可以通过$f(x)$得到另外一组$K$个标量，即$z_1,\cdots,z_K$，$z_k=f(x_k)$。向量形式为$\boldsymbol z=f(\boldsymbol x)$，其中$f$是按位计算的函数。$f(\boldsymbol x)$对$\boldsymbol x$的导数为：</p>$$
+\begin{aligned} \frac{\partial f(\boldsymbol{x})}{\partial \boldsymbol{x}} &=\left[\frac{\partial f\left(x_{j}\right)}{\partial x_{i}}\right]_{K \times K} \\ &=\left[\begin{array}{cccc}f^{\prime}\left(x_{1}\right) & 0 & \cdots & 0 \\ 0 & f^{\prime}\left(x_{2}\right) & \cdots & 0 \\ \vdots & \vdots & \vdots & \vdots \\ 0 & 0 & \cdots & f^{\prime}\left(x_{K}\right)\end{array}\right] \\ &=\operatorname{diag}\left(f^{\prime}(\boldsymbol{x})\right) \end{aligned}
+$$<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#6272a4># sympy实现积分</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> sympy
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 使用integrate()函数来计算定积分和不定积分</span>
+</span></span><span style=display:flex><span>x <span style=color:#ff79c6>=</span> sympy<span style=color:#ff79c6>.</span>Symbol(<span style=color:#f1fa8c>&#39;x&#39;</span>)
+</span></span><span style=display:flex><span>f <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>2</span> <span style=color:#ff79c6>*</span> x
+</span></span><span style=display:flex><span>res <span style=color:#ff79c6>=</span> sympy<span style=color:#ff79c6>.</span>integrate(f, (x, <span style=color:#bd93f9>0</span>, <span style=color:#bd93f9>1</span>))  <span style=color:#6272a4># 定积分，传入一个元组</span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(res)  <span style=color:#6272a4># 1</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>f <span style=color:#ff79c6>=</span> sympy<span style=color:#ff79c6>.</span>E <span style=color:#ff79c6>**</span> x <span style=color:#ff79c6>+</span> <span style=color:#bd93f9>2</span> <span style=color:#ff79c6>*</span> x
+</span></span><span style=display:flex><span>res <span style=color:#ff79c6>=</span> sympy<span style=color:#ff79c6>.</span>integrate(f, x)  <span style=color:#6272a4># 不定积分，只传入变量</span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(res)  <span style=color:#6272a4># x**2 + exp(x)</span>
+</span></span></code></pre></div><p>使sympy库还可以实现其他常用的代数操作：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#6272a4># sympy库实现表达式求值，方程组求解，数列求和以及求极限</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> sympy
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 1. 表达式求值</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 定义单变量函数</span>
+</span></span><span style=display:flex><span>x <span style=color:#ff79c6>=</span> sympy<span style=color:#ff79c6>.</span>Symbol(<span style=color:#f1fa8c>&#39;x&#39;</span>)
+</span></span><span style=display:flex><span>fx <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>5</span> <span style=color:#ff79c6>*</span> x <span style=color:#ff79c6>+</span> <span style=color:#bd93f9>4</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 使用evalf()函数来对变量传值</span>
+</span></span><span style=display:flex><span>res <span style=color:#ff79c6>=</span> fx<span style=color:#ff79c6>.</span>evalf(subs<span style=color:#ff79c6>=</span>{x: <span style=color:#bd93f9>6</span>})
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(res)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 定义多变量函数</span>
+</span></span><span style=display:flex><span>x <span style=color:#ff79c6>=</span> sympy<span style=color:#ff79c6>.</span>Symbol(<span style=color:#f1fa8c>&#39;x&#39;</span>)
+</span></span><span style=display:flex><span>y <span style=color:#ff79c6>=</span> sympy<span style=color:#ff79c6>.</span>Symbol(<span style=color:#f1fa8c>&#39;y&#39;</span>)
+</span></span><span style=display:flex><span>fxy <span style=color:#ff79c6>=</span> x <span style=color:#ff79c6>*</span> x <span style=color:#ff79c6>+</span> y <span style=color:#ff79c6>*</span> y
+</span></span><span style=display:flex><span>res <span style=color:#ff79c6>=</span> fxy<span style=color:#ff79c6>.</span>evalf(subs<span style=color:#ff79c6>=</span>{x: <span style=color:#bd93f9>2</span>, y: <span style=color:#bd93f9>1</span>})
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(res)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 2. 方程组求解</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 单个方程的情况</span>
+</span></span><span style=display:flex><span>x <span style=color:#ff79c6>=</span> sympy<span style=color:#ff79c6>.</span>Symbol(<span style=color:#f1fa8c>&#39;x&#39;</span>)
+</span></span><span style=display:flex><span>y <span style=color:#ff79c6>=</span> sympy<span style=color:#ff79c6>.</span>Symbol(<span style=color:#f1fa8c>&#39;y&#39;</span>)
+</span></span><span style=display:flex><span>fx <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>3</span> <span style=color:#ff79c6>*</span> x <span style=color:#ff79c6>+</span> <span style=color:#bd93f9>9</span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(sympy<span style=color:#ff79c6>.</span>solve(fx, x))  <span style=color:#6272a4># [-3]</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 无穷多个解的情况，可以得到变量之间的关系</span>
+</span></span><span style=display:flex><span>x <span style=color:#ff79c6>=</span> sympy<span style=color:#ff79c6>.</span>Symbol(<span style=color:#f1fa8c>&#39;x&#39;</span>)
+</span></span><span style=display:flex><span>y <span style=color:#ff79c6>=</span> sympy<span style=color:#ff79c6>.</span>Symbol(<span style=color:#f1fa8c>&#39;y&#39;</span>)
+</span></span><span style=display:flex><span>fx <span style=color:#ff79c6>=</span> x <span style=color:#ff79c6>*</span> <span style=color:#bd93f9>3</span> <span style=color:#ff79c6>+</span> y <span style=color:#ff79c6>**</span> <span style=color:#bd93f9>2</span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(sympy<span style=color:#ff79c6>.</span>solve(fx, x, y))  <span style=color:#6272a4># [{x: -y**2/3}]</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 方程组的情况</span>
+</span></span><span style=display:flex><span>x <span style=color:#ff79c6>=</span> sympy<span style=color:#ff79c6>.</span>Symbol(<span style=color:#f1fa8c>&#39;x&#39;</span>)
+</span></span><span style=display:flex><span>y <span style=color:#ff79c6>=</span> sympy<span style=color:#ff79c6>.</span>Symbol(<span style=color:#f1fa8c>&#39;y&#39;</span>)
+</span></span><span style=display:flex><span>f1 <span style=color:#ff79c6>=</span> x <span style=color:#ff79c6>+</span> y <span style=color:#ff79c6>-</span> <span style=color:#bd93f9>3</span>
+</span></span><span style=display:flex><span>f2 <span style=color:#ff79c6>=</span> x <span style=color:#ff79c6>-</span> y <span style=color:#ff79c6>+</span> <span style=color:#bd93f9>5</span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(sympy<span style=color:#ff79c6>.</span>solve([f1, f2], [x, y]))  <span style=color:#6272a4># {x: -1, y: 4}</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 3. 数列求和</span>
+</span></span><span style=display:flex><span>n <span style=color:#ff79c6>=</span> sympy<span style=color:#ff79c6>.</span>Symbol(<span style=color:#f1fa8c>&#39;n&#39;</span>)
+</span></span><span style=display:flex><span>f <span style=color:#ff79c6>=</span> n
+</span></span><span style=display:flex><span>res <span style=color:#ff79c6>=</span> sympy<span style=color:#ff79c6>.</span>summation(f, (n, <span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>100</span>))
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(res)  <span style=color:#6272a4># 5050</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 求解带有求和形式的方程</span>
+</span></span><span style=display:flex><span>x <span style=color:#ff79c6>=</span> sympy<span style=color:#ff79c6>.</span>Symbol(<span style=color:#f1fa8c>&#39;x&#39;</span>)
+</span></span><span style=display:flex><span>i <span style=color:#ff79c6>=</span> sympy<span style=color:#ff79c6>.</span>Symbol(<span style=color:#f1fa8c>&#39;i&#39;</span>)
+</span></span><span style=display:flex><span>f <span style=color:#ff79c6>=</span> sympy<span style=color:#ff79c6>.</span>summation(x, (i, <span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>5</span>)) <span style=color:#ff79c6>+</span> <span style=color:#bd93f9>10</span> <span style=color:#ff79c6>*</span> x <span style=color:#ff79c6>-</span> <span style=color:#bd93f9>15</span>
+</span></span><span style=display:flex><span>res <span style=color:#ff79c6>=</span> sympy<span style=color:#ff79c6>.</span>solve(f, x)
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(res)  <span style=color:#6272a4># [1]</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 4. 求极限</span>
+</span></span><span style=display:flex><span>x <span style=color:#ff79c6>=</span> sympy<span style=color:#ff79c6>.</span>Symbol(<span style=color:#f1fa8c>&#39;x&#39;</span>)
+</span></span><span style=display:flex><span>f <span style=color:#ff79c6>=</span> (<span style=color:#bd93f9>1</span> <span style=color:#ff79c6>+</span> x) <span style=color:#ff79c6>**</span> (<span style=color:#bd93f9>1</span> <span style=color:#ff79c6>/</span> x)
+</span></span><span style=display:flex><span>lim <span style=color:#ff79c6>=</span> sympy<span style=color:#ff79c6>.</span>limit(f, x, <span style=color:#bd93f9>0</span>)
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(lim)
+</span></span></code></pre></div><h1 id=参考资料>参考资料</h1><ul><li>邱锡鹏. 神经网络与深度学习. 北京: 机械工业出版社, 2020.</li><li>Sympy官方文档：https://docs.sympy.org/latest/index.html</li></ul><hr><ul class=pager><li class=previous><a href=/post/2-math/math1-%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/ data-toggle=tooltip data-placement=top title=量化数学基础：线性代数>&larr;
+Previous Post</a></li><li class=next><a href=/post/2-math/math3-%E6%95%B0%E5%AD%A6%E4%BC%98%E5%8C%96/ data-toggle=tooltip data-placement=top title=量化数学基础：数学优化>Next
+Post &rarr;</a></li></ul><script src=https://giscus.app/client.js data-repo=XiangdiWu/XiangdiWu.github.io data-repo-id=R_kgDOP0pDUQ data-category=Announcements data-category-id=DIC_kwDOP0pDUc4CvwjG data-mapping=pathname data-reactions-enabled=1 data-emit-metadata=0 data-theme=light data-lang=zh-CN crossorigin=anonymous async></script></div><div class="col-lg-2 col-lg-offset-0
+visible-lg-block
+sidebar-container
+catalog-container"><div class=side-catalog><hr class="hidden-sm hidden-xs"><h5><a class=catalog-toggle href=#>CATALOG</a></h5><ul class=catalog-body></ul></div></div><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+sidebar-container"><section><hr class="hidden-sm hidden-xs"><h5><a href=/tags/>FEATURED TAGS</a></h5><div class=tags><a href=/tags/deep-learning title="deep learning">deep learning
+</a><a href=/tags/machine-learning title="machine learning">machine learning
+</a><a href=/tags/math title=math>math
+</a><a href=/tags/model title=model>model
+</a><a href=/tags/nlp title=nlp>nlp
+</a><a href=/tags/quant title=quant>quant</a></div></section><section><hr><h5>FRIENDS</h5><ul class=list-inline><li><a target=_blank href=https://www.factorwar.com/data/factor-models/>GetAstockFactors</a></li><li><a target=_blank href=https://datawhalechina.github.io/whale-quant/#/>Whale-Quant</a></li></ul></section></div></div></div></article><script type=module>  
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; 
+    mermaid.initialize({ startOnLoad: true });  
+</script><script>Array.from(document.getElementsByClassName("language-mermaid")).forEach(e=>{e.parentElement.outerHTML=`<div class="mermaid">${e.innerHTML}</div>`})</script><style>.mermaid svg{display:block;margin:auto}</style><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center"><li><a href=mailto:bernicewu2000@outlook.com><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-envelope fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=/img/wechat_qrcode.jpg><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-weixin fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=https://github.com/xiangdiwu><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-github fa-stack-1x fa-inverse"></i></span></a></li><li><a href rel=alternate type=application/rss+xml title="Xiangdi Blog"><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-rss fa-stack-1x fa-inverse"></i></span></a></li></ul><p class="copyright text-muted">Copyright &copy; Xiangdi Blog 2025</p></div></div></div></footer><script>function loadAsync(e,t){var s=document,o="script",n=s.createElement(o),i=s.getElementsByTagName(o)[0];n.src=e,t&&n.addEventListener("load",function(e){t(null,e)},!1),i.parentNode.insertBefore(n,i)}</script><script>$("#tag_cloud").length!==0&&loadAsync("/js/jquery.tagcloud.js",function(){$.fn.tagcloud.defaults={color:{start:"#bbbbee",end:"#0085a1"}},$("#tag_cloud a").tagcloud()})</script><script>loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js",function(){var e=document.querySelector("nav");e&&FastClick.attach(e)})</script><script type=text/javascript>function generateCatalog(e){_containerSelector="div.post-container";var t,n,s,o,i,a=$(_containerSelector),r=a.find("h1,h2,h3,h4,h5,h6");return $(e).html(""),r.each(function(){n=$(this).prop("tagName").toLowerCase(),o="#"+$(this).prop("id"),t=$(this).text(),i=$('<a href="'+o+'" rel="nofollow" title="'+t+'">'+t+"</a>"),s=$('<li class="'+n+'_nav"></li>').append(i),$(e).append(s)}),!0}generateCatalog(".catalog-body"),$(".catalog-toggle").click(function(e){e.preventDefault(),$(".side-catalog").toggleClass("fold")}),loadAsync("/js/jquery.nav.js",function(){$(".catalog-body").onePageNav({currentClass:"active",changeHash:!1,easing:"swing",filter:"",scrollSpeed:700,scrollOffset:0,scrollThreshold:.2,begin:null,end:null,scrollChange:null,padding:80})})</script><style>.markmap>svg{width:100%;height:300px}</style><script>window.markmap={autoLoader:{manual:!0,onReady(){const{autoLoader:e,builtInPlugins:t}=window.markmap;e.transformPlugins=t.filter(e=>e.name!=="prism")}}}</script><script src=https://cdn.jsdelivr.net/npm/markmap-autoloader></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css integrity="sha512-r2+FkHzf1u0+SQbZOoIz2RxWOIWfdEzRuYybGjzKq18jG9zaSfEy9s3+jMqG/zPtRor/q4qaUCYQpmSjTw8M+g==" crossorigin=anonymous><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js integrity="sha512-INps9zQ2GUEMCQD7xiZQbGUVnqnzEvlynVy6eqcTcHN4+aQiLo9/uaQqckDpdJ8Zm3M0QBs+Pktg4pz0kEklUg==" crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/mhchem.min.js integrity="sha512-mxjNw/u1lIsFC09k/unscDRY3ofIYPVFbWkP8slrePcS36ht4d/OZ8rRu5yddB2uiqajhTcLD8+jupOWuYPebg==" crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js integrity="sha512-YJVxTjqttjsU3cSvaTRqsSl0wbRgZUNF+NGGCgto/MUbIvaLdXQzGTCQu4CvyJZbZctgflVB0PXw9LLmTWm5/w==" crossorigin=anonymous onload='renderMathInElement(document.body,{delimiters:[{display:!0,left:"$$",right:"$$"},{display:!1,left:"$",right:"$"},{display:!1,left:"\\(",right:"\\)"},{display:!0,left:"\\[",right:"\\]"}],errorcolor:"#CD5C5C",throwonerror:!1})'></script></body></html>

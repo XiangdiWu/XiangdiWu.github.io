@@ -1,0 +1,279 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta property="og:site_name" content="Xiangdi Blog"><meta property="og:type" content="article"><meta property="og:image" con ’tent=https://images.pexels.com/photos/220301/pexels-photo-220301.jpeg><meta property="twitter:image" content="https://images.pexels.com/photos/220301/pexels-photo-220301.jpeg"><meta name=title content="深度学习：图神经网络"><meta property="og:title" content="深度学习：图神经网络"><meta property="twitter:title" content="深度学习：图神经网络"><meta name=description content="本文主要介绍了图神经网络的相关内容，包括图神经网络的概述、图神经网络中的矩阵、图卷积神经网络、Text Graph Convolutional Networks。"><meta property="og:description" content="本文主要介绍了图神经网络的相关内容，包括图神经网络的概述、图神经网络中的矩阵、图卷积神经网络、Text Graph Convolutional Networks。"><meta property="twitter:description" content="本文主要介绍了图神经网络的相关内容，包括图神经网络的概述、图神经网络中的矩阵、图卷积神经网络、Text Graph Convolutional Networks。"><meta property="twitter:card" content="summary"><meta property="og:url" content="https://xiangdiwu.github.io/post/4-dl/dl9-%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/"><meta name=keyword content="吴湘菂, WuXiangdi, XiangdiWu, 吴湘菂的网络日志, 吴湘菂的博客, Xiangdi Blog, 博客, 个人网站, Quant, 量化投资, 金融, 投资, 理财, 股票, 期货, 基金, 期权, 外汇, 比特币"><link rel="shortcut icon" href=/img/favicon.ico><title>深度学习：图神经网络-吴湘菂的博客 | Xiangdi Blog</title><link rel=canonical href=/post/4-dl/dl9-%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/><link rel=stylesheet href=/css/bootstrap.min.css><link rel=stylesheet href=/css/hugo-theme-cleanwhite.min.css><link rel=stylesheet href=/css/zanshang.min.css><link rel=stylesheet href=/css/font-awesome.all.min.css><script src=/js/jquery.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/hux-blog.min.js></script><script src=/js/lazysizes.min.js></script></head><script async src="https://www.googletagmanager.com/gtag/js?id=G-R757MDJ6Y6"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-R757MDJ6Y6")}</script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css integrity=sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV crossorigin=anonymous><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js integrity=sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8 crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js integrity=sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05 crossorigin=anonymous></script><script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"\\[",right:"\\]",display:!0},{left:"$$",right:"$$",display:!0},{left:"\\(",right:"\\)",display:!1}],throwOnError:!1})})</script><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css><script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type=text/javascript></script><nav class="navbar navbar-default navbar-custom navbar-fixed-top"><div class=container-fluid><div class="navbar-header page-scroll"><button type=button class=navbar-toggle>
+<span class=sr-only>Toggle navigation</span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+</button>
+<a class=navbar-brand href=/>Xiangdi Blog</a></div><div id=huxblog_navbar><div class=navbar-collapse><ul class="nav navbar-nav navbar-right"><li><a href=/>All Posts</a></li><li><a href=/categories/quant/>quant</a></li><li><a href=/categories/reading/>reading</a></li><li><a href=/categories/tech/>tech</a></li><li><a href=/archive//>ARCHIVE</a></li><li><a href=/vibe//>Vibe</a></li><li><a href=/travel//>TRAVEL</a></li><li><a href=/about//>ABOUT</a></li><li><a href=/search><i class="fa fa-search"></i></a></li></ul></div></div></div></nav><script>var $body=document.body,$toggle=document.querySelector(".navbar-toggle"),$navbar=document.querySelector("#huxblog_navbar"),$collapse=document.querySelector(".navbar-collapse");$toggle.addEventListener("click",handleMagic);function handleMagic(){$navbar.className.indexOf("in")>0?($navbar.className=" ",setTimeout(function(){$navbar.className.indexOf("in")<0&&($collapse.style.height="0px")},400)):($collapse.style.height="auto",$navbar.className+=" in")}</script><style type=text/css>header.intro-header{background-image:url(https://images.pexels.com/photos/220301/pexels-photo-220301.jpeg)}</style><header class=intro-header><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class=post-heading><div class=tags><a class=tag href=/tags/quant title=Quant>Quant
+</a><a class=tag href=/tags/model title=Model>Model
+</a><a class=tag href=/tags/deep-learning title="Deep Learning">Deep Learning</a></div><h1>深度学习：图神经网络</h1><h2 class=subheading>GNN-Graph Neural Network</h2><span class=meta>Posted by
+XiangdiWu
+on
+Monday, October 19, 2020</span></div></div></div></div></header><article><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+post-container"><h1 id=图神经网络概述>图神经网络概述</h1><p>近年来，深度学习领域关于<strong>图神经网络(graph neural network, GNN)</strong> 的研究热情日益高涨，图神经网络已经成为各大深度学习顶会的研究热点。GNN处理非结构化数据时的出色能力使其在网络数据分析、推荐系统、物理建模、自然语言处理和图上的组合优化问题方面都取得了新的突破。</p><div align=center><img src=/Kimages/3/image-20211229201804200.png style=zoom:30%></div><p>随着机器学习、深度学习的发展，语音、图像、自然语言处理逐渐取得了很大的突破，然而语音、图像、文本都是很简单的序列或者网格数据，是很结构化的数据，深度学习很善于处理该种类型的数据。然而，现实世界中并不是所有的事物都可以表示成一个序列或者一个网格，例如社交网络、知识图谱、论文引用网络等，也就是说很多事物都是非结构化的。非结构化的数据可以使用 <strong>图(graph)</strong> 这种数据结构进行表示，其特点包括：</p><p>(1) 图的大小是任意的，图的拓扑结构复杂，没有像图像一样的空间局部性；</p><p>(2) 图没有固定的节点顺序，或者说没有一个参考节点；</p><p>(3) 图经常是动态图，而且包含多模态的特征。</p><p>图神经网络是对图进行表示，并将深度学习扩展使得能够建模问题和数据，以完成各类基于图的任务的神经网络结构。其所能够完成的常见任务包括结点分类、社区发现以及链接预测等。</p><h1 id=图神经网络中的矩阵>图神经网络中的矩阵</h1><p>以如下所示的图结构为例：</p><div align=center><img src=/Kimages/3/image-20211229203152876.png style=zoom:40%></div><p>一个图$G$的定义为$G=(V, E)$，其中$V$为结点集，结点数量$m = |V|$；$E$为边集，边数量$n = |E|$。通常用一些矩阵来刻画图结构：</p><p>(1) 邻接矩阵$\boldsymbol A$：结点相邻接的位置标为1，其余位置为0的矩阵。<strong>无向图的邻接矩阵为对称矩阵</strong>。</p>$$
+\boldsymbol A=\left[\begin{array}{llllll}
+0 & 1 & 1 & 1 & 0 & 0 \\
+1 & 0 & 1 & 0 & 0 & 0 \\
+1 & 1 & 0 & 0 & 1 & 1 \\
+1 & 0 & 0 & 0 & 0 & 0 \\
+0 & 0 & 1 & 0 & 0 & 1 \\
+0 & 0 & 1 & 0 & 1 & 0
+\end{array}\right]
+$$<p>(2) 度数矩阵$\boldsymbol D$：对角矩阵，标识每个结点的度。</p>$$
+\boldsymbol D=\left[\begin{array}{llllll}
+3 & 0 & 0 & 0 & 0 & 0 \\
+0 & 2 & 0 & 0 & 0 & 0 \\
+0 & 0 & 4 & 0 & 0 & 0 \\
+0 & 0 & 0 & 1 & 0 & 0 \\
+0 & 0 & 0 & 0 & 2 & 0 \\
+0 & 0 & 0 & 0 & 0 & 2
+\end{array}\right]
+$$<p>(3) 归一化的邻接矩阵$\boldsymbol P = D^{-\frac{1}{2}} \boldsymbol A D^{-\frac{1}{2}}$：</p>$$
+\boldsymbol P=\left[\begin{array}{cccccc}
+0 & \frac{1}{\sqrt{3} \cdot \sqrt{2}} & \frac{1}{\sqrt{3} \cdot \sqrt{4}} & \frac{1}{\sqrt{3} \cdot \sqrt{1}} & 0 & 0 \\
+\frac{1}{\sqrt{3} \cdot \sqrt{2}} & 0 & \frac{1}{\sqrt{2} \cdot \sqrt{4}} & 0 & 0 & 0 \\
+\frac{1}{\sqrt{3} \cdot \sqrt{4}} & \frac{1}{\sqrt{2} \cdot \sqrt{4}} & 0 & 0 & \frac{1}{\sqrt{4} \cdot \sqrt{2}} & \frac{1}{\sqrt{4} \cdot \sqrt{2}} \\
+\frac{1}{\sqrt{3} \cdot \sqrt{1}} & 0 & 0 & 0 & 0 & 0 \\
+0 & 0 & 0 & \frac{1}{\sqrt{4} \cdot \sqrt{2}} & 0 & \frac{1}{\sqrt{2} \cdot \sqrt{2}} \\
+0 & 0 & 0 & \frac{1}{\sqrt{4} \cdot \sqrt{2}} & \frac{1}{\sqrt{2} \cdot \sqrt{2}} & 0
+\end{array}\right]
+$$<p>(4) <strong>归一化的拉普拉斯矩阵</strong>$\boldsymbol L = \boldsymbol I - D^{-\frac{1}{2}} \boldsymbol A D^{-\frac{1}{2}}$($\boldsymbol I$为单位矩阵)：</p>$$
+\boldsymbol L=\left[\begin{array}{cccccc}
+1 & \frac{-1}{\sqrt{3} \cdot \sqrt{2}} & \frac{-1}{\sqrt{3} \cdot \sqrt{4}} & \frac{-1}{\sqrt{3} \cdot \sqrt{1}} & 0 & 0 \\
+\frac{-1}{\sqrt{3} \cdot \sqrt{2}} & 1 & \frac{-1}{\sqrt{2} \cdot \sqrt{4}} & 0 & 0 & 0 \\
+\frac{-1}{\sqrt{3} \cdot \sqrt{4}} & \frac{-1}{\sqrt{2} \cdot \sqrt{4}} & 1 & 0 & \frac{-1}{\sqrt{4} \cdot \sqrt{2}} & \frac{-1}{\sqrt{4} \cdot \sqrt{2}} \\
+\frac{-1}{\sqrt{3} \cdot \sqrt{1}} & 0 & 0 & 1 & 0 & 0 \\
+0 & 0 & 0 & \frac{-1}{\sqrt{4} \cdot \sqrt{2}} & 1 & \frac{-1}{\sqrt{2} \cdot \sqrt{2}} \\
+0 & 0 & 0 & \frac{-1}{\sqrt{4} \cdot \sqrt{2}} & \frac{-1}{\sqrt{2} \cdot \sqrt{2}} & 1
+\end{array}\right]
+$$<p>(5) <strong>结点特征矩阵</strong>$\boldsymbol X \in \mathbb R^{n \times f}$，其中$f$为特征维数：GNN中每个结点通常有一个特征，而结点特征矩阵便用于记录每个结点的特征。为简便起见，下图中用one-hot向量作为每个结点的特征向量。通常会将结点特征矩阵和图结构矩阵融合进行学习。</p><div align=center><img src=/Kimages/3/image-20211229205208537.png style=zoom:35%></div><h1 id=图卷积神经网络>图卷积神经网络</h1><p>图神经网络引起人们的关注始于<strong>图卷积神经网络(graph convolutional network, GCN)</strong> 的提出。其核心思想是在图结构上聚合邻居的特征信息，进行消息传递，并借助神经网络训练消息传递中的权重。其消息传递的架构如下所示(两层结构)：</p><div align=center><img src=/Kimages/3/image-20220114110320092.png style=zoom:45%></div><p>将其消息传递公式进行分解，如下：</p><div align=center><img src=/Kimages/3/image-20220114110708142.png style=zoom:35%></div><p>其中，$\boldsymbol H^{(\ell)}$为图卷积网络第$\ell$层的表示，是一个$n \times f$维矩阵。$\boldsymbol{\widetilde P}$为带有自环的归一化邻接矩阵，是一个$n \times n$维矩阵。$\boldsymbol H^{(\ell)}$与$\boldsymbol{\widetilde P}$相乘的过程也称为图卷积操作。$\boldsymbol W^{(\ell)}$是待学习的权重矩阵，大小为$f \times k$，$k$为该层的输出维度。$\sigma$表示非线性激活函数。由于层数太多会存在过平滑等问题，通常GCN是一个两层结构。输出层可以通过特定任务计算损失函数，从而训练权重矩阵。</p><p>值得注意的是，卷积神经网络(CNN)也是一种图卷积网络，其卷积的过程便是聚合周围邻居结点和自身的特征信息：</p><div align=center><img src=/Kimages/3/image-20220114112223070.png style=zoom:40%></div><p>与GCN不同的是，CNN聚合邻居结点信息的权重$w_i$通过学习得到，而GCN聚合的过程是$\boldsymbol H^{(\ell)}$与$\boldsymbol{\widetilde P}$相乘的过程，这一过程没有需要学习的权重，聚合信息的多少只与结点的度数(无权图)或者预设的权重(有权图)有关。</p><p>GCN可以从两个角度来进行解释，即<strong>基于谱(spectral-based)<strong>和</strong>基于空间(spatial-based)</strong>。基于谱的角度从图信号处理引入滤波器来定义图卷积，其中图卷积操作被解释为从图信号中去除噪声。基于空间的方法将图卷积表示为从邻域聚合特征信息。</p><h1 id=text-graph-convolutional-networks>Text Graph Convolutional Networks</h1><p>论文《Semi-supervised classification with graph convolutional networks》提出用于文本分类的图卷积网络Text GCN。从非结构化数据(图、文本)生成图结构是该论文中非常重要的一部分，也是图神经网络需要解决的一个开放性问题之一。作者<strong>将词和文档同时作为节点进行建图</strong>，如下图所示：</p><div align=center><img src=/Kimages/3/image-20220114115756169.png style=zoom:40%></div><p>图中节点的数量是<strong>单词数量</strong>与<strong>文档数量</strong>之和，$O$开头的是文档节点，其他的是词节点。图中黑线的线代表文档-词的边，灰色的表示词-词的边。$R(x)$表示$x$的嵌入表示。节点的不同颜色代表文档的不同类型。本文提出的Text GCN的初始输入向量(矩阵)$\boldsymbol X$是词和文档的one-hot编码表示。文档-词的边基于词在文档中的出现信息，并<strong>使用TF-IDF作为边的权重</strong>。词-词的连边基于词的全局词共现信息，词共现信息使用一个固定大小的滑动窗口在语料库中滑动统计词共现信息，然后<strong>使用点互信息(PMI)计算两个词节点连线的权重</strong>。</p><p>使用一个二层的GCN结构进行特征聚合：$\boldsymbol Z = \text{softmax}(\boldsymbol{\widetilde P} \ \text{ReLU}(\boldsymbol{\widetilde P} \boldsymbol X \boldsymbol W_0) \boldsymbol W _1)$。第一层使用ReLU作为激活函数，第二层使用softmax作为激活函数并计算损失，以训练分类任务。</p><p>以下为使用Tensorflow实现GCN进行文本分类的代码示例：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#6272a4># coding=utf-8</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> os
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> numpy <span style=color:#ff79c6>as</span> np
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> tensorflow <span style=color:#ff79c6>as</span> tf
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> tf_geometric <span style=color:#ff79c6>as</span> tfg
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> pickle
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> tf_geometric.utils <span style=color:#ff79c6>import</span> tf_utils
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> collections <span style=color:#ff79c6>import</span> Counter
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> tqdm <span style=color:#ff79c6>import</span> tqdm
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> sklearn.model_selection <span style=color:#ff79c6>import</span> train_test_split
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> tensorflow.keras.preprocessing.text <span style=color:#ff79c6>import</span> Tokenizer
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> tensorflow <span style=color:#ff79c6>import</span> keras
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>data_dir <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;rt-polarity&#34;</span>  <span style=color:#6272a4># 数据集路径，需要在运行前导入当前目录</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>texts <span style=color:#ff79c6>=</span> []
+</span></span><span style=display:flex><span>labels <span style=color:#ff79c6>=</span> []
+</span></span><span style=display:flex><span><span style=color:#ff79c6>for</span> fname, label <span style=color:#ff79c6>in</span> [[<span style=color:#f1fa8c>&#34;rt-polarity.pos&#34;</span>, <span style=color:#bd93f9>1</span>], [<span style=color:#f1fa8c>&#34;rt-polarity.neg&#34;</span>, <span style=color:#bd93f9>0</span>]]:
+</span></span><span style=display:flex><span>    fpath <span style=color:#ff79c6>=</span> os<span style=color:#ff79c6>.</span>path<span style=color:#ff79c6>.</span>join(data_dir, fname)
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>with</span> <span style=color:#8be9fd;font-style:italic>open</span>(fpath, <span style=color:#f1fa8c>&#34;r&#34;</span>, encoding<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#34;utf-8&#34;</span>) <span style=color:#ff79c6>as</span> f:
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>for</span> line <span style=color:#ff79c6>in</span> f:
+</span></span><span style=display:flex><span>            texts<span style=color:#ff79c6>.</span>append(line<span style=color:#ff79c6>.</span>strip())
+</span></span><span style=display:flex><span>            labels<span style=color:#ff79c6>.</span>append(label)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>train_texts, test_texts, train_labels, test_labels <span style=color:#ff79c6>=</span> train_test_split(texts, labels, test_size<span style=color:#ff79c6>=</span><span style=color:#bd93f9>0.2</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>tokenizer <span style=color:#ff79c6>=</span> Tokenizer()
+</span></span><span style=display:flex><span>tokenizer<span style=color:#ff79c6>.</span>fit_on_texts(train_texts)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>train_sequences <span style=color:#ff79c6>=</span> tokenizer<span style=color:#ff79c6>.</span>texts_to_sequences(train_texts)
+</span></span><span style=display:flex><span>test_sequences <span style=color:#ff79c6>=</span> tokenizer<span style=color:#ff79c6>.</span>texts_to_sequences(test_texts)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>class</span> <span style=color:#50fa7b>PMIModel</span>(<span style=color:#8be9fd;font-style:italic>object</span>):
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>def</span> <span style=color:#50fa7b>__init__</span>(<span style=font-style:italic>self</span>):
+</span></span><span style=display:flex><span>        <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>word_counter <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>None</span>
+</span></span><span style=display:flex><span>        <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>pair_counter <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>None</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>def</span> <span style=color:#50fa7b>get_pair_id</span>(<span style=font-style:italic>self</span>, word0, word1):
+</span></span><span style=display:flex><span>        pair_id <span style=color:#ff79c6>=</span> <span style=color:#8be9fd;font-style:italic>tuple</span>(<span style=color:#8be9fd;font-style:italic>sorted</span>([word0, word1]))
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> pair_id
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>def</span> <span style=color:#50fa7b>fit</span>(<span style=font-style:italic>self</span>, sequences, window_size):
+</span></span><span style=display:flex><span>        <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>word_counter <span style=color:#ff79c6>=</span> Counter()
+</span></span><span style=display:flex><span>        <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>pair_counter <span style=color:#ff79c6>=</span> Counter()
+</span></span><span style=display:flex><span>        num_windows <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>0</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>for</span> sequence <span style=color:#ff79c6>in</span> tqdm(sequences):
+</span></span><span style=display:flex><span>            <span style=color:#ff79c6>for</span> offset <span style=color:#ff79c6>in</span> <span style=color:#8be9fd;font-style:italic>range</span>(<span style=color:#8be9fd;font-style:italic>len</span>(sequence) <span style=color:#ff79c6>-</span> window_size):
+</span></span><span style=display:flex><span>                window <span style=color:#ff79c6>=</span> sequence[offset:offset <span style=color:#ff79c6>+</span> window_size]
+</span></span><span style=display:flex><span>                num_windows <span style=color:#ff79c6>+=</span> <span style=color:#bd93f9>1</span>
+</span></span><span style=display:flex><span>                <span style=color:#ff79c6>for</span> i, word0 <span style=color:#ff79c6>in</span> <span style=color:#8be9fd;font-style:italic>enumerate</span>(window):
+</span></span><span style=display:flex><span>                    <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>word_counter[word0] <span style=color:#ff79c6>+=</span> <span style=color:#bd93f9>1</span>
+</span></span><span style=display:flex><span>                    <span style=color:#ff79c6>for</span> j, word1 <span style=color:#ff79c6>in</span> <span style=color:#8be9fd;font-style:italic>enumerate</span>(window[i <span style=color:#ff79c6>+</span> <span style=color:#bd93f9>1</span>:]):
+</span></span><span style=display:flex><span>                        pair_id <span style=color:#ff79c6>=</span> <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>get_pair_id(word0, word1)
+</span></span><span style=display:flex><span>                        <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>pair_counter[pair_id] <span style=color:#ff79c6>+=</span> <span style=color:#bd93f9>1</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>for</span> word, count <span style=color:#ff79c6>in</span> <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>word_counter<span style=color:#ff79c6>.</span>items():
+</span></span><span style=display:flex><span>            <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>word_counter[word] <span style=color:#ff79c6>=</span> count <span style=color:#ff79c6>/</span> num_windows
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>for</span> pair_id, count <span style=color:#ff79c6>in</span> <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>pair_counter<span style=color:#ff79c6>.</span>items():
+</span></span><span style=display:flex><span>            <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>pair_counter[pair_id] <span style=color:#ff79c6>=</span> count <span style=color:#ff79c6>/</span> num_windows
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>def</span> <span style=color:#50fa7b>transform</span>(<span style=font-style:italic>self</span>, word0, word1):
+</span></span><span style=display:flex><span>        prob_a <span style=color:#ff79c6>=</span> <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>word_counter[word0]
+</span></span><span style=display:flex><span>        prob_b <span style=color:#ff79c6>=</span> <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>word_counter[word1]
+</span></span><span style=display:flex><span>        pair_id <span style=color:#ff79c6>=</span> <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>get_pair_id(word0, word1)
+</span></span><span style=display:flex><span>        prob_pair <span style=color:#ff79c6>=</span> <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>pair_counter[pair_id]
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>if</span> prob_a <span style=color:#ff79c6>==</span> <span style=color:#bd93f9>0</span> <span style=color:#ff79c6>or</span> prob_b <span style=color:#ff79c6>==</span> <span style=color:#bd93f9>0</span> <span style=color:#ff79c6>or</span> prob_pair <span style=color:#ff79c6>==</span> <span style=color:#bd93f9>0</span>:
+</span></span><span style=display:flex><span>            <span style=color:#ff79c6>return</span> <span style=color:#bd93f9>0</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        pmi <span style=color:#ff79c6>=</span> np<span style=color:#ff79c6>.</span>log(prob_pair <span style=color:#ff79c6>/</span> (prob_a <span style=color:#ff79c6>*</span> prob_b))
+</span></span><span style=display:flex><span>        pmi <span style=color:#ff79c6>=</span> np<span style=color:#ff79c6>.</span>maximum(pmi, <span style=color:#bd93f9>0.0</span>)
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> pmi
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>def</span> <span style=color:#50fa7b>build_word_graph</span>(num_words, pmi_model, embedding_size):
+</span></span><span style=display:flex><span>    x <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>Variable(tf<span style=color:#ff79c6>.</span>random<span style=color:#ff79c6>.</span>truncated_normal([num_words, embedding_size], stddev<span style=color:#ff79c6>=</span><span style=color:#bd93f9>1</span> <span style=color:#ff79c6>/</span> np<span style=color:#ff79c6>.</span>sqrt(embedding_size)), dtype<span style=color:#ff79c6>=</span>tf<span style=color:#ff79c6>.</span>float32)
+</span></span><span style=display:flex><span>    edges <span style=color:#ff79c6>=</span> []
+</span></span><span style=display:flex><span>    edge_weight <span style=color:#ff79c6>=</span> []
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>for</span> (word0, word1) <span style=color:#ff79c6>in</span> pmi_model<span style=color:#ff79c6>.</span>pair_counter<span style=color:#ff79c6>.</span>keys():
+</span></span><span style=display:flex><span>        pmi <span style=color:#ff79c6>=</span> pmi_model<span style=color:#ff79c6>.</span>transform(word0, word1)
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>if</span> pmi <span style=color:#ff79c6>&gt;</span> <span style=color:#bd93f9>0</span>:
+</span></span><span style=display:flex><span>            edges<span style=color:#ff79c6>.</span>append([word0, word1])
+</span></span><span style=display:flex><span>            edge_weight<span style=color:#ff79c6>.</span>append(pmi)
+</span></span><span style=display:flex><span>            edges<span style=color:#ff79c6>.</span>append([word1, word0])
+</span></span><span style=display:flex><span>            edge_weight<span style=color:#ff79c6>.</span>append(pmi)
+</span></span><span style=display:flex><span>    edge_index <span style=color:#ff79c6>=</span> np<span style=color:#ff79c6>.</span>array(edges)<span style=color:#ff79c6>.</span>T
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>return</span> tfg<span style=color:#ff79c6>.</span>Graph(x<span style=color:#ff79c6>=</span>x, edge_index<span style=color:#ff79c6>=</span>edge_index, edge_weight<span style=color:#ff79c6>=</span>edge_weight)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>def</span> <span style=color:#50fa7b>build_combined_graph</span>(word_graph, sequences, embedding_size):
+</span></span><span style=display:flex><span>    num_words <span style=color:#ff79c6>=</span> word_graph<span style=color:#ff79c6>.</span>num_nodes
+</span></span><span style=display:flex><span>    x <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>zeros([<span style=color:#8be9fd;font-style:italic>len</span>(sequences), embedding_size], dtype<span style=color:#ff79c6>=</span>tf<span style=color:#ff79c6>.</span>float32)
+</span></span><span style=display:flex><span>    edges <span style=color:#ff79c6>=</span> []
+</span></span><span style=display:flex><span>    edge_weight <span style=color:#ff79c6>=</span> []
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>for</span> i, sequence <span style=color:#ff79c6>in</span> <span style=color:#8be9fd;font-style:italic>enumerate</span>(sequences):
+</span></span><span style=display:flex><span>        doc_node_index <span style=color:#ff79c6>=</span> num_words <span style=color:#ff79c6>+</span> i
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>for</span> word <span style=color:#ff79c6>in</span> sequence:
+</span></span><span style=display:flex><span>            edges<span style=color:#ff79c6>.</span>append([doc_node_index, word])  <span style=color:#6272a4># only directed edge</span>
+</span></span><span style=display:flex><span>            edge_weight<span style=color:#ff79c6>.</span>append(<span style=color:#bd93f9>1.0</span>)  <span style=color:#6272a4># use BOW instaead of TF-IDF</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    edge_index <span style=color:#ff79c6>=</span> np<span style=color:#ff79c6>.</span>array(edges)<span style=color:#ff79c6>.</span>T
+</span></span><span style=display:flex><span>    x <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>concat([word_graph<span style=color:#ff79c6>.</span>x, x], axis<span style=color:#ff79c6>=</span><span style=color:#bd93f9>0</span>)
+</span></span><span style=display:flex><span>    edge_index <span style=color:#ff79c6>=</span> np<span style=color:#ff79c6>.</span>concatenate([word_graph<span style=color:#ff79c6>.</span>edge_index, edge_index], axis<span style=color:#ff79c6>=</span><span style=color:#bd93f9>1</span>)
+</span></span><span style=display:flex><span>    edge_weight <span style=color:#ff79c6>=</span> np<span style=color:#ff79c6>.</span>concatenate([word_graph<span style=color:#ff79c6>.</span>edge_weight, edge_weight], axis<span style=color:#ff79c6>=</span><span style=color:#bd93f9>0</span>)
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>return</span> tfg<span style=color:#ff79c6>.</span>Graph(x<span style=color:#ff79c6>=</span>x, edge_index<span style=color:#ff79c6>=</span>edge_index, edge_weight<span style=color:#ff79c6>=</span>edge_weight)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># building PMI model is time consuming, using cache to optimize</span>
+</span></span><span style=display:flex><span>pmi_cache_path <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;cached_pmi_model.p&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>if</span> os<span style=color:#ff79c6>.</span>path<span style=color:#ff79c6>.</span>exists(pmi_cache_path):
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>with</span> <span style=color:#8be9fd;font-style:italic>open</span>(pmi_cache_path, <span style=color:#f1fa8c>&#34;rb&#34;</span>) <span style=color:#ff79c6>as</span> f:
+</span></span><span style=display:flex><span>        pmi_model <span style=color:#ff79c6>=</span> pickle<span style=color:#ff79c6>.</span>load(f)
+</span></span><span style=display:flex><span><span style=color:#ff79c6>else</span>:
+</span></span><span style=display:flex><span>    pmi_model <span style=color:#ff79c6>=</span> PMIModel()
+</span></span><span style=display:flex><span>    pmi_model<span style=color:#ff79c6>.</span>fit(train_sequences, window_size<span style=color:#ff79c6>=</span><span style=color:#bd93f9>6</span>)
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>with</span> <span style=color:#8be9fd;font-style:italic>open</span>(pmi_cache_path, <span style=color:#f1fa8c>&#34;wb&#34;</span>) <span style=color:#ff79c6>as</span> f:
+</span></span><span style=display:flex><span>        pickle<span style=color:#ff79c6>.</span>dump(pmi_model, f)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>embedding_size <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>150</span>
+</span></span><span style=display:flex><span>num_words <span style=color:#ff79c6>=</span> <span style=color:#8be9fd;font-style:italic>len</span>(tokenizer<span style=color:#ff79c6>.</span>word_index) <span style=color:#ff79c6>+</span> <span style=color:#bd93f9>1</span>
+</span></span><span style=display:flex><span>word_graph <span style=color:#ff79c6>=</span> build_word_graph(num_words, pmi_model, embedding_size)
+</span></span><span style=display:flex><span>train_combined_graph <span style=color:#ff79c6>=</span> build_combined_graph(word_graph, train_sequences, embedding_size)
+</span></span><span style=display:flex><span>test_combined_graph <span style=color:#ff79c6>=</span> build_combined_graph(word_graph, test_sequences, embedding_size)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(word_graph)
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(train_combined_graph)
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(test_combined_graph)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>num_classes <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>2</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 构建GCN模型</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>class</span> <span style=color:#50fa7b>GCNModel</span>(tf<span style=color:#ff79c6>.</span>keras<span style=color:#ff79c6>.</span>Model):
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>def</span> <span style=color:#50fa7b>__init__</span>(<span style=font-style:italic>self</span>, <span style=color:#ff79c6>*</span>args, <span style=color:#ff79c6>**</span>kwargs):
+</span></span><span style=display:flex><span>        <span style=color:#8be9fd;font-style:italic>super</span>()<span style=color:#ff79c6>.</span><span style=color:#50fa7b>__init__</span>(<span style=color:#ff79c6>*</span>args, <span style=color:#ff79c6>**</span>kwargs)
+</span></span><span style=display:flex><span>        <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>gcn0 <span style=color:#ff79c6>=</span> tfg<span style=color:#ff79c6>.</span>layers<span style=color:#ff79c6>.</span>GCN(<span style=color:#bd93f9>100</span>, activation<span style=color:#ff79c6>=</span>tf<span style=color:#ff79c6>.</span>nn<span style=color:#ff79c6>.</span>relu)
+</span></span><span style=display:flex><span>        <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>gcn1 <span style=color:#ff79c6>=</span> tfg<span style=color:#ff79c6>.</span>layers<span style=color:#ff79c6>.</span>GCN(num_classes)
+</span></span><span style=display:flex><span>        <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>dropout <span style=color:#ff79c6>=</span> keras<span style=color:#ff79c6>.</span>layers<span style=color:#ff79c6>.</span>Dropout(<span style=color:#bd93f9>0.5</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>def</span> <span style=color:#50fa7b>call</span>(<span style=font-style:italic>self</span>, inputs, training<span style=color:#ff79c6>=</span><span style=color:#ff79c6>None</span>, mask<span style=color:#ff79c6>=</span><span style=color:#ff79c6>None</span>, cache<span style=color:#ff79c6>=</span><span style=color:#ff79c6>None</span>):
+</span></span><span style=display:flex><span>        x, edge_index, edge_weight <span style=color:#ff79c6>=</span> inputs
+</span></span><span style=display:flex><span>        h <span style=color:#ff79c6>=</span> <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>gcn0([x, edge_index, edge_weight], cache<span style=color:#ff79c6>=</span>cache)
+</span></span><span style=display:flex><span>        h <span style=color:#ff79c6>=</span> <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>dropout(h, training<span style=color:#ff79c6>=</span>training)
+</span></span><span style=display:flex><span>        h <span style=color:#ff79c6>=</span> <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>gcn1([h, edge_index, edge_weight], cache<span style=color:#ff79c6>=</span>cache)
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> h
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>model <span style=color:#ff79c6>=</span> GCNModel()
+</span></span><span style=display:flex><span>model<span style=color:#ff79c6>.</span>gcn0<span style=color:#ff79c6>.</span>cache_normed_edge(train_combined_graph)
+</span></span><span style=display:flex><span>model<span style=color:#ff79c6>.</span>gcn0<span style=color:#ff79c6>.</span>cache_normed_edge(test_combined_graph)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>@tf_utils.function
+</span></span><span style=display:flex><span><span style=color:#ff79c6>def</span> <span style=color:#50fa7b>forward</span>(graph, training<span style=color:#ff79c6>=</span><span style=color:#ff79c6>False</span>):
+</span></span><span style=display:flex><span>    logits <span style=color:#ff79c6>=</span> model([graph<span style=color:#ff79c6>.</span>x, graph<span style=color:#ff79c6>.</span>edge_index, graph<span style=color:#ff79c6>.</span>edge_weight], cache<span style=color:#ff79c6>=</span>graph<span style=color:#ff79c6>.</span>cache, training<span style=color:#ff79c6>=</span>training)
+</span></span><span style=display:flex><span>    logits <span style=color:#ff79c6>=</span> logits[num_words:]
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>return</span> logits
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>def</span> <span style=color:#50fa7b>compute_loss</span>(logits, labels):
+</span></span><span style=display:flex><span>    losses <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>nn<span style=color:#ff79c6>.</span>softmax_cross_entropy_with_logits(
+</span></span><span style=display:flex><span>        logits<span style=color:#ff79c6>=</span>logits,
+</span></span><span style=display:flex><span>        labels<span style=color:#ff79c6>=</span>tf<span style=color:#ff79c6>.</span>one_hot(labels, depth<span style=color:#ff79c6>=</span>num_classes)
+</span></span><span style=display:flex><span>    )
+</span></span><span style=display:flex><span>    mean_loss <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>reduce_mean(losses)
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>return</span> mean_loss
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>optimizer <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>keras<span style=color:#ff79c6>.</span>optimizers<span style=color:#ff79c6>.</span>Adam(learning_rate<span style=color:#ff79c6>=</span><span style=color:#bd93f9>5e-2</span>)
+</span></span><span style=display:flex><span><span style=color:#ff79c6>for</span> step <span style=color:#ff79c6>in</span> tqdm(<span style=color:#8be9fd;font-style:italic>range</span>(<span style=color:#bd93f9>1000</span>)):
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>with</span> tf<span style=color:#ff79c6>.</span>GradientTape() <span style=color:#ff79c6>as</span> tape:
+</span></span><span style=display:flex><span>        logits <span style=color:#ff79c6>=</span> forward(train_combined_graph, training<span style=color:#ff79c6>=</span><span style=color:#ff79c6>True</span>)
+</span></span><span style=display:flex><span>        mean_loss <span style=color:#ff79c6>=</span> compute_loss(logits, train_labels)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>vars</span> <span style=color:#ff79c6>=</span> tape<span style=color:#ff79c6>.</span>watched_variables()
+</span></span><span style=display:flex><span>    grads <span style=color:#ff79c6>=</span> tape<span style=color:#ff79c6>.</span>gradient(mean_loss, <span style=color:#8be9fd;font-style:italic>vars</span>)
+</span></span><span style=display:flex><span>    optimizer<span style=color:#ff79c6>.</span>apply_gradients(<span style=color:#8be9fd;font-style:italic>zip</span>(grads, <span style=color:#8be9fd;font-style:italic>vars</span>))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>if</span> step <span style=color:#ff79c6>%</span> <span style=color:#bd93f9>10</span> <span style=color:#ff79c6>==</span> <span style=color:#bd93f9>0</span>:
+</span></span><span style=display:flex><span>        logits <span style=color:#ff79c6>=</span> forward(test_combined_graph)
+</span></span><span style=display:flex><span>        preds <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>argmax(logits, axis<span style=color:#ff79c6>=-</span><span style=color:#bd93f9>1</span>)
+</span></span><span style=display:flex><span>        corrects <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>cast(tf<span style=color:#ff79c6>.</span>equal(preds, test_labels), tf<span style=color:#ff79c6>.</span>float32)
+</span></span><span style=display:flex><span>        accuracy <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>reduce_mean(corrects)
+</span></span><span style=display:flex><span>        <span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#34;step = </span><span style=color:#f1fa8c>{}</span><span style=color:#f1fa8c>\t</span><span style=color:#f1fa8c>loss = </span><span style=color:#f1fa8c>{}</span><span style=color:#f1fa8c>\t</span><span style=color:#f1fa8c>test_accuracy = </span><span style=color:#f1fa8c>{}</span><span style=color:#f1fa8c>&#34;</span><span style=color:#ff79c6>.</span>format(step, mean_loss, accuracy))
+</span></span></code></pre></div><h1 id=图注意力网络>图注意力网络</h1><p><strong>图注意力网络(graph attention network, GAT)</strong> 是一种基于空间的图卷积网络，它在聚合特征信息时，<strong>将注意力机制用于确定节点邻域的权重</strong>。GAT由多个图注意力层组成，在注意力层中，结点$i$对结点$j$的注意力计算如下(不满足对称性，即$\alpha_{i j} \not = \alpha_{j i}$)：</p>$$
+\alpha_{i j}=\operatorname{softmax}(\sigma(\vec{a}^{T}[W \overrightarrow{h_{i}} \| W \overrightarrow{h_{j}}]))
+$$<p>其中，权重矩阵$W$是一个$F \times F'$尺寸的矩阵，$F$表示输入结点的特征维数，$F'$表示输出结点的特征维数。$\overrightarrow{h_{i}}$和$\overrightarrow{h_{j}}$表示结点$i$和结点$j$的特征表示。如果该层为输入层，则结点特征就是图的原始结点特征$x$。"||&ldquo;表示拼接操作，$\vec{a}^{T}$表示<strong>attention kernel</strong>，是一个将结点$i$和结点$j$的信息进行综合的向量，并输入一个标量，代表结点$i$对结点$j$的注意力值。该运算过程如下图左半图所示。</p><p>在注意力值计算完成后，便可以计算当前注意力层的输出：</p>$$
+\overrightarrow{h'_{i}}=\sigma(\sum_{j \in N_{i}} \alpha_{i j} W \overrightarrow{h_{j}})
+$$<p>其中$\overrightarrow{h'_{i}}$表示当前注意力层对于结点$i$的输出特征，$N_i$表示结点$i$的邻接结点集合，$\alpha_{i j}$表示注意力系数。可以使用多头注意力机制，如下图右半图所示。</p><div align=center><img src=/Kimages/3/image-20220114160251571.png style=zoom:40%></div><h1 id=图嵌入>图嵌入</h1><p><strong>图嵌入(graph embedding)</strong> 是一种将图数据(通常为高维稠密的矩阵)映射为低维稠密向量的过程，能够很好地解决图数据难以高效输入机器学习算法的问题。与自然语言处理中的词嵌入类似，图嵌入的目的是获取图中结点的分布式表示，结点表示之间的相似性表示结点之间的关系强度。图嵌入是将属性图转换为向量或向量集。嵌入应该捕获图的<strong>拓扑结构、顶点到顶点的关系以及关于图、子图和顶点的其他相关信息</strong>。更多的属性嵌入编码可以在以后的任务中获得更好的结果。可以将嵌入式大致分为两类：(1) <strong>顶点嵌入</strong>：每个顶点(结点)用其自身的向量表示进行编码。这种嵌入一般用于在顶点层次上执行可视化或预测。比如<strong>结点分类，或者基于顶点相似性的链接预测</strong>等；(2) <strong>图嵌入</strong>：用单个向量表示整个图。这种嵌入用于在图的层次上做出预测，可者想要比较或可视化整个图。例如<strong>给定化学分子的结构，预测分子的化学性质</strong>等。</p><p>图嵌入方法大致分为三类：基于因子分解的方法、基于随机游走的方法和基于深度学习的方法。</p><h2 id=deepwalk>DeepWalk</h2><p>DeepWalk方法受到word2vec的启发，首先选择某一结点为起始点，做随机游走得到结点序列，然后将该序列视为句子，用word2vec的方法学习，得到结点的表示向量。DeepWalk通过随机游走可以获图中结点的局部上下文信息，因此学到的表示向量反映的是结点在图中的<strong>局部结构</strong>，两个结点在图中共有的邻近结点(或者高阶邻近结点)越多，则对应的两个向量之间的距离就越短。</p><div align=center><img src=/Kimages/3/image-20220114170418186.png style=zoom:45%></div><h2 id=node2vec>node2vec</h2><p>与DeepWalk相似，node2vec通过最大化随机游走得到序列中的结点出现的概率来保持结点之间的高阶邻近性。与DeepWalk的区别在于，node2vec采用有偏随机游走，在<strong>广度优先(BFS)和深度优先(DFS)</strong> 图搜索之间进行权衡，从而产生比DeepWalk更高质量和更多信息量的嵌入。</p><p>使用node2vec实现结点嵌入和边嵌入的Python程序如下所示：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#ff79c6>import</span> networkx <span style=color:#ff79c6>as</span> nx
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> node2vec <span style=color:#ff79c6>import</span> Node2Vec
+</span></span><span style=display:flex><span><span style=color:#6272a4># Embed edges using Hadamard method</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> node2vec.edges <span style=color:#ff79c6>import</span> HadamardEmbedder
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> matplotlib.pyplot <span style=color:#ff79c6>as</span> plt
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>graph <span style=color:#ff79c6>=</span> nx<span style=color:#ff79c6>.</span>fast_gnp_random_graph(n<span style=color:#ff79c6>=</span><span style=color:#bd93f9>20</span>, p<span style=color:#ff79c6>=</span><span style=color:#bd93f9>0.2</span>)  <span style=color:#6272a4># 建图，可以给出自己的graph</span>
+</span></span><span style=display:flex><span>node2vec <span style=color:#ff79c6>=</span> Node2Vec(graph, dimensions<span style=color:#ff79c6>=</span><span style=color:#bd93f9>64</span>, walk_length<span style=color:#ff79c6>=</span><span style=color:#bd93f9>30</span>, num_walks<span style=color:#ff79c6>=</span><span style=color:#bd93f9>200</span>, workers<span style=color:#ff79c6>=</span><span style=color:#bd93f9>4</span>)  <span style=color:#6272a4># Precompute probabilities and generate walks</span>
+</span></span><span style=display:flex><span>model <span style=color:#ff79c6>=</span> node2vec<span style=color:#ff79c6>.</span>fit(window<span style=color:#ff79c6>=</span><span style=color:#bd93f9>10</span>, min_count<span style=color:#ff79c6>=</span><span style=color:#bd93f9>1</span>, batch_words<span style=color:#ff79c6>=</span><span style=color:#bd93f9>4</span>)  <span style=color:#6272a4># Any keywords acceptable by gensim.Word2Vec can be passed</span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(graph)
+</span></span><span style=display:flex><span>nx<span style=color:#ff79c6>.</span>draw(graph)
+</span></span><span style=display:flex><span>plt<span style=color:#ff79c6>.</span>savefig(<span style=color:#f1fa8c>&#39;network.png&#39;</span>)  <span style=color:#6272a4># draw the network figure</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(model<span style=color:#ff79c6>.</span>wv<span style=color:#ff79c6>.</span>most_similar(<span style=color:#f1fa8c>&#39;2&#39;</span>))  <span style=color:#6272a4># Look for most similar nodes. Output node names are always strings</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>model<span style=color:#ff79c6>.</span>wv<span style=color:#ff79c6>.</span>save_word2vec_format(<span style=color:#f1fa8c>&#39;embedding.txt&#39;</span>)  <span style=color:#6272a4># Save embeddings for later use</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># model.save(&#39;embedding_model&#39;)  # Save model for later use</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 获取边的嵌入</span>
+</span></span><span style=display:flex><span>edges_embs <span style=color:#ff79c6>=</span> HadamardEmbedder(keyed_vectors<span style=color:#ff79c6>=</span>model<span style=color:#ff79c6>.</span>wv)
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(edges_embs[(<span style=color:#f1fa8c>&#39;1&#39;</span>, <span style=color:#f1fa8c>&#39;2&#39;</span>)])  <span style=color:#6272a4># Look for embeddings on the fly - here we pass normal tuples</span>
+</span></span></code></pre></div><h1 id=参考资料>参考资料</h1><ul><li>Kipf T N, Welling M. Semi-supervised classification with graph convolutional networks. arXiv preprint arXiv:1609.02907, 2016.</li><li>Yao L, Mao C, Luo Y. Graph convolutional networks for text classification. Proceedings of the AAAI conference on artificial intelligence. 2019, 33(01): 7370-7377.</li><li>Veličković P, Cucurull G, Casanova A, et al. Graph Attention Networks. International Conference on Learning Representations. 2018.</li><li>Perozzi B, Al-Rfou R, Skiena S. Deepwalk: Online learning of social representations. Proceedings of the 20th ACM SIGKDD international conference on Knowledge discovery and data mining. 2014: 701-710.</li><li>Grover A, Leskovec J. node2vec: Scalable feature learning for networks. Proceedings of the 22nd ACM SIGKDD international conference on Knowledge discovery and data mining. 2016: 855-864.</li><li>图神经网络入门：https://zhuanlan.zhihu.com/p/136521625</li><li>图神经网络视频：https://www.bilibili.com/video/BV1Ur4y1S7e3?from=search&amp;seid=645353518432127826&amp;spm_id_from=333.337.0.0</li><li>图嵌入参考：https://zhuanlan.zhihu.com/p/100586855</li></ul><hr><ul class=pager><li class=previous><a href=/post/4-dl/dl8-%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6%E4%B8%8E%E5%A4%96%E9%83%A8%E8%AE%B0%E5%BF%86/ data-toggle=tooltip data-placement=top title=深度学习：注意力机制与外部记忆>&larr;
+Previous Post</a></li><li class=next><a href=/post/5-nlp/nlp1-%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E6%A6%82%E8%BF%B0/ data-toggle=tooltip data-placement=top title=自然语言处理概述>Next
+Post &rarr;</a></li></ul><script src=https://giscus.app/client.js data-repo=XiangdiWu/XiangdiWu.github.io data-repo-id=R_kgDOP0pDUQ data-category=Announcements data-category-id=DIC_kwDOP0pDUc4CvwjG data-mapping=pathname data-reactions-enabled=1 data-emit-metadata=0 data-theme=light data-lang=zh-CN crossorigin=anonymous async></script></div><div class="col-lg-2 col-lg-offset-0
+visible-lg-block
+sidebar-container
+catalog-container"><div class=side-catalog><hr class="hidden-sm hidden-xs"><h5><a class=catalog-toggle href=#>CATALOG</a></h5><ul class=catalog-body></ul></div></div><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+sidebar-container"><section><hr class="hidden-sm hidden-xs"><h5><a href=/tags/>FEATURED TAGS</a></h5><div class=tags><a href=/tags/deep-learning title="deep learning">deep learning
+</a><a href=/tags/machine-learning title="machine learning">machine learning
+</a><a href=/tags/math title=math>math
+</a><a href=/tags/model title=model>model
+</a><a href=/tags/nlp title=nlp>nlp
+</a><a href=/tags/quant title=quant>quant</a></div></section><section><hr><h5>FRIENDS</h5><ul class=list-inline><li><a target=_blank href=https://www.factorwar.com/data/factor-models/>GetAstockFactors</a></li><li><a target=_blank href=https://datawhalechina.github.io/whale-quant/#/>Whale-Quant</a></li></ul></section></div></div></div></article><script type=module>  
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; 
+    mermaid.initialize({ startOnLoad: true });  
+</script><script>Array.from(document.getElementsByClassName("language-mermaid")).forEach(e=>{e.parentElement.outerHTML=`<div class="mermaid">${e.innerHTML}</div>`})</script><style>.mermaid svg{display:block;margin:auto}</style><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center"><li><a href=mailto:bernicewu2000@outlook.com><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-envelope fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=/img/wechat_qrcode.jpg><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-weixin fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=https://github.com/xiangdiwu><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-github fa-stack-1x fa-inverse"></i></span></a></li><li><a href rel=alternate type=application/rss+xml title="Xiangdi Blog"><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-rss fa-stack-1x fa-inverse"></i></span></a></li></ul><p class="copyright text-muted">Copyright &copy; Xiangdi Blog 2025</p></div></div></div></footer><script>function loadAsync(e,t){var s=document,o="script",n=s.createElement(o),i=s.getElementsByTagName(o)[0];n.src=e,t&&n.addEventListener("load",function(e){t(null,e)},!1),i.parentNode.insertBefore(n,i)}</script><script>$("#tag_cloud").length!==0&&loadAsync("/js/jquery.tagcloud.js",function(){$.fn.tagcloud.defaults={color:{start:"#bbbbee",end:"#0085a1"}},$("#tag_cloud a").tagcloud()})</script><script>loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js",function(){var e=document.querySelector("nav");e&&FastClick.attach(e)})</script><script type=text/javascript>function generateCatalog(e){_containerSelector="div.post-container";var t,n,s,o,i,a=$(_containerSelector),r=a.find("h1,h2,h3,h4,h5,h6");return $(e).html(""),r.each(function(){n=$(this).prop("tagName").toLowerCase(),o="#"+$(this).prop("id"),t=$(this).text(),i=$('<a href="'+o+'" rel="nofollow" title="'+t+'">'+t+"</a>"),s=$('<li class="'+n+'_nav"></li>').append(i),$(e).append(s)}),!0}generateCatalog(".catalog-body"),$(".catalog-toggle").click(function(e){e.preventDefault(),$(".side-catalog").toggleClass("fold")}),loadAsync("/js/jquery.nav.js",function(){$(".catalog-body").onePageNav({currentClass:"active",changeHash:!1,easing:"swing",filter:"",scrollSpeed:700,scrollOffset:0,scrollThreshold:.2,begin:null,end:null,scrollChange:null,padding:80})})</script><style>.markmap>svg{width:100%;height:300px}</style><script>window.markmap={autoLoader:{manual:!0,onReady(){const{autoLoader:e,builtInPlugins:t}=window.markmap;e.transformPlugins=t.filter(e=>e.name!=="prism")}}}</script><script src=https://cdn.jsdelivr.net/npm/markmap-autoloader></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css integrity="sha512-r2+FkHzf1u0+SQbZOoIz2RxWOIWfdEzRuYybGjzKq18jG9zaSfEy9s3+jMqG/zPtRor/q4qaUCYQpmSjTw8M+g==" crossorigin=anonymous><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js integrity="sha512-INps9zQ2GUEMCQD7xiZQbGUVnqnzEvlynVy6eqcTcHN4+aQiLo9/uaQqckDpdJ8Zm3M0QBs+Pktg4pz0kEklUg==" crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/mhchem.min.js integrity="sha512-mxjNw/u1lIsFC09k/unscDRY3ofIYPVFbWkP8slrePcS36ht4d/OZ8rRu5yddB2uiqajhTcLD8+jupOWuYPebg==" crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js integrity="sha512-YJVxTjqttjsU3cSvaTRqsSl0wbRgZUNF+NGGCgto/MUbIvaLdXQzGTCQu4CvyJZbZctgflVB0PXw9LLmTWm5/w==" crossorigin=anonymous onload='renderMathInElement(document.body,{delimiters:[{display:!0,left:"$$",right:"$$"},{display:!1,left:"$",right:"$"},{display:!1,left:"\\(",right:"\\)"},{display:!0,left:"\\[",right:"\\]"}],errorcolor:"#CD5C5C",throwonerror:!1})'></script></body></html>

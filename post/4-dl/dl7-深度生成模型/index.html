@@ -1,0 +1,317 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta property="og:site_name" content="Xiangdi Blog"><meta property="og:type" content="article"><meta property="og:image" con ’tent=https://images.pexels.com/photos/220301/pexels-photo-220301.jpeg><meta property="twitter:image" content="https://images.pexels.com/photos/220301/pexels-photo-220301.jpeg"><meta name=title content="深度学习：深度生成模型"><meta property="og:title" content="深度学习：深度生成模型"><meta property="twitter:title" content="深度学习：深度生成模型"><meta name=description content="本文主要介绍深度生成模型，包括概率生成模型和生成式对抗网络。"><meta property="og:description" content="本文主要介绍深度生成模型，包括概率生成模型和生成式对抗网络。"><meta property="twitter:description" content="本文主要介绍深度生成模型，包括概率生成模型和生成式对抗网络。"><meta property="twitter:card" content="summary"><meta property="og:url" content="https://xiangdiwu.github.io/post/4-dl/dl7-%E6%B7%B1%E5%BA%A6%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/"><meta name=keyword content="吴湘菂, WuXiangdi, XiangdiWu, 吴湘菂的网络日志, 吴湘菂的博客, Xiangdi Blog, 博客, 个人网站, Quant, 量化投资, 金融, 投资, 理财, 股票, 期货, 基金, 期权, 外汇, 比特币"><link rel="shortcut icon" href=/img/favicon.ico><title>深度学习：深度生成模型-吴湘菂的博客 | Xiangdi Blog</title><link rel=canonical href=/post/4-dl/dl7-%E6%B7%B1%E5%BA%A6%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/><link rel=stylesheet href=/css/bootstrap.min.css><link rel=stylesheet href=/css/hugo-theme-cleanwhite.min.css><link rel=stylesheet href=/css/zanshang.min.css><link rel=stylesheet href=/css/font-awesome.all.min.css><script src=/js/jquery.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/hux-blog.min.js></script><script src=/js/lazysizes.min.js></script></head><script async src="https://www.googletagmanager.com/gtag/js?id=G-R757MDJ6Y6"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-R757MDJ6Y6")}</script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css integrity=sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV crossorigin=anonymous><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js integrity=sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8 crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js integrity=sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05 crossorigin=anonymous></script><script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"\\[",right:"\\]",display:!0},{left:"$$",right:"$$",display:!0},{left:"\\(",right:"\\)",display:!1}],throwOnError:!1})})</script><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css><script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type=text/javascript></script><nav class="navbar navbar-default navbar-custom navbar-fixed-top"><div class=container-fluid><div class="navbar-header page-scroll"><button type=button class=navbar-toggle>
+<span class=sr-only>Toggle navigation</span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+</button>
+<a class=navbar-brand href=/>Xiangdi Blog</a></div><div id=huxblog_navbar><div class=navbar-collapse><ul class="nav navbar-nav navbar-right"><li><a href=/>All Posts</a></li><li><a href=/categories/quant/>quant</a></li><li><a href=/categories/reading/>reading</a></li><li><a href=/categories/tech/>tech</a></li><li><a href=/archive//>ARCHIVE</a></li><li><a href=/vibe//>Vibe</a></li><li><a href=/travel//>TRAVEL</a></li><li><a href=/about//>ABOUT</a></li><li><a href=/search><i class="fa fa-search"></i></a></li></ul></div></div></div></nav><script>var $body=document.body,$toggle=document.querySelector(".navbar-toggle"),$navbar=document.querySelector("#huxblog_navbar"),$collapse=document.querySelector(".navbar-collapse");$toggle.addEventListener("click",handleMagic);function handleMagic(){$navbar.className.indexOf("in")>0?($navbar.className=" ",setTimeout(function(){$navbar.className.indexOf("in")<0&&($collapse.style.height="0px")},400)):($collapse.style.height="auto",$navbar.className+=" in")}</script><style type=text/css>header.intro-header{background-image:url(https://images.pexels.com/photos/220301/pexels-photo-220301.jpeg)}</style><header class=intro-header><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class=post-heading><div class=tags><a class=tag href=/tags/quant title=Quant>Quant
+</a><a class=tag href=/tags/model title=Model>Model
+</a><a class=tag href=/tags/deep-learning title="Deep Learning">Deep Learning</a></div><h1>深度学习：深度生成模型</h1><h2 class=subheading>Deep Generative Models</h2><span class=meta>Posted by
+XiangdiWu
+on
+Saturday, October 17, 2020</span></div></div></div></div></header><article><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+post-container"><h1 id=概率生成模型>概率生成模型</h1><p>概率生成模型，简称<strong>生成模型(generative model)</strong>，是概率统计和机器学习中的一类重要模型，指一系列用于<strong>随机生成</strong>可观测数据的模型。假设在一个连续的或离散的高维空间$\mathcal X$中，存在一个随机向量$\boldsymbol X$服从一个未知的数据分布$p_r(\boldsymbol x),\boldsymbol x \in \mathcal X$。生成模型是根据一些可观测的样本$\boldsymbol x^{(1)},\boldsymbol x^{(2)},\cdots,\boldsymbol x^{(N)}$来学习一个参数化的模型$p_\theta(\boldsymbol x)$来近似未知分布$p_r(\boldsymbol x)$，并可以用这个模型来生成一些样本，使得<strong>生成样本和真实样本尽可能地相似</strong>。</p><p>自然情况下， 直接建模$p_r(\boldsymbol x)$比较困难。<strong>深度生成模型</strong>就是利用<strong>深度神经网络可以近似任意函数</strong>的能力来建模一个复杂的分布$p_r(\boldsymbol x)$。假设一个随机向量$\boldsymbol Z$服从一个简单的分布$p(\boldsymbol z),z \in \mathcal Z$(例如标准正态分布)，我们使用一个深度神经网络$g: \mathcal Z \rightarrow \mathcal X$，并使得$g(\boldsymbol z)$服从$p_r(\boldsymbol x)$。</p><p>生成模型一般具有两个功能：<strong>密度估计</strong>和<strong>样本生成</strong>。</p><p>给定一组数据$\mathcal D=\{\boldsymbol x^{(i)}\}, 1 \leqslant i \leqslant N$，假设它们都是独立地匆匆相同的概率密度函数为$p_r(\boldsymbol x)$的未知分布中产生的。<strong>概率密度估计(probabilistic density estimation)</strong> 是根据数据集$\mathcal D$来估计其概率密度函数$p_\theta(\boldsymbol x)$。在机器学习中，概率密度估计是一种非常典型的无监督学习问题。如果要建模的分布包含隐变量(如高斯混合模型)，就需要利用EM算法来进行密度估计。</p><p>生成样本就是给定义一个概率密度函数为$p_\theta(\boldsymbol x)$的分布，生成一些服从这个分布的样本，也称为采样。对于一个概率生成模型，在得到两个变量的局部条件概率$p_\theta(\boldsymbol z)$和$p_\theta(\boldsymbol x|\boldsymbol z)$之后，我们就可以生成数据$\boldsymbol x$。具体地，首先根据隐变量的先验分布$p_\theta(\boldsymbol z)$进行采样，得到样本$\boldsymbol z$，然后根据条件分布$p_\theta(\boldsymbol x|\boldsymbol z)$进行采样，得到$\boldsymbol x$。因此，在生成模型中，<strong>重点是估计条件分布</strong>$p(\boldsymbol x|\boldsymbol z;\theta)$。</p><h1 id=变分自编码器>变分自编码器</h1><p>假设一个生成模型中包含隐变量，即部分变量不可观测，如下图所示，其中观测变量$\boldsymbol X$是一个高维空间$\mathcal X$中的随机向量，隐变量$\boldsymbol Z$是一个相对低维空间$\mathcal Z$中的随机向量。例如，对于手写数字识别任务，$\boldsymbol X$是数字矩阵(28*28维)，而$\boldsymbol Z$是数字的具体值(10维)。</p><div align=center><img src=/Kimages/3/image-20211227111340078.png style=zoom:40%></div><p>该生成模型的联合概率密度函数可以分解为：$p(\boldsymbol{x}, \boldsymbol{z} ; \theta)=p(\boldsymbol{x} | \boldsymbol{z} ; \theta) p(\boldsymbol{z} ; \theta)$。其中$p(\boldsymbol{z} ; \theta)$为隐变量$\boldsymbol z$先验分布的概率密度函数，$p(\boldsymbol{x} | \boldsymbol{z} ; \theta)$为已知$\boldsymbol z$时观测变量$\boldsymbol x$的条件概率密度函数，$\theta$表示两个密度函数的参数。一般情况下，我们可以假设这两个概率密度函数为某种参数化的分布族，例如正态分布，然后通过最大似然估计得到参数$\theta$。</p><p>给定一个样本$\boldsymbol x$，其对数边际似然$\log p(\boldsymbol x; \theta)$可以分解为：</p>$$
+\log p(\boldsymbol{x} ; \theta)=E L B O(q, \boldsymbol{x} ; \theta, \phi)+D_{\mathrm{KL}}(q(\boldsymbol{z} ; \phi) \| p(\boldsymbol{z} | \boldsymbol{x} ; \theta))
+$$<p>其中$q(\boldsymbol z;\phi)$是额外引入的<strong>变分密度函数</strong>，其参数为$\phi$，$E L B O(q, \boldsymbol{x} ; \theta, \phi)$为证据下界：</p>$$
+E L B O(q, \boldsymbol{x} ; \theta, \phi)=\mathbb{E}_{\boldsymbol{z} \sim q(\boldsymbol{z} ; \phi)}\left[\log \frac{p(\boldsymbol{x}, \boldsymbol{z} ; \theta)}{q(\boldsymbol{z} ; \phi)}\right]
+$$<p>最大化对数边际似然$\log p(\boldsymbol x; \theta)$可以用EM算法来求解，而在EM算法的每次迭代中，理论上最优的$q(\boldsymbol z;\phi)$为隐变量的后验概率密度函数$p(\boldsymbol z | \boldsymbol x ; \theta)$：</p>$$
+p(\boldsymbol{z} | \boldsymbol{x} ; \theta)=\frac{p(\boldsymbol{x} | \boldsymbol{z} ; \theta) p(\boldsymbol{z} ; \theta)}{\int_{z} p(\boldsymbol{x} | \boldsymbol{z} ; \theta) p(\boldsymbol{z} ; \theta) d \boldsymbol{z}}
+$$<p>其中，$p(\boldsymbol{z} | \boldsymbol{x} ; \theta)$和$p(\boldsymbol{x} | \boldsymbol{z} ; \theta)$两个概率密度函数很复杂，很难直接用已知的分布族函数进行建模。</p><p>变分自编码器(variational auto-encoder, VAE)是一种深度生成模型，其思想是利用神经网络来分别建模两个复杂的条件概率密度函数：</p><p>(1) 用神经网络来估计变分分布$q(\boldsymbol z ; \phi)$，称为<strong>推断网络</strong>。理论上$q(\boldsymbol z ; \phi)$可以不依赖$\boldsymbol x$，但由于其目标是吉尼斯后验分布$p(\boldsymbol{z} | \boldsymbol{x} ; \theta)$，其和$\boldsymbol x$相关，因此变分密度函数一般写为$q(\boldsymbol z | \boldsymbol x ; \phi)$。推断网络的输入为$\boldsymbol x$，输出为变分分布$q(\boldsymbol z | \boldsymbol x ; \phi)$。</p><p>(2) 用神经网络来估计概率分布$p(\boldsymbol x | \boldsymbol z ; \theta)$，称为<strong>生成网络</strong>。生成网络的输入为$\boldsymbol z$，输出为概率分布$p(\boldsymbol x | \boldsymbol z ; \theta)$。</p><div align=center><img src=/Kimages/3/image-20211227112621087.png style=zoom:30%></div><h1 id=pytorch实现vae进行mnist手写数字生成>Pytorch实现VAE进行MNIST手写数字生成</h1><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#ff79c6>import</span> torch
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> torch.nn <span style=color:#ff79c6>as</span> nn
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> torch.nn.functional <span style=color:#ff79c6>as</span> F
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> torch.optim <span style=color:#ff79c6>as</span> optim
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> torchvision <span style=color:#ff79c6>import</span> datasets, transforms
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> torch.autograd <span style=color:#ff79c6>import</span> Variable
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> torchvision.utils <span style=color:#ff79c6>import</span> save_image
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>bs <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>100</span>  <span style=color:#6272a4># batch size</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># MNIST Dataset</span>
+</span></span><span style=display:flex><span>train_dataset <span style=color:#ff79c6>=</span> datasets<span style=color:#ff79c6>.</span>MNIST(root<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#39;./mnist_data/&#39;</span>, train<span style=color:#ff79c6>=</span><span style=color:#ff79c6>True</span>, transform<span style=color:#ff79c6>=</span>transforms<span style=color:#ff79c6>.</span>ToTensor(), download<span style=color:#ff79c6>=</span><span style=color:#ff79c6>True</span>)
+</span></span><span style=display:flex><span>test_dataset <span style=color:#ff79c6>=</span> datasets<span style=color:#ff79c6>.</span>MNIST(root<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#39;./mnist_data/&#39;</span>, train<span style=color:#ff79c6>=</span><span style=color:#ff79c6>False</span>, transform<span style=color:#ff79c6>=</span>transforms<span style=color:#ff79c6>.</span>ToTensor(), download<span style=color:#ff79c6>=</span><span style=color:#ff79c6>False</span>)
+</span></span><span style=display:flex><span><span style=color:#6272a4># Data Loader (Input Pipeline)</span>
+</span></span><span style=display:flex><span>train_loader <span style=color:#ff79c6>=</span> torch<span style=color:#ff79c6>.</span>utils<span style=color:#ff79c6>.</span>data<span style=color:#ff79c6>.</span>DataLoader(dataset<span style=color:#ff79c6>=</span>train_dataset, batch_size<span style=color:#ff79c6>=</span>bs, shuffle<span style=color:#ff79c6>=</span><span style=color:#ff79c6>True</span>)
+</span></span><span style=display:flex><span>test_loader <span style=color:#ff79c6>=</span> torch<span style=color:#ff79c6>.</span>utils<span style=color:#ff79c6>.</span>data<span style=color:#ff79c6>.</span>DataLoader(dataset<span style=color:#ff79c6>=</span>test_dataset, batch_size<span style=color:#ff79c6>=</span>bs, shuffle<span style=color:#ff79c6>=</span><span style=color:#ff79c6>False</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>class</span> <span style=color:#50fa7b>VAE</span>(nn<span style=color:#ff79c6>.</span>Module):
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>def</span> <span style=color:#50fa7b>__init__</span>(<span style=font-style:italic>self</span>, x_dim, h_dim1, h_dim2, z_dim):
+</span></span><span style=display:flex><span>        <span style=color:#8be9fd;font-style:italic>super</span>(VAE, <span style=font-style:italic>self</span>)<span style=color:#ff79c6>.</span><span style=color:#50fa7b>__init__</span>()
+</span></span><span style=display:flex><span> 
+</span></span><span style=display:flex><span>        <span style=color:#6272a4># encoder part</span>
+</span></span><span style=display:flex><span>        <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>fc1 <span style=color:#ff79c6>=</span> nn<span style=color:#ff79c6>.</span>Linear(x_dim, h_dim1)
+</span></span><span style=display:flex><span>        <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>fc2 <span style=color:#ff79c6>=</span> nn<span style=color:#ff79c6>.</span>Linear(h_dim1, h_dim2)
+</span></span><span style=display:flex><span>        <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>fc31 <span style=color:#ff79c6>=</span> nn<span style=color:#ff79c6>.</span>Linear(h_dim2, z_dim)
+</span></span><span style=display:flex><span>        <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>fc32 <span style=color:#ff79c6>=</span> nn<span style=color:#ff79c6>.</span>Linear(h_dim2, z_dim)
+</span></span><span style=display:flex><span>        
+</span></span><span style=display:flex><span>        <span style=color:#6272a4># decoder part</span>
+</span></span><span style=display:flex><span>        <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>fc4 <span style=color:#ff79c6>=</span> nn<span style=color:#ff79c6>.</span>Linear(z_dim, h_dim2)
+</span></span><span style=display:flex><span>        <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>fc5 <span style=color:#ff79c6>=</span> nn<span style=color:#ff79c6>.</span>Linear(h_dim2, h_dim1)
+</span></span><span style=display:flex><span>        <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>fc6 <span style=color:#ff79c6>=</span> nn<span style=color:#ff79c6>.</span>Linear(h_dim1, x_dim)
+</span></span><span style=display:flex><span> 
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>def</span> <span style=color:#50fa7b>encoder</span>(<span style=font-style:italic>self</span>, x):
+</span></span><span style=display:flex><span>        h <span style=color:#ff79c6>=</span> F<span style=color:#ff79c6>.</span>relu(<span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>fc1(x))
+</span></span><span style=display:flex><span>        h <span style=color:#ff79c6>=</span> F<span style=color:#ff79c6>.</span>relu(<span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>fc2(h))
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>fc31(h), <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>fc32(h)  <span style=color:#6272a4># mu, log_var</span>
+</span></span><span style=display:flex><span> 
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>def</span> <span style=color:#50fa7b>sampling</span>(<span style=font-style:italic>self</span>, mu, log_var):
+</span></span><span style=display:flex><span>        std <span style=color:#ff79c6>=</span> torch<span style=color:#ff79c6>.</span>exp(<span style=color:#bd93f9>0.5</span> <span style=color:#ff79c6>*</span> log_var)
+</span></span><span style=display:flex><span>        eps <span style=color:#ff79c6>=</span> torch<span style=color:#ff79c6>.</span>randn_like(std)
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> eps<span style=color:#ff79c6>.</span>mul(std)<span style=color:#ff79c6>.</span>add_(mu) <span style=color:#6272a4># return z sample</span>
+</span></span><span style=display:flex><span> 
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>def</span> <span style=color:#50fa7b>decoder</span>(<span style=font-style:italic>self</span>, z):
+</span></span><span style=display:flex><span>        h <span style=color:#ff79c6>=</span> F<span style=color:#ff79c6>.</span>relu(<span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>fc4(z))
+</span></span><span style=display:flex><span>        h <span style=color:#ff79c6>=</span> F<span style=color:#ff79c6>.</span>relu(<span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>fc5(h))
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> F<span style=color:#ff79c6>.</span>sigmoid(<span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>fc6(h)) 
+</span></span><span style=display:flex><span> 
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>def</span> <span style=color:#50fa7b>forward</span>(<span style=font-style:italic>self</span>, x):
+</span></span><span style=display:flex><span>        mu, log_var <span style=color:#ff79c6>=</span> <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>encoder(x<span style=color:#ff79c6>.</span>view(<span style=color:#ff79c6>-</span><span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>784</span>))
+</span></span><span style=display:flex><span>        z <span style=color:#ff79c6>=</span> <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>sampling(mu, log_var)
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>decoder(z), mu, log_var
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># build model</span>
+</span></span><span style=display:flex><span>vae <span style=color:#ff79c6>=</span> VAE(x_dim<span style=color:#ff79c6>=</span><span style=color:#bd93f9>784</span>, h_dim1<span style=color:#ff79c6>=</span> <span style=color:#bd93f9>512</span>, h_dim2<span style=color:#ff79c6>=</span><span style=color:#bd93f9>256</span>, z_dim<span style=color:#ff79c6>=</span><span style=color:#bd93f9>2</span>)
+</span></span><span style=display:flex><span><span style=color:#ff79c6>if</span> torch<span style=color:#ff79c6>.</span>cuda<span style=color:#ff79c6>.</span>is_available():
+</span></span><span style=display:flex><span>    vae<span style=color:#ff79c6>.</span>cuda()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># define the optimizer and loss function</span>
+</span></span><span style=display:flex><span>optimizer <span style=color:#ff79c6>=</span> optim<span style=color:#ff79c6>.</span>Adam(vae<span style=color:#ff79c6>.</span>parameters())
+</span></span><span style=display:flex><span><span style=color:#6272a4># return reconstruction error + KL divergence losses</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>def</span> <span style=color:#50fa7b>loss_function</span>(recon_x, x, mu, log_var):
+</span></span><span style=display:flex><span>    BCE <span style=color:#ff79c6>=</span> F<span style=color:#ff79c6>.</span>binary_cross_entropy(recon_x, x<span style=color:#ff79c6>.</span>view(<span style=color:#ff79c6>-</span><span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>784</span>), reduction<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#39;sum&#39;</span>)
+</span></span><span style=display:flex><span>    KLD <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>-</span><span style=color:#bd93f9>0.5</span> <span style=color:#ff79c6>*</span> torch<span style=color:#ff79c6>.</span>sum(<span style=color:#bd93f9>1</span> <span style=color:#ff79c6>+</span> log_var <span style=color:#ff79c6>-</span> mu<span style=color:#ff79c6>.</span>pow(<span style=color:#bd93f9>2</span>) <span style=color:#ff79c6>-</span> log_var<span style=color:#ff79c6>.</span>exp())
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>return</span> BCE <span style=color:#ff79c6>+</span> KLD
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>def</span> <span style=color:#50fa7b>train</span>(epoch):
+</span></span><span style=display:flex><span>    vae<span style=color:#ff79c6>.</span>train()
+</span></span><span style=display:flex><span>    train_loss <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>0</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>for</span> batch_idx, (data, _) <span style=color:#ff79c6>in</span> <span style=color:#8be9fd;font-style:italic>enumerate</span>(train_loader):
+</span></span><span style=display:flex><span>        data <span style=color:#ff79c6>=</span> data<span style=color:#ff79c6>.</span>cuda()
+</span></span><span style=display:flex><span>        optimizer<span style=color:#ff79c6>.</span>zero_grad()
+</span></span><span style=display:flex><span> 
+</span></span><span style=display:flex><span>        recon_batch, mu, log_var <span style=color:#ff79c6>=</span> vae(data)
+</span></span><span style=display:flex><span>        loss <span style=color:#ff79c6>=</span> loss_function(recon_batch, data, mu, log_var)
+</span></span><span style=display:flex><span> 
+</span></span><span style=display:flex><span>        loss<span style=color:#ff79c6>.</span>backward()
+</span></span><span style=display:flex><span>        train_loss <span style=color:#ff79c6>+=</span> loss<span style=color:#ff79c6>.</span>item()
+</span></span><span style=display:flex><span>        optimizer<span style=color:#ff79c6>.</span>step()
+</span></span><span style=display:flex><span> 
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>if</span> batch_idx <span style=color:#ff79c6>%</span> <span style=color:#bd93f9>100</span> <span style=color:#ff79c6>==</span> <span style=color:#bd93f9>0</span>:
+</span></span><span style=display:flex><span>            <span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#39;Train Epoch: </span><span style=color:#f1fa8c>{}</span><span style=color:#f1fa8c> [</span><span style=color:#f1fa8c>{}</span><span style=color:#f1fa8c>/</span><span style=color:#f1fa8c>{}</span><span style=color:#f1fa8c> (</span><span style=color:#f1fa8c>{:.0f}</span><span style=color:#f1fa8c>%)]</span><span style=color:#f1fa8c>\t</span><span style=color:#f1fa8c>Loss: </span><span style=color:#f1fa8c>{:.6f}</span><span style=color:#f1fa8c>&#39;</span><span style=color:#ff79c6>.</span>format(epoch, batch_idx <span style=color:#ff79c6>*</span> <span style=color:#8be9fd;font-style:italic>len</span>(data), <span style=color:#8be9fd;font-style:italic>len</span>(train_loader<span style=color:#ff79c6>.</span>dataset), <span style=color:#bd93f9>100.</span> <span style=color:#ff79c6>*</span> batch_idx <span style=color:#ff79c6>/</span> <span style=color:#8be9fd;font-style:italic>len</span>(train_loader), loss<span style=color:#ff79c6>.</span>item() <span style=color:#ff79c6>/</span> <span style=color:#8be9fd;font-style:italic>len</span>(data)))
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#39;====&gt; Epoch: </span><span style=color:#f1fa8c>{}</span><span style=color:#f1fa8c> Average loss: </span><span style=color:#f1fa8c>{:.4f}</span><span style=color:#f1fa8c>&#39;</span><span style=color:#ff79c6>.</span>format(epoch, train_loss <span style=color:#ff79c6>/</span> <span style=color:#8be9fd;font-style:italic>len</span>(train_loader<span style=color:#ff79c6>.</span>dataset)))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>def</span> <span style=color:#50fa7b>test</span>():
+</span></span><span style=display:flex><span>    vae<span style=color:#ff79c6>.</span>eval()
+</span></span><span style=display:flex><span>    test_loss<span style=color:#ff79c6>=</span> <span style=color:#bd93f9>0</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>with</span> torch<span style=color:#ff79c6>.</span>no_grad():
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>for</span> data, _ <span style=color:#ff79c6>in</span> test_loader:
+</span></span><span style=display:flex><span>            data <span style=color:#ff79c6>=</span> data<span style=color:#ff79c6>.</span>cuda()
+</span></span><span style=display:flex><span>            recon, mu, log_var <span style=color:#ff79c6>=</span> vae(data)
+</span></span><span style=display:flex><span> 
+</span></span><span style=display:flex><span>            <span style=color:#6272a4># sum up batch loss</span>
+</span></span><span style=display:flex><span>            test_loss <span style=color:#ff79c6>+=</span> loss_function(recon, data, mu, log_var)<span style=color:#ff79c6>.</span>item()
+</span></span><span style=display:flex><span> 
+</span></span><span style=display:flex><span>    test_loss <span style=color:#ff79c6>/=</span> <span style=color:#8be9fd;font-style:italic>len</span>(test_loader<span style=color:#ff79c6>.</span>dataset)
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#39;====&gt; Test set loss: </span><span style=color:#f1fa8c>{:.4f}</span><span style=color:#f1fa8c>&#39;</span><span style=color:#ff79c6>.</span>format(test_loss))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>for</span> epoch <span style=color:#ff79c6>in</span> <span style=color:#8be9fd;font-style:italic>range</span>(<span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>51</span>):
+</span></span><span style=display:flex><span>    train(epoch)
+</span></span><span style=display:flex><span>    test()
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>with</span> torch<span style=color:#ff79c6>.</span>no_grad():
+</span></span><span style=display:flex><span>        z <span style=color:#ff79c6>=</span> torch<span style=color:#ff79c6>.</span>randn(<span style=color:#bd93f9>64</span>, <span style=color:#bd93f9>2</span>)<span style=color:#ff79c6>.</span>cuda()
+</span></span><span style=display:flex><span>        <span style=color:#8be9fd;font-style:italic>print</span>(z)
+</span></span><span style=display:flex><span>        sample <span style=color:#ff79c6>=</span> vae<span style=color:#ff79c6>.</span>decoder(z)<span style=color:#ff79c6>.</span>cuda()
+</span></span><span style=display:flex><span>        save_image(sample<span style=color:#ff79c6>.</span>view(<span style=color:#bd93f9>64</span>, <span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>28</span>, <span style=color:#bd93f9>28</span>), <span style=color:#f1fa8c>&#39;./sample_&#39;</span> <span style=color:#ff79c6>+</span> <span style=color:#8be9fd;font-style:italic>str</span>(epoch) <span style=color:#ff79c6>+</span>  <span style=color:#f1fa8c>&#39;.png&#39;</span>)
+</span></span></code></pre></div><h1 id=生成式对抗网络>生成式对抗网络</h1><p>VAE显式地构建样本的密度函数$p(\boldsymbol x ; \theta)$，并通过最大似然估计来求解参数，称为<strong>显式密度模型(explicit density model)</strong>。然而，如果只是希望有一个模型能生成符合数据分布$p_r(\boldsymbol x)$的样本，那么可以不显式地估计出数据分布的密度函数。假设在低维空间$\mathcal Z$中有一个简单容易采样的分布$p(\boldsymbol z)$，$p(\boldsymbol z)$通常为<strong>标准多元正态分布</strong>。我们用神经网络构建一个映射函数$G: \mathcal Z \rightarrow \mathcal X$，称为生成网络。利用神经网络强大的拟合能力，使得$G(\boldsymbol z)$服从$p_r(\boldsymbol x)$。这种模型称为<strong>隐式密度模型(implicit density model)</strong>，如下图所示。</p><div align=center><img src=/Kimages/3/image-20211227125702313.png style=zoom:30%></div><p>隐式密度模型的一个关键是如何确保生成网络产生的样本一定是服从真实的数据分布。既然我们不构建显式密度函数，就无法通过最大似然估计等方法来训练。生成对抗网络(generative adversarial networks, GAN)是通过对抗训练的方式来使得生成网络产生的样本服从真实数据分布。在生成对抗网络中，有两个网络进行对抗训练。一个是<strong>判别网络</strong>，目标是尽量准确地判断一个样本是来自于真实数据还是由生成网络产生；另一个是<strong>生成网络</strong>，目标是尽量生成判别网络无法区分来源的样本。这两个目标相反的网络不断地进行交替训练。当最后收敛时，如果判别网络再也无法判断出一个样本的来源，那么也就等价于生成网络可以生成符合真实数据分布的样本。生成对抗网络的流程如下所示。</p><div align=center><img src=/Kimages/3/image-20211227130206670.png style=zoom:30%></div><h2 id=判别网络>判别网络</h2><p><strong>判别网络(discriminator network)</strong>$D(\boldsymbol x ; \phi)$的目标是区分出一个样本$\boldsymbol x$是来源于真实分布$p_r(\boldsymbol x)$还是来源于生成模型$p_\theta(\boldsymbol x)$，因此其实际上是一个二分类的分类器。用标签$y=1$表示样本来自于真实分布，$y=0$表示样本来自于生成模型，判别网络$D(\boldsymbol x ; \phi)$的输出为$\boldsymbol x$属于真实数据分布的概率：</p>$$
+p(y=1 | \boldsymbol{x})=D(\boldsymbol{x} ; \phi)
+$$<p>则样本来自生成模型的概率为$p(y=0 | \boldsymbol{x})=1-D(\boldsymbol{x} ; \phi)$。因此，判别网络的目标函数为最小化交叉熵，即</p>$$
+\min _{\phi}-\left(\mathbb{E}_{\boldsymbol{x}}[y \log p(y=1 | \boldsymbol{x})+(1-y) \log p(y=0 | \boldsymbol{x})]\right)
+$$<p>假设分布$p(\boldsymbol{x})$是由分布$p_r(\boldsymbol{x})$和$p_\theta(\boldsymbol{x})$等比例混合而成的，则上式等价于：</p>$$
+\begin{aligned}
+& \max _{\phi} \mathbb{E}_{\boldsymbol{x} \sim p_{r}(\boldsymbol{x})}[\log D(\boldsymbol{x} ; \phi)]+\mathbb{E}_{\boldsymbol{x}^{\prime} \sim p_{\theta}\left(\boldsymbol{x}^{\prime}\right)}\left[\log \left(1-D\left(\boldsymbol{x}^{\prime} ; \phi\right)\right)\right] \\
+=& \max _{\phi} \mathbb{E}_{\boldsymbol{x} \sim p_{r}(\boldsymbol{x})}[\log D(\boldsymbol{x} ; \phi)]+\mathbb{E}_{\boldsymbol{z} \sim p(\boldsymbol{z})}[\log (1-D(G(\boldsymbol{z} ; \theta) ; \phi))]
+\end{aligned}
+$$<h2 id=生成网络>生成网络</h2><p><strong>生成网络(generative network)</strong> 的目标刚好和判别网络相反，即让判别网络将自己生成的样本判别为真是样本：</p>$$
+\begin{aligned}
+& \max _{\theta}\left(\mathbb{E}_{\boldsymbol{z} \sim p(\boldsymbol{z})}[\log D(G(\boldsymbol{z} ; \theta) ; \phi)]\right) \\
+=& \min _{\theta}\left(\mathbb{E}_{\boldsymbol{z} \sim p(\boldsymbol{z})}[\log (1-D(G(\boldsymbol{z} ; \theta) ; \phi))]\right)
+\end{aligned}
+$$<p>上面的这两个目标函数是等价的。但是在实际训练时，一般使用前者，因为其梯度性质更好。</p><h2 id=训练>训练</h2><p>GAN的两个网络的优化目标是相反的，训练难度较大。一般情况下，需要平衡两个网络的能力。对于判别网络来说，一开始的判别能力不能太强，否则难以提升生成网络的能力。但是，判别网络的判别能力也不能太弱，否则生成网络也不会太好。在训练时需要使用一些技巧，使得在每次迭代中，判别网络比生成网络的能力强一些，但又不能强太多。</p><p>生成对抗网络的训练流程如下所示。每次迭代时，判别网络更新$K$次而生成网络更新一次，即首先要保证判别网络足够强才能开始训练生成网络。在实践中$K$是一个超参数，其取值一般取决于具体任务。</p><div align=center><img src=/Kimages/3/image-20211227131625769.png style=zoom:50%></div><p>GAN的判别网络和生成网络都可以根据不同的生成任务使用不同的网络结构，例如DCGAN使用卷积网络来实现两个网络。</p><h1 id=tensorflow实现gan进行mnist手写数字生成>Tensorflow实现GAN进行MNIST手写数字生成</h1><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#ff79c6>import</span> os
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> tensorflow <span style=color:#ff79c6>as</span> tf
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> matplotlib.pyplot <span style=color:#ff79c6>as</span> plt
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> tensorflow.keras <span style=color:#ff79c6>import</span> layers
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 获取MNIST数据集(只获取训练集即可)</span>
+</span></span><span style=display:flex><span>(train_images, train_labels), (_, _) <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>keras<span style=color:#ff79c6>.</span>datasets<span style=color:#ff79c6>.</span>mnist<span style=color:#ff79c6>.</span>load_data()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>train_images <span style=color:#ff79c6>=</span> train_images<span style=color:#ff79c6>.</span>reshape(train_images<span style=color:#ff79c6>.</span>shape[<span style=color:#bd93f9>0</span>], <span style=color:#bd93f9>28</span>, <span style=color:#bd93f9>28</span>, <span style=color:#bd93f9>1</span>)<span style=color:#ff79c6>.</span>astype(<span style=color:#f1fa8c>&#39;float32&#39;</span>)
+</span></span><span style=display:flex><span>train_images <span style=color:#ff79c6>=</span> (train_images) <span style=color:#ff79c6>/</span> <span style=color:#bd93f9>255</span>  <span style=color:#6272a4># Normalize the images to [-1, 1]</span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(train_images[<span style=color:#bd93f9>0</span>])
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>BUFFER_SIZE <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>60000</span>
+</span></span><span style=display:flex><span>BATCH_SIZE <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>256</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># Batch and shuffle the data</span>
+</span></span><span style=display:flex><span>dataset <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>data<span style=color:#ff79c6>.</span>Dataset<span style=color:#ff79c6>.</span>from_tensor_slices(train_images)<span style=color:#ff79c6>.</span>shuffle(BUFFER_SIZE)<span style=color:#ff79c6>.</span>batch(BATCH_SIZE, drop_remainder<span style=color:#ff79c6>=</span><span style=color:#ff79c6>True</span>)
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(dataset)  <span style=color:#6272a4># &lt;BatchDataset shapes: (batch_size, 28, 28, 1), types: tf.float32&gt;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 使用Keras Sequential API创建生成网络</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>def</span> <span style=color:#50fa7b>make_generator_model</span>():
+</span></span><span style=display:flex><span>    model <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>keras<span style=color:#ff79c6>.</span>Sequential()
+</span></span><span style=display:flex><span>    model<span style=color:#ff79c6>.</span>add(layers<span style=color:#ff79c6>.</span>Dense(<span style=color:#bd93f9>7</span><span style=color:#ff79c6>*</span><span style=color:#bd93f9>7</span><span style=color:#ff79c6>*</span><span style=color:#bd93f9>256</span>, use_bias<span style=color:#ff79c6>=</span><span style=color:#ff79c6>False</span>, input_shape<span style=color:#ff79c6>=</span>(<span style=color:#bd93f9>100</span>,)))
+</span></span><span style=display:flex><span>    model<span style=color:#ff79c6>.</span>add(layers<span style=color:#ff79c6>.</span>BatchNormalization())
+</span></span><span style=display:flex><span>    model<span style=color:#ff79c6>.</span>add(layers<span style=color:#ff79c6>.</span>LeakyReLU())
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    model<span style=color:#ff79c6>.</span>add(layers<span style=color:#ff79c6>.</span>Reshape((<span style=color:#bd93f9>7</span>, <span style=color:#bd93f9>7</span>, <span style=color:#bd93f9>256</span>)))
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>assert</span> model<span style=color:#ff79c6>.</span>output_shape <span style=color:#ff79c6>==</span> (<span style=color:#ff79c6>None</span>, <span style=color:#bd93f9>7</span>, <span style=color:#bd93f9>7</span>, <span style=color:#bd93f9>256</span>)  <span style=color:#6272a4># Note: None is the batch size</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4># model.add(layers.Conv2DTranspose(128, (5, 5), strides=(1, 1), padding=&#39;same&#39;, use_bias=False))</span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4># assert model.output_shape == (None, 7, 7, 128)</span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4># model.add(layers.BatchNormalization())</span>
+</span></span><span style=display:flex><span>    <span style=color:#6272a4># model.add(layers.LeakyReLU())</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    model<span style=color:#ff79c6>.</span>add(layers<span style=color:#ff79c6>.</span>Conv2DTranspose(<span style=color:#bd93f9>64</span>, (<span style=color:#bd93f9>5</span>, <span style=color:#bd93f9>5</span>), strides<span style=color:#ff79c6>=</span>(<span style=color:#bd93f9>2</span>, <span style=color:#bd93f9>2</span>), padding<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#39;same&#39;</span>, use_bias<span style=color:#ff79c6>=</span><span style=color:#ff79c6>False</span>))
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>assert</span> model<span style=color:#ff79c6>.</span>output_shape <span style=color:#ff79c6>==</span> (<span style=color:#ff79c6>None</span>, <span style=color:#bd93f9>14</span>, <span style=color:#bd93f9>14</span>, <span style=color:#bd93f9>64</span>)
+</span></span><span style=display:flex><span>    model<span style=color:#ff79c6>.</span>add(layers<span style=color:#ff79c6>.</span>BatchNormalization())
+</span></span><span style=display:flex><span>    model<span style=color:#ff79c6>.</span>add(layers<span style=color:#ff79c6>.</span>LeakyReLU())
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    model<span style=color:#ff79c6>.</span>add(layers<span style=color:#ff79c6>.</span>Conv2DTranspose(<span style=color:#bd93f9>1</span>, (<span style=color:#bd93f9>5</span>, <span style=color:#bd93f9>5</span>), strides<span style=color:#ff79c6>=</span>(<span style=color:#bd93f9>2</span>, <span style=color:#bd93f9>2</span>), padding<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#39;same&#39;</span>, use_bias<span style=color:#ff79c6>=</span><span style=color:#ff79c6>False</span>, activation<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#39;tanh&#39;</span>))
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>assert</span> model<span style=color:#ff79c6>.</span>output_shape <span style=color:#ff79c6>==</span> (<span style=color:#ff79c6>None</span>, <span style=color:#bd93f9>28</span>, <span style=color:#bd93f9>28</span>, <span style=color:#bd93f9>1</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>return</span> model
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 使用尚未训练的生成器创建一张图片</span>
+</span></span><span style=display:flex><span>generator <span style=color:#ff79c6>=</span> make_generator_model()
+</span></span><span style=display:flex><span>noise <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>random<span style=color:#ff79c6>.</span>normal([<span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>100</span>])
+</span></span><span style=display:flex><span>generated_image <span style=color:#ff79c6>=</span> generator(noise, training<span style=color:#ff79c6>=</span><span style=color:#ff79c6>False</span>)
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(generated_image<span style=color:#ff79c6>.</span>shape)  <span style=color:#6272a4># (batch_size:1, 28, 28, 1)</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 使用Keras Sequential API创建判别网络</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>def</span> <span style=color:#50fa7b>make_discriminator_model</span>():
+</span></span><span style=display:flex><span>    model <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>keras<span style=color:#ff79c6>.</span>Sequential()
+</span></span><span style=display:flex><span>    model<span style=color:#ff79c6>.</span>add(layers<span style=color:#ff79c6>.</span>Conv2D(<span style=color:#bd93f9>64</span>, (<span style=color:#bd93f9>5</span>, <span style=color:#bd93f9>5</span>), strides<span style=color:#ff79c6>=</span>(<span style=color:#bd93f9>2</span>, <span style=color:#bd93f9>2</span>), padding<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#39;same&#39;</span>,
+</span></span><span style=display:flex><span>                                     input_shape<span style=color:#ff79c6>=</span>[<span style=color:#bd93f9>28</span>, <span style=color:#bd93f9>28</span>, <span style=color:#bd93f9>1</span>]))
+</span></span><span style=display:flex><span>    model<span style=color:#ff79c6>.</span>add(layers<span style=color:#ff79c6>.</span>LeakyReLU())
+</span></span><span style=display:flex><span>    model<span style=color:#ff79c6>.</span>add(layers<span style=color:#ff79c6>.</span>Dropout(<span style=color:#bd93f9>0.3</span>))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    model<span style=color:#ff79c6>.</span>add(layers<span style=color:#ff79c6>.</span>Conv2D(<span style=color:#bd93f9>128</span>, (<span style=color:#bd93f9>5</span>, <span style=color:#bd93f9>5</span>), strides<span style=color:#ff79c6>=</span>(<span style=color:#bd93f9>2</span>, <span style=color:#bd93f9>2</span>), padding<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#39;same&#39;</span>))
+</span></span><span style=display:flex><span>    model<span style=color:#ff79c6>.</span>add(layers<span style=color:#ff79c6>.</span>LeakyReLU())
+</span></span><span style=display:flex><span>    model<span style=color:#ff79c6>.</span>add(layers<span style=color:#ff79c6>.</span>Dropout(<span style=color:#bd93f9>0.3</span>))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    model<span style=color:#ff79c6>.</span>add(layers<span style=color:#ff79c6>.</span>Flatten())
+</span></span><span style=display:flex><span>    model<span style=color:#ff79c6>.</span>add(layers<span style=color:#ff79c6>.</span>Dense(<span style=color:#bd93f9>1</span>))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>return</span> model
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 使用尚未训练的判别器对所生成的图像进行真伪分类</span>
+</span></span><span style=display:flex><span>discriminator <span style=color:#ff79c6>=</span> make_discriminator_model()
+</span></span><span style=display:flex><span>decision <span style=color:#ff79c6>=</span> discriminator(generated_image)
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(decision)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 定义损失函数和优化器</span>
+</span></span><span style=display:flex><span>cross_entropy <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>keras<span style=color:#ff79c6>.</span>losses<span style=color:#ff79c6>.</span>BinaryCrossentropy(from_logits<span style=color:#ff79c6>=</span><span style=color:#ff79c6>True</span>)
+</span></span><span style=display:flex><span><span style=color:#6272a4># from_logits是一个布尔量，当from_logits=True的时候，该层会将output做normalize(softmax)。因此，</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 一个直观的理解就是layerA with activation + softmax + loss(from_logits=False)与layerA + loss(from_logits=True)等效</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 判别器损失</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>def</span> <span style=color:#50fa7b>discriminator_loss</span>(real_output, fake_output):
+</span></span><span style=display:flex><span>    real_loss <span style=color:#ff79c6>=</span> cross_entropy(tf<span style=color:#ff79c6>.</span>ones_like(real_output), real_output)
+</span></span><span style=display:flex><span>    fake_loss <span style=color:#ff79c6>=</span> cross_entropy(tf<span style=color:#ff79c6>.</span>zeros_like(fake_output), fake_output)
+</span></span><span style=display:flex><span>    total_loss <span style=color:#ff79c6>=</span> real_loss <span style=color:#ff79c6>+</span> fake_loss
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>return</span> total_loss
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 生成器损失</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>def</span> <span style=color:#50fa7b>generator_loss</span>(fake_output):
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>return</span> cross_entropy(tf<span style=color:#ff79c6>.</span>ones_like(fake_output), fake_output)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 对应的优化器</span>
+</span></span><span style=display:flex><span>generator_optimizer <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>keras<span style=color:#ff79c6>.</span>optimizers<span style=color:#ff79c6>.</span>Adam(<span style=color:#bd93f9>1e-4</span>)
+</span></span><span style=display:flex><span>discriminator_optimizer <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>keras<span style=color:#ff79c6>.</span>optimizers<span style=color:#ff79c6>.</span>Adam(<span style=color:#bd93f9>1e-4</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>EPOCHS <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>50</span>
+</span></span><span style=display:flex><span>noise_dim <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>100</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># number of example to be generated and corresponding seeds</span>
+</span></span><span style=display:flex><span>num_examples_to_generate <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>16</span>
+</span></span><span style=display:flex><span>seed <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>random<span style=color:#ff79c6>.</span>normal([num_examples_to_generate, noise_dim])
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 平均计算每一轮判别器和生成器的损失</span>
+</span></span><span style=display:flex><span>gen_train_loss <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>keras<span style=color:#ff79c6>.</span>metrics<span style=color:#ff79c6>.</span>Mean()
+</span></span><span style=display:flex><span>disc_train_loss <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>keras<span style=color:#ff79c6>.</span>metrics<span style=color:#ff79c6>.</span>Mean()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 训练循环在生成器接收到一个随机种子作为输入时开始。该种子用于生成一个图像</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 判别器随后被用于对真实图像（选自训练集）和伪造图像（由生成器生成）进行分类</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 为每一个模型计算损失，并使用梯度更新生成器和判别器</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>def</span> <span style=color:#50fa7b>train_step</span>(images):
+</span></span><span style=display:flex><span>    noise <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>random<span style=color:#ff79c6>.</span>normal([BATCH_SIZE, noise_dim])
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>with</span> tf<span style=color:#ff79c6>.</span>GradientTape() <span style=color:#ff79c6>as</span> gen_tape, tf<span style=color:#ff79c6>.</span>GradientTape() <span style=color:#ff79c6>as</span> disc_tape:
+</span></span><span style=display:flex><span>        generated_image <span style=color:#ff79c6>=</span> generator(noise)
+</span></span><span style=display:flex><span>        real_output <span style=color:#ff79c6>=</span> discriminator(images, training<span style=color:#ff79c6>=</span><span style=color:#ff79c6>True</span>)
+</span></span><span style=display:flex><span>        fake_output <span style=color:#ff79c6>=</span> discriminator(generated_image, training<span style=color:#ff79c6>=</span><span style=color:#ff79c6>True</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        gen_loss <span style=color:#ff79c6>=</span> generator_loss(fake_output)
+</span></span><span style=display:flex><span>        disc_loss <span style=color:#ff79c6>=</span> discriminator_loss(real_output, fake_output)
+</span></span><span style=display:flex><span>        <span style=color:#8be9fd;font-style:italic>print</span>(gen_loss, disc_loss)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    gradients_of_generator <span style=color:#ff79c6>=</span> gen_tape<span style=color:#ff79c6>.</span>gradient(gen_loss, generator<span style=color:#ff79c6>.</span>trainable_variables)
+</span></span><span style=display:flex><span>    gradients_of_discriminator <span style=color:#ff79c6>=</span> disc_tape<span style=color:#ff79c6>.</span>gradient(disc_loss, discriminator<span style=color:#ff79c6>.</span>trainable_variables)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    generator_optimizer<span style=color:#ff79c6>.</span>apply_gradients(<span style=color:#8be9fd;font-style:italic>zip</span>(gradients_of_generator, generator<span style=color:#ff79c6>.</span>trainable_variables))
+</span></span><span style=display:flex><span>    discriminator_optimizer<span style=color:#ff79c6>.</span>apply_gradients(<span style=color:#8be9fd;font-style:italic>zip</span>(gradients_of_discriminator, discriminator<span style=color:#ff79c6>.</span>trainable_variables))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    gen_train_loss(gen_loss)
+</span></span><span style=display:flex><span>    disc_train_loss(disc_loss)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>def</span> <span style=color:#50fa7b>generate_and_save_images</span>(model, epoch, test_input):
+</span></span><span style=display:flex><span>    predictions <span style=color:#ff79c6>=</span> model(test_input, training<span style=color:#ff79c6>=</span><span style=color:#ff79c6>False</span>)
+</span></span><span style=display:flex><span>    fig <span style=color:#ff79c6>=</span> plt<span style=color:#ff79c6>.</span>figure(figsize<span style=color:#ff79c6>=</span>(<span style=color:#bd93f9>4</span>, <span style=color:#bd93f9>4</span>))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>for</span> i <span style=color:#ff79c6>in</span> <span style=color:#8be9fd;font-style:italic>range</span>(predictions<span style=color:#ff79c6>.</span>shape[<span style=color:#bd93f9>0</span>]):
+</span></span><span style=display:flex><span>        plt<span style=color:#ff79c6>.</span>subplot(<span style=color:#bd93f9>4</span>, <span style=color:#bd93f9>4</span>, i <span style=color:#ff79c6>+</span> <span style=color:#bd93f9>1</span>)
+</span></span><span style=display:flex><span>        plt<span style=color:#ff79c6>.</span>imshow(predictions[i, :, :, <span style=color:#bd93f9>0</span>] <span style=color:#ff79c6>*</span> <span style=color:#bd93f9>255</span>, cmap<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#39;gray&#39;</span>)
+</span></span><span style=display:flex><span>        plt<span style=color:#ff79c6>.</span>axis(<span style=color:#f1fa8c>&#39;off&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    plt<span style=color:#ff79c6>.</span>savefig(<span style=color:#f1fa8c>&#39;image_at_epoch_</span><span style=color:#f1fa8c>{:03d}</span><span style=color:#f1fa8c>.png&#39;</span><span style=color:#ff79c6>.</span>format(epoch))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 开始训练，并完成每个spoch后生成一组4*4的图像并保存</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>for</span> epoch <span style=color:#ff79c6>in</span> <span style=color:#8be9fd;font-style:italic>range</span>(EPOCHS):
+</span></span><span style=display:flex><span>    gen_train_loss<span style=color:#ff79c6>.</span>reset_states()
+</span></span><span style=display:flex><span>    disc_train_loss<span style=color:#ff79c6>.</span>reset_states()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>for</span> image_batch <span style=color:#ff79c6>in</span> dataset:
+</span></span><span style=display:flex><span>        train_step(image_batch)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#39;Epoch &#39;</span> <span style=color:#ff79c6>+</span> <span style=color:#8be9fd;font-style:italic>str</span>(epoch) <span style=color:#ff79c6>+</span> <span style=color:#f1fa8c>&#39;, Generator Loss: &#39;</span> <span style=color:#ff79c6>+</span> <span style=color:#8be9fd;font-style:italic>str</span>(gen_train_loss<span style=color:#ff79c6>.</span>result()) <span style=color:#ff79c6>+</span> <span style=color:#f1fa8c>&#39;, Discriminator Loss: &#39;</span> <span style=color:#ff79c6>+</span> <span style=color:#8be9fd;font-style:italic>str</span>(disc_train_loss<span style=color:#ff79c6>.</span>result()))
+</span></span><span style=display:flex><span>    generate_and_save_images(generator, epoch <span style=color:#ff79c6>+</span> <span style=color:#bd93f9>1</span>, seed)
+</span></span></code></pre></div><h1 id=参考资料>参考资料</h1><ul><li><p>邱锡鹏. 神经网络与深度学习. 北京: 机械工业出版社, 2020.</p></li><li><p>多元高斯分布：https://zhuanlan.zhihu.com/p/58987388</p></li><li><p>变分自编码器维基百科：https://en.wikipedia.org/wiki/Variational_autoencoder</p></li></ul><hr><ul class=pager><li class=previous><a href=/post/4-dl/dl6-%E8%87%AA%E7%BC%96%E7%A0%81%E5%99%A8/ data-toggle=tooltip data-placement=top title=深度学习：自编码器>&larr;
+Previous Post</a></li><li class=next><a href=/post/4-dl/dl8-%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6%E4%B8%8E%E5%A4%96%E9%83%A8%E8%AE%B0%E5%BF%86/ data-toggle=tooltip data-placement=top title=深度学习：注意力机制与外部记忆>Next
+Post &rarr;</a></li></ul><script src=https://giscus.app/client.js data-repo=XiangdiWu/XiangdiWu.github.io data-repo-id=R_kgDOP0pDUQ data-category=Announcements data-category-id=DIC_kwDOP0pDUc4CvwjG data-mapping=pathname data-reactions-enabled=1 data-emit-metadata=0 data-theme=light data-lang=zh-CN crossorigin=anonymous async></script></div><div class="col-lg-2 col-lg-offset-0
+visible-lg-block
+sidebar-container
+catalog-container"><div class=side-catalog><hr class="hidden-sm hidden-xs"><h5><a class=catalog-toggle href=#>CATALOG</a></h5><ul class=catalog-body></ul></div></div><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+sidebar-container"><section><hr class="hidden-sm hidden-xs"><h5><a href=/tags/>FEATURED TAGS</a></h5><div class=tags><a href=/tags/deep-learning title="deep learning">deep learning
+</a><a href=/tags/machine-learning title="machine learning">machine learning
+</a><a href=/tags/math title=math>math
+</a><a href=/tags/model title=model>model
+</a><a href=/tags/nlp title=nlp>nlp
+</a><a href=/tags/quant title=quant>quant</a></div></section><section><hr><h5>FRIENDS</h5><ul class=list-inline><li><a target=_blank href=https://www.factorwar.com/data/factor-models/>GetAstockFactors</a></li><li><a target=_blank href=https://datawhalechina.github.io/whale-quant/#/>Whale-Quant</a></li></ul></section></div></div></div></article><script type=module>  
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; 
+    mermaid.initialize({ startOnLoad: true });  
+</script><script>Array.from(document.getElementsByClassName("language-mermaid")).forEach(e=>{e.parentElement.outerHTML=`<div class="mermaid">${e.innerHTML}</div>`})</script><style>.mermaid svg{display:block;margin:auto}</style><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center"><li><a href=mailto:bernicewu2000@outlook.com><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-envelope fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=/img/wechat_qrcode.jpg><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-weixin fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=https://github.com/xiangdiwu><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-github fa-stack-1x fa-inverse"></i></span></a></li><li><a href rel=alternate type=application/rss+xml title="Xiangdi Blog"><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-rss fa-stack-1x fa-inverse"></i></span></a></li></ul><p class="copyright text-muted">Copyright &copy; Xiangdi Blog 2025</p></div></div></div></footer><script>function loadAsync(e,t){var s=document,o="script",n=s.createElement(o),i=s.getElementsByTagName(o)[0];n.src=e,t&&n.addEventListener("load",function(e){t(null,e)},!1),i.parentNode.insertBefore(n,i)}</script><script>$("#tag_cloud").length!==0&&loadAsync("/js/jquery.tagcloud.js",function(){$.fn.tagcloud.defaults={color:{start:"#bbbbee",end:"#0085a1"}},$("#tag_cloud a").tagcloud()})</script><script>loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js",function(){var e=document.querySelector("nav");e&&FastClick.attach(e)})</script><script type=text/javascript>function generateCatalog(e){_containerSelector="div.post-container";var t,n,s,o,i,a=$(_containerSelector),r=a.find("h1,h2,h3,h4,h5,h6");return $(e).html(""),r.each(function(){n=$(this).prop("tagName").toLowerCase(),o="#"+$(this).prop("id"),t=$(this).text(),i=$('<a href="'+o+'" rel="nofollow" title="'+t+'">'+t+"</a>"),s=$('<li class="'+n+'_nav"></li>').append(i),$(e).append(s)}),!0}generateCatalog(".catalog-body"),$(".catalog-toggle").click(function(e){e.preventDefault(),$(".side-catalog").toggleClass("fold")}),loadAsync("/js/jquery.nav.js",function(){$(".catalog-body").onePageNav({currentClass:"active",changeHash:!1,easing:"swing",filter:"",scrollSpeed:700,scrollOffset:0,scrollThreshold:.2,begin:null,end:null,scrollChange:null,padding:80})})</script><style>.markmap>svg{width:100%;height:300px}</style><script>window.markmap={autoLoader:{manual:!0,onReady(){const{autoLoader:e,builtInPlugins:t}=window.markmap;e.transformPlugins=t.filter(e=>e.name!=="prism")}}}</script><script src=https://cdn.jsdelivr.net/npm/markmap-autoloader></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css integrity="sha512-r2+FkHzf1u0+SQbZOoIz2RxWOIWfdEzRuYybGjzKq18jG9zaSfEy9s3+jMqG/zPtRor/q4qaUCYQpmSjTw8M+g==" crossorigin=anonymous><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js integrity="sha512-INps9zQ2GUEMCQD7xiZQbGUVnqnzEvlynVy6eqcTcHN4+aQiLo9/uaQqckDpdJ8Zm3M0QBs+Pktg4pz0kEklUg==" crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/mhchem.min.js integrity="sha512-mxjNw/u1lIsFC09k/unscDRY3ofIYPVFbWkP8slrePcS36ht4d/OZ8rRu5yddB2uiqajhTcLD8+jupOWuYPebg==" crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js integrity="sha512-YJVxTjqttjsU3cSvaTRqsSl0wbRgZUNF+NGGCgto/MUbIvaLdXQzGTCQu4CvyJZbZctgflVB0PXw9LLmTWm5/w==" crossorigin=anonymous onload='renderMathInElement(document.body,{delimiters:[{display:!0,left:"$$",right:"$$"},{display:!1,left:"$",right:"$"},{display:!1,left:"\\(",right:"\\)"},{display:!0,left:"\\[",right:"\\]"}],errorcolor:"#CD5C5C",throwonerror:!1})'></script></body></html>

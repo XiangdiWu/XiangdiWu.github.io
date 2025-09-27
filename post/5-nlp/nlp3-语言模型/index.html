@@ -1,0 +1,192 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta property="og:site_name" content="Xiangdi Blog"><meta property="og:type" content="article"><meta property="og:image" con ’tent=https://images.pexels.com/photos/220301/pexels-photo-220301.jpeg><meta property="twitter:image" content="https://images.pexels.com/photos/220301/pexels-photo-220301.jpeg"><meta name=title content="自然语言处理：语言模型"><meta property="og:title" content="自然语言处理：语言模型"><meta property="twitter:title" content="自然语言处理：语言模型"><meta name=description content="本文主要介绍了语言模型的相关内容，包括N-gram语言模型，困惑度，泛化与未知词汇，平滑，神经语言模型，Tensorflow实现神经语言模型。"><meta property="og:description" content="本文主要介绍了语言模型的相关内容，包括N-gram语言模型，困惑度，泛化与未知词汇，平滑，神经语言模型，Tensorflow实现神经语言模型。"><meta property="twitter:description" content="本文主要介绍了语言模型的相关内容，包括N-gram语言模型，困惑度，泛化与未知词汇，平滑，神经语言模型，Tensorflow实现神经语言模型。"><meta property="twitter:card" content="summary"><meta property="og:url" content="https://xiangdiwu.github.io/post/5-nlp/nlp3-%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/"><meta name=keyword content="吴湘菂, WuXiangdi, XiangdiWu, 吴湘菂的网络日志, 吴湘菂的博客, Xiangdi Blog, 博客, 个人网站, Quant, 量化投资, 金融, 投资, 理财, 股票, 期货, 基金, 期权, 外汇, 比特币"><link rel="shortcut icon" href=/img/favicon.ico><title>自然语言处理：语言模型-吴湘菂的博客 | Xiangdi Blog</title><link rel=canonical href=/post/5-nlp/nlp3-%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/><link rel=stylesheet href=/css/bootstrap.min.css><link rel=stylesheet href=/css/hugo-theme-cleanwhite.min.css><link rel=stylesheet href=/css/zanshang.min.css><link rel=stylesheet href=/css/font-awesome.all.min.css><script src=/js/jquery.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/hux-blog.min.js></script><script src=/js/lazysizes.min.js></script></head><script async src="https://www.googletagmanager.com/gtag/js?id=G-R757MDJ6Y6"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-R757MDJ6Y6")}</script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css integrity=sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV crossorigin=anonymous><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js integrity=sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8 crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js integrity=sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05 crossorigin=anonymous></script><script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"\\[",right:"\\]",display:!0},{left:"$$",right:"$$",display:!0},{left:"\\(",right:"\\)",display:!1}],throwOnError:!1})})</script><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css><script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type=text/javascript></script><nav class="navbar navbar-default navbar-custom navbar-fixed-top"><div class=container-fluid><div class="navbar-header page-scroll"><button type=button class=navbar-toggle>
+<span class=sr-only>Toggle navigation</span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+</button>
+<a class=navbar-brand href=/>Xiangdi Blog</a></div><div id=huxblog_navbar><div class=navbar-collapse><ul class="nav navbar-nav navbar-right"><li><a href=/>All Posts</a></li><li><a href=/categories/quant/>quant</a></li><li><a href=/categories/reading/>reading</a></li><li><a href=/categories/tech/>tech</a></li><li><a href=/archive//>ARCHIVE</a></li><li><a href=/vibe//>Vibe</a></li><li><a href=/travel//>TRAVEL</a></li><li><a href=/about//>ABOUT</a></li><li><a href=/search><i class="fa fa-search"></i></a></li></ul></div></div></div></nav><script>var $body=document.body,$toggle=document.querySelector(".navbar-toggle"),$navbar=document.querySelector("#huxblog_navbar"),$collapse=document.querySelector(".navbar-collapse");$toggle.addEventListener("click",handleMagic);function handleMagic(){$navbar.className.indexOf("in")>0?($navbar.className=" ",setTimeout(function(){$navbar.className.indexOf("in")<0&&($collapse.style.height="0px")},400)):($collapse.style.height="auto",$navbar.className+=" in")}</script><style type=text/css>header.intro-header{background-image:url(https://images.pexels.com/photos/220301/pexels-photo-220301.jpeg)}</style><header class=intro-header><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class=post-heading><div class=tags><a class=tag href=/tags/quant title=Quant>Quant
+</a><a class=tag href=/tags/model title=Model>Model
+</a><a class=tag href=/tags/nlp title=NLP>NLP</a></div><h1>自然语言处理：语言模型</h1><h2 class=subheading>Language Model</h2><span class=meta>Posted by
+XiangdiWu
+on
+Thursday, October 22, 2020</span></div></div></div></div></header><article><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+post-container"><h1 id=n元语法>N元语法</h1><p>N元语言模型可以用来<strong>预测一个句子的下一个单词的概率</strong>，或者<strong>计算一个句子的概率</strong>。该模型常用于语音识别、拼写检查以及语法检查等领域。</p><p>首先，<strong>一个句子“its water is so transparent that”后出现某一单词“the”的概率</strong>为：</p><div align=center><img src=/Kimages/4/image-20200715204336846.png style=zoom:20%></div><p>但是由于语料的多样性以及巨大的数量，许多句子不会在语料中出现，并且计数过程会消耗大量的时间。同样，对于<strong>一个句子的概率</strong>进行计算，有：</p>$$
+\begin{aligned}
+P(X_{1} \cdots X_{n}) &=P(X_{1}) P(X_{2}|X_{1}) P(X_{3}|X_{1}^{2}) \cdots P(X_{n}|X_{1}^{n-1}) \\
+&=\prod_{k=1}^{n} P(X_{k}|X_{1}^{k-1})
+\end{aligned}
+$$$$
+\begin{aligned}
+P(w_{1}^{n}) &=P(w_{1}) P(w_{2}|w_{1}) P(w_{3}|w_{1}^{2}) \cdots P(w_{n}|w_{1}^{n-1}) \\
+&=\prod_{k=1}^{n} P(w_{k}|w_{1}^{k-1})
+\end{aligned}
+$$<p>应用N-gram语言模型，假设一个单词只由其之前$N-1$个单词决定，可以减少计算量。比如二元语言模型：</p>$$
+P(w_k|w_1^{k-1})=P(w_k|w_{k-1})
+$$<p>二元语言模型的假设也称为<strong>马尔可夫假设</strong>。</p><p>根据马尔可夫假设，一个句子的概率计算公式为：</p>$$
+P(w_{1}^{n}) \approx \prod_{k=1}^{n} P(w_{k}|w_{k-1})
+$$<p>上式中，<strong>二元条件概率</strong>$P(w_{k}|w_{k-1})$的计算公式为：</p>$$
+P(w_{k}|w_{k-1})=\frac{C(w_{k-1} w_{k})}{C(w_{k-1})}
+$$<p>在实践中，常常使用<strong>三元语法模型(3-gram language model)</strong>，甚至四元、五元语法模型(当数据量充足时)。实现时，往往对概率取log，将乘法变为加法，提升运算速度。</p><h1 id=评估语言模型>评估语言模型</h1><p>语言模型的评估分为<strong>外部评估(extrinsic evaluation)</strong> 与<strong>内部评估(intrinsic evaluation)</strong> 两种。在外部评估中，语言模型被某个应用使用，对语言模型的评估体现在外部应用任务性能的提高上。然而<strong>运行外部NLP系统需要很大开销</strong>，因此<strong>使用内部评估对模型快速进行评估，通常是将语料库划分为训练集和测试集，在训练集上训练语言模型，然后在测试集上进行内部评估</strong>。</p><p><strong>困惑度(perplexity)</strong> 常作为评价语言模型的指标：</p>$$
+\begin{aligned}
+\operatorname{PP}(W) &=P\left(w_{1} w_{2} \cdots w_{N}\right)^{-\frac{1}{N}} \\
+&=\sqrt[N]{\frac{1}{P\left(w_{1} w_{2} \cdots w_{N}\right)}} \\
+&=\sqrt[N]{\prod_{i=1}^{N} \frac{1}{P(w_{i}|w_{1} \ldots w_{i-1})}}
+\end{aligned}
+$$<p>如果应用二元语法模型，困惑度变为：</p>$$
+\operatorname{PP}(W)=\sqrt[N]{\prod_{i=1}^{N} \frac{1}{P(w_{i}|w_{i-1})}}
+$$<p>根据上式，<strong>最小化困惑度就是最大化测试集的概率</strong>。</p><h1 id=泛化与未知词汇>泛化与未知词汇</h1><p>N-gram模型与其他统计模型一样依赖于训练语料库。一种含义是<strong>概率模型能够编码给定训练语料库</strong>的事实，另一种含义是<strong>N-gram的效果</strong>随着$N$的增加而增加。</p><p>可以使用不同N来生成句子从而在直观上判定不同N-gram模型的效果(语料为莎士比亚文集)：</p><div align=center><img src=/Kimages/4/image-20200715211351974.png style=zoom:30%></div><p>可以看出，当上下文更长($N$更大)时，生成的句子越连贯。尤其是4-gram生成的语句中，<strong>语句it cannot be but so直接来源于莎士比亚的King John</strong>。</p><p>当更换训练语料库后，生成的句子之间几乎没有交叉。因此当训练集和测试集不同时，统计模型的作用会消失。解决方案是，<strong>对需要完成的任务，选取相同体裁的训练语料库对统计语言模型进行训练</strong>。</p><p>此外，N-gram语言模型仍然受到<strong>稀疏性(sparsity)</strong> 的影响。对于出现频度较高的$N$元短语，模型可能对其概率有一个较好的估计；但是由于<strong>任何语料库都是有限的</strong>，许多自然语言中常见的$N$元短语不会出现在语料库中。因此许多$N$元短语的概率为0，带来<strong>未知词汇(zeros)</strong> 问题。因此zeros指的是<strong>在训练集中未出现但是在测试集中出现</strong>$N$元短语的问题。</p><p>为解决zeros问题，首先可以考虑测试集中出现的unknown words，即<strong>训练集未出现过的单词</strong>。有些情况下，unknown words不可能发生，我们称之为<strong>closed vocabulary system</strong>，其中测试集中的单词一定来自训练集的lexicon，因此不会出现unknown words。这种假设对于一些领域是合理的，比如语音识别或者机器翻译。</p><p>在其他情况下，我们应当处理unknown words问题，或者称为<strong>OOV(out of vocabulary) words</strong>，这种系统称为open vocabulary system。在这种情况下，我们通常添加一个单词&lt;UNK>。</p><p>有两种方法对包含&lt;UNK>的数据集进行训练的方法。第一种方法是学习closed vocabulary：(1) 创建一个字典；(2) 将训练集中不在字典中的单词转换为&lt;UNK>；(3) <strong>像计算其他单词的概率一样对&lt;UNK>的概率进行计算</strong>。第二种方法针对无法创建先验字典的情况，我们基于训练集中单词出现的频率，将出现次数小于$n$的单词标记为&lt;UNK>，然后<strong>将&lt;UNK>视为普通单词</strong>。</p><h1 id=平滑>平滑</h1><p>为防止计算一个语言模型概率为0的情况(通常由zeros导致)，通常采取<strong>平滑(smotthing)</strong> 策略。常见平滑策略有：add-1平滑，<strong>add-k平滑</strong>，stupid backoff和<strong>Kneser-Ney平滑</strong>。</p><h2 id=laplace-smoothing>Laplace Smoothing</h2><p>最简单的平滑方式称为<strong>拉普拉斯平滑(Laplace smoothing)</strong>，它在现代$N$元语法模型中表现一般，但是为其他平滑方法提供了灵感，并且是一个很有用的baseline。对于一元概率计算：</p>$$
+P(w_{i})=\frac{c_{i}}{N} \quad P_{\text {Laplace }}(w_{i})=\frac{c_{i}+1}{N+V}
+$$<p>因此Laplace平滑也称add-1平滑。对于二元概率计算：</p>$$
+P(w_{n} \mid w_{n-1})=\frac{C(w_{n-1} w_{n})}{C(w_{n-1})} \quad P_{\text {Laplace }}^{*}(w_{n}|w_{n-1})=\frac{C(w_{n-1} w_{n})+1}{\sum_{w}(C(w_{n-1} w)+1)}=\frac{C(w_{n-1} w_{n})+1}{C(w_{n-1})+V}
+$$<h2 id=add-k-smoothing>Add-k Smoothing</h2><p>add-k平滑将add-1平滑中的系数改为$k$：</p>$$
+P_{\text{Add-} k}^{*}(w_{n}|w_{n-1})=\frac{C(w_{n-1} w_{n})+k}{C(w_{n-1})+kV}
+$$<p>其中，$k$是一个超参数，可以通过交叉验证优化。</p><h1 id=神经语言模型>神经语言模型</h1><p>神经网络可以用作语言模型，以预测一个单词序列后的下一个单词。经大量实验表明，<strong>神经语言模型在效果上超过N-gram语言模型，但是训练速度较慢</strong>。在某些应用中，N-gram仍然是值得使用的工具。作为神经语言模型的网络结构如下图所示：</p><div align=center><img src=/Kimages/4/image-20200715212005217.png style=zoom:40%></div><p>神经语言模型通过预测下一个单词的方式进行训练，不断调整网络内部的参数，为每个单词学得一个嵌入表示，从而捕获单词之间的关系。</p><p>该模型解决了$n$元语言模型的<strong>稀疏性和存储问题</strong>，但是依然有以下的问题：</p><p>(1) fixed window太小；</p><p>(2) 如果扩大window大小的话，参数矩阵$W$的大小也会扩大，而<strong>window can never be large enough</strong>；</p><p>(3) 每个输入$x$不共享$W$中的参数，而是于不同的行相乘。</p><p>以上三个问题通过使用<strong>循环神经网络(recurrent neural network)</strong> 可以得到解决。</p><h1 id=tensorflow实现神经语言模型>Tensorflow实现神经语言模型</h1><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#ff79c6>import</span> numpy <span style=color:#ff79c6>as</span> np
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> tensorflow <span style=color:#ff79c6>as</span> tf
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> sklearn.model_selection <span style=color:#ff79c6>import</span> train_test_split
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 读取数据，需要将数据导入当前目录</span>
+</span></span><span style=display:flex><span>data_path <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#39;nnlm_comments_data.txt&#39;</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>with</span> <span style=color:#8be9fd;font-style:italic>open</span>(data_path, <span style=color:#f1fa8c>&#39;r&#39;</span>, encoding<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#39;utf-8&#39;</span>) <span style=color:#ff79c6>as</span> f:
+</span></span><span style=display:flex><span>    lines <span style=color:#ff79c6>=</span> f<span style=color:#ff79c6>.</span>read()<span style=color:#ff79c6>.</span>split(<span style=color:#f1fa8c>&#39;评论&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>for</span> i <span style=color:#ff79c6>in</span> <span style=color:#8be9fd;font-style:italic>range</span>(<span style=color:#8be9fd;font-style:italic>len</span>(lines)):
+</span></span><span style=display:flex><span>    lines[i] <span style=color:#ff79c6>=</span> lines[i]<span style=color:#ff79c6>.</span>strip()<span style=color:#ff79c6>.</span>split(<span style=color:#f1fa8c>&#39; &#39;</span>)[:<span style=color:#ff79c6>-</span><span style=color:#bd93f9>1</span>]
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 构建数据词典</span>
+</span></span><span style=display:flex><span>word_index <span style=color:#ff79c6>=</span> {}
+</span></span><span style=display:flex><span>word_idx <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>0</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>for</span> i <span style=color:#ff79c6>in</span> <span style=color:#8be9fd;font-style:italic>range</span>(<span style=color:#8be9fd;font-style:italic>len</span>(lines)):
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>for</span> j <span style=color:#ff79c6>in</span> <span style=color:#8be9fd;font-style:italic>range</span>(<span style=color:#8be9fd;font-style:italic>len</span>(lines[i])):
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>if</span> lines[i][j] <span style=color:#ff79c6>not</span> <span style=color:#ff79c6>in</span> word_index<span style=color:#ff79c6>.</span>keys():
+</span></span><span style=display:flex><span>            word_index[lines[i][j]] <span style=color:#ff79c6>=</span> word_idx
+</span></span><span style=display:flex><span>            word_idx <span style=color:#ff79c6>+=</span> <span style=color:#bd93f9>1</span>
+</span></span><span style=display:flex><span>word_index[<span style=color:#f1fa8c>&#39;[END]&#39;</span>] <span style=color:#ff79c6>=</span> <span style=color:#8be9fd;font-style:italic>len</span>(word_index<span style=color:#ff79c6>.</span>keys())
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 构建反向词典</span>
+</span></span><span style=display:flex><span>index_word <span style=color:#ff79c6>=</span> {word_index[word]: word <span style=color:#ff79c6>for</span> word <span style=color:#ff79c6>in</span> word_index<span style=color:#ff79c6>.</span>keys()}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 构建训练数据，每生成一个词时，考虑前四个词</span>
+</span></span><span style=display:flex><span>lines_index <span style=color:#ff79c6>=</span> []
+</span></span><span style=display:flex><span><span style=color:#ff79c6>for</span> i <span style=color:#ff79c6>in</span> <span style=color:#8be9fd;font-style:italic>range</span>(<span style=color:#8be9fd;font-style:italic>len</span>(lines)):
+</span></span><span style=display:flex><span>    lines[i]<span style=color:#ff79c6>.</span>append(<span style=color:#f1fa8c>&#39;[END]&#39;</span>)
+</span></span><span style=display:flex><span>    line_index <span style=color:#ff79c6>=</span> [word_index[word] <span style=color:#ff79c6>for</span> word <span style=color:#ff79c6>in</span> lines[i]]
+</span></span><span style=display:flex><span>    lines_index<span style=color:#ff79c6>.</span>append(line_index)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>X_data <span style=color:#ff79c6>=</span> []
+</span></span><span style=display:flex><span>y_data <span style=color:#ff79c6>=</span> []
+</span></span><span style=display:flex><span><span style=color:#ff79c6>for</span> i <span style=color:#ff79c6>in</span> <span style=color:#8be9fd;font-style:italic>range</span>(<span style=color:#8be9fd;font-style:italic>len</span>(lines_index)):
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>if</span> <span style=color:#8be9fd;font-style:italic>len</span>(lines_index[i]) <span style=color:#ff79c6>&gt;</span> <span style=color:#bd93f9>4</span>:
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>for</span> j <span style=color:#ff79c6>in</span> <span style=color:#8be9fd;font-style:italic>range</span>(<span style=color:#bd93f9>0</span>, <span style=color:#8be9fd;font-style:italic>len</span>(lines_index[i]) <span style=color:#ff79c6>-</span> <span style=color:#bd93f9>4</span>):
+</span></span><span style=display:flex><span>            X_data<span style=color:#ff79c6>.</span>append(lines_index[i][j:j <span style=color:#ff79c6>+</span> <span style=color:#bd93f9>4</span>])
+</span></span><span style=display:flex><span>            y_data<span style=color:#ff79c6>.</span>append(lines_index[i][j <span style=color:#ff79c6>+</span> <span style=color:#bd93f9>4</span>])
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>X_data <span style=color:#ff79c6>=</span> np<span style=color:#ff79c6>.</span>array(X_data)
+</span></span><span style=display:flex><span>y_data <span style=color:#ff79c6>=</span> np<span style=color:#ff79c6>.</span>array(y_data)
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(X_data<span style=color:#ff79c6>.</span>shape, y_data<span style=color:#ff79c6>.</span>shape)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>X_train, X_test, y_train, y_test <span style=color:#ff79c6>=</span> train_test_split(X_data, y_data)
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(X_train<span style=color:#ff79c6>.</span>shape, y_train<span style=color:#ff79c6>.</span>shape, X_test<span style=color:#ff79c6>.</span>shape, y_test<span style=color:#ff79c6>.</span>shape)
+</span></span><span style=display:flex><span>X_train <span style=color:#ff79c6>=</span> X_train[:<span style=color:#bd93f9>100000</span>]
+</span></span><span style=display:flex><span>X_test <span style=color:#ff79c6>=</span> X_test[:<span style=color:#bd93f9>10000</span>]
+</span></span><span style=display:flex><span>y_train <span style=color:#ff79c6>=</span> y_train[:<span style=color:#bd93f9>100000</span>]
+</span></span><span style=display:flex><span>y_test <span style=color:#ff79c6>=</span> y_test[:<span style=color:#bd93f9>10000</span>]
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 将数据转化为tf.data.Dataset格式</span>
+</span></span><span style=display:flex><span>train_ds <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>data<span style=color:#ff79c6>.</span>Dataset<span style=color:#ff79c6>.</span>from_tensor_slices((X_train, y_train))<span style=color:#ff79c6>.</span>shuffle(<span style=color:#bd93f9>10000</span>)<span style=color:#ff79c6>.</span>batch(<span style=color:#bd93f9>64</span>)
+</span></span><span style=display:flex><span>test_ds <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>data<span style=color:#ff79c6>.</span>Dataset<span style=color:#ff79c6>.</span>from_tensor_slices((X_test, y_test))<span style=color:#ff79c6>.</span>batch(<span style=color:#bd93f9>64</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 定义NNLM模型</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>class</span> <span style=color:#50fa7b>NNLM</span>(tf<span style=color:#ff79c6>.</span>keras<span style=color:#ff79c6>.</span>models<span style=color:#ff79c6>.</span>Model):
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>def</span> <span style=color:#50fa7b>__init__</span>(<span style=font-style:italic>self</span>, vocab_size, embedding_dim, hidden_size):
+</span></span><span style=display:flex><span>        <span style=color:#8be9fd;font-style:italic>super</span>(NNLM, <span style=font-style:italic>self</span>)<span style=color:#ff79c6>.</span><span style=color:#50fa7b>__init__</span>()
+</span></span><span style=display:flex><span>        <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>embed_layer <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>keras<span style=color:#ff79c6>.</span>layers<span style=color:#ff79c6>.</span>Embedding(vocab_size, embedding_dim, mask_zero<span style=color:#ff79c6>=</span><span style=color:#ff79c6>True</span>)
+</span></span><span style=display:flex><span>        <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>reshape_layer <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>keras<span style=color:#ff79c6>.</span>layers<span style=color:#ff79c6>.</span>Reshape((<span style=color:#ff79c6>-</span><span style=color:#bd93f9>1</span>,))
+</span></span><span style=display:flex><span>        <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>fc_layer <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>keras<span style=color:#ff79c6>.</span>layers<span style=color:#ff79c6>.</span>Dense(hidden_size, activation<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#39;relu&#39;</span>)
+</span></span><span style=display:flex><span>        <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>out_layer <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>keras<span style=color:#ff79c6>.</span>layers<span style=color:#ff79c6>.</span>Dense(vocab_size)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>def</span> <span style=color:#50fa7b>call</span>(<span style=font-style:italic>self</span>, x):
+</span></span><span style=display:flex><span>        <span style=color:#6272a4># x shape: (batch_size, seq_len:4)</span>
+</span></span><span style=display:flex><span>        embed <span style=color:#ff79c6>=</span> <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>embed_layer(x)  <span style=color:#6272a4># (batch_size, seq_len:4, embedding_dim)</span>
+</span></span><span style=display:flex><span>        reshape <span style=color:#ff79c6>=</span> <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>reshape_layer(embed)  <span style=color:#6272a4># (batch_size, seq_len * embedding_dim)</span>
+</span></span><span style=display:flex><span>        fc <span style=color:#ff79c6>=</span> <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>fc_layer(reshape)  <span style=color:#6272a4># (batch_size, hidden_size)</span>
+</span></span><span style=display:flex><span>        out <span style=color:#ff79c6>=</span> <span style=font-style:italic>self</span><span style=color:#ff79c6>.</span>out_layer(fc)  <span style=color:#6272a4># (batch_size, vocab_size)</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>return</span> out
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 网络参数</span>
+</span></span><span style=display:flex><span>vocab_size <span style=color:#ff79c6>=</span> <span style=color:#8be9fd;font-style:italic>len</span>(index_word<span style=color:#ff79c6>.</span>keys())
+</span></span><span style=display:flex><span>embedding_dim <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>256</span>
+</span></span><span style=display:flex><span>hidden_size <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>256</span>
+</span></span><span style=display:flex><span>batch_size <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>128</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 定义NNLM对象</span>
+</span></span><span style=display:flex><span>nnlm <span style=color:#ff79c6>=</span> NNLM(vocab_size, embedding_dim, hidden_size)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 定义优化器与损失函数</span>
+</span></span><span style=display:flex><span>optimizer <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>keras<span style=color:#ff79c6>.</span>optimizers<span style=color:#ff79c6>.</span>Adam()
+</span></span><span style=display:flex><span>loss_function <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>keras<span style=color:#ff79c6>.</span>losses<span style=color:#ff79c6>.</span>SparseCategoricalCrossentropy(from_logits<span style=color:#ff79c6>=</span><span style=color:#ff79c6>True</span>)
+</span></span><span style=display:flex><span><span style=color:#6272a4># 记录每个epoch的平均loss</span>
+</span></span><span style=display:flex><span>train_loss <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>keras<span style=color:#ff79c6>.</span>metrics<span style=color:#ff79c6>.</span>Mean(name<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#39;train_loss&#39;</span>)
+</span></span><span style=display:flex><span>test_loss <span style=color:#ff79c6>=</span> tf<span style=color:#ff79c6>.</span>keras<span style=color:#ff79c6>.</span>metrics<span style=color:#ff79c6>.</span>Mean(name<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#39;test_loss&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 定义训练步</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># @tf.function</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>def</span> <span style=color:#50fa7b>train_step</span>(batch_X, batch_y):
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>with</span> tf<span style=color:#ff79c6>.</span>GradientTape() <span style=color:#ff79c6>as</span> tape:
+</span></span><span style=display:flex><span>        predictions <span style=color:#ff79c6>=</span> nnlm(batch_X)
+</span></span><span style=display:flex><span>        loss <span style=color:#ff79c6>=</span> loss_function(batch_y, predictions)
+</span></span><span style=display:flex><span>    gradients <span style=color:#ff79c6>=</span> tape<span style=color:#ff79c6>.</span>gradient(loss, nnlm<span style=color:#ff79c6>.</span>trainable_variables)
+</span></span><span style=display:flex><span>    optimizer<span style=color:#ff79c6>.</span>apply_gradients(<span style=color:#8be9fd;font-style:italic>zip</span>(gradients, nnlm<span style=color:#ff79c6>.</span>trainable_variables))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    train_loss(loss)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 定义测试步</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># @tf.function</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>def</span> <span style=color:#50fa7b>test_step</span>(batch_X, batch_y):
+</span></span><span style=display:flex><span>    predictions <span style=color:#ff79c6>=</span> nnlm(batch_X)
+</span></span><span style=display:flex><span>    loss <span style=color:#ff79c6>=</span> loss_function(batch_y, predictions)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    test_loss(loss)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>EPOCHS <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>5</span>  <span style=color:#6272a4># 训练轮次</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>for</span> epoch <span style=color:#ff79c6>in</span> <span style=color:#8be9fd;font-style:italic>range</span>(EPOCHS):
+</span></span><span style=display:flex><span>    <span style=color:#6272a4># 每个epoch开始时将指标重置</span>
+</span></span><span style=display:flex><span>    train_loss<span style=color:#ff79c6>.</span>reset_states()
+</span></span><span style=display:flex><span>    test_loss<span style=color:#ff79c6>.</span>reset_states()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>for</span> batch_X, batch_y <span style=color:#ff79c6>in</span> train_ds:
+</span></span><span style=display:flex><span>        train_step(batch_X, batch_y)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>for</span> batch_X, batch_y <span style=color:#ff79c6>in</span> test_ds:
+</span></span><span style=display:flex><span>        test_step(batch_X, batch_y)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    template <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#39;Epoch </span><span style=color:#f1fa8c>{}</span><span style=color:#f1fa8c>, Loss: </span><span style=color:#f1fa8c>{}</span><span style=color:#f1fa8c>, Test Loss: </span><span style=color:#f1fa8c>{}</span><span style=color:#f1fa8c>&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>print</span>(template<span style=color:#ff79c6>.</span>format(epoch <span style=color:#ff79c6>+</span> <span style=color:#bd93f9>1</span>, train_loss<span style=color:#ff79c6>.</span>result(), test_loss<span style=color:#ff79c6>.</span>result()))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 使用NNLM生成句子：从前四个单词出发，生成第五个单词，然后后取第2-5个单词，生成第六个单词，以此类推</span>
+</span></span></code></pre></div><h1 id=参考资料>参考资料</h1><ul><li><p>Dan Jurafsky, H. Martin. Speech and Language Processing(3rd ed. draft).</p></li><li><p>Bengio Y, Ducharme R, Vincent P, et al. A neural probabilistic language model. Journal of machine learning research, 2003, 3(Feb): 1137-1155.</p></li><li><p>Stanford University CS224n课程官网：http://web.stanford.edu/class/cs224n/</p></li></ul><hr><ul class=pager><li class=previous><a href=/post/5-nlp/nlp2-%E8%AF%8D%E5%90%91%E9%87%8F/ data-toggle=tooltip data-placement=top title=自然语言处理：词向量>&larr;
+Previous Post</a></li><li class=next><a href=/post/5-nlp/nlp4-seq2seq%E4%B8%8Eattention/ data-toggle=tooltip data-placement=top title=自然语言处理：“序列到序列”与“注意力机制”>Next
+Post &rarr;</a></li></ul><script src=https://giscus.app/client.js data-repo=XiangdiWu/XiangdiWu.github.io data-repo-id=R_kgDOP0pDUQ data-category=Announcements data-category-id=DIC_kwDOP0pDUc4CvwjG data-mapping=pathname data-reactions-enabled=1 data-emit-metadata=0 data-theme=light data-lang=zh-CN crossorigin=anonymous async></script></div><div class="col-lg-2 col-lg-offset-0
+visible-lg-block
+sidebar-container
+catalog-container"><div class=side-catalog><hr class="hidden-sm hidden-xs"><h5><a class=catalog-toggle href=#>CATALOG</a></h5><ul class=catalog-body></ul></div></div><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+sidebar-container"><section><hr class="hidden-sm hidden-xs"><h5><a href=/tags/>FEATURED TAGS</a></h5><div class=tags><a href=/tags/deep-learning title="deep learning">deep learning
+</a><a href=/tags/machine-learning title="machine learning">machine learning
+</a><a href=/tags/math title=math>math
+</a><a href=/tags/model title=model>model
+</a><a href=/tags/nlp title=nlp>nlp
+</a><a href=/tags/quant title=quant>quant</a></div></section><section><hr><h5>FRIENDS</h5><ul class=list-inline><li><a target=_blank href=https://www.factorwar.com/data/factor-models/>GetAstockFactors</a></li><li><a target=_blank href=https://datawhalechina.github.io/whale-quant/#/>Whale-Quant</a></li></ul></section></div></div></div></article><script type=module>  
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; 
+    mermaid.initialize({ startOnLoad: true });  
+</script><script>Array.from(document.getElementsByClassName("language-mermaid")).forEach(e=>{e.parentElement.outerHTML=`<div class="mermaid">${e.innerHTML}</div>`})</script><style>.mermaid svg{display:block;margin:auto}</style><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center"><li><a href=mailto:bernicewu2000@outlook.com><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-envelope fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=/img/wechat_qrcode.jpg><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-weixin fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=https://github.com/xiangdiwu><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-github fa-stack-1x fa-inverse"></i></span></a></li><li><a href rel=alternate type=application/rss+xml title="Xiangdi Blog"><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-rss fa-stack-1x fa-inverse"></i></span></a></li></ul><p class="copyright text-muted">Copyright &copy; Xiangdi Blog 2025</p></div></div></div></footer><script>function loadAsync(e,t){var s=document,o="script",n=s.createElement(o),i=s.getElementsByTagName(o)[0];n.src=e,t&&n.addEventListener("load",function(e){t(null,e)},!1),i.parentNode.insertBefore(n,i)}</script><script>$("#tag_cloud").length!==0&&loadAsync("/js/jquery.tagcloud.js",function(){$.fn.tagcloud.defaults={color:{start:"#bbbbee",end:"#0085a1"}},$("#tag_cloud a").tagcloud()})</script><script>loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js",function(){var e=document.querySelector("nav");e&&FastClick.attach(e)})</script><script type=text/javascript>function generateCatalog(e){_containerSelector="div.post-container";var t,n,s,o,i,a=$(_containerSelector),r=a.find("h1,h2,h3,h4,h5,h6");return $(e).html(""),r.each(function(){n=$(this).prop("tagName").toLowerCase(),o="#"+$(this).prop("id"),t=$(this).text(),i=$('<a href="'+o+'" rel="nofollow" title="'+t+'">'+t+"</a>"),s=$('<li class="'+n+'_nav"></li>').append(i),$(e).append(s)}),!0}generateCatalog(".catalog-body"),$(".catalog-toggle").click(function(e){e.preventDefault(),$(".side-catalog").toggleClass("fold")}),loadAsync("/js/jquery.nav.js",function(){$(".catalog-body").onePageNav({currentClass:"active",changeHash:!1,easing:"swing",filter:"",scrollSpeed:700,scrollOffset:0,scrollThreshold:.2,begin:null,end:null,scrollChange:null,padding:80})})</script><style>.markmap>svg{width:100%;height:300px}</style><script>window.markmap={autoLoader:{manual:!0,onReady(){const{autoLoader:e,builtInPlugins:t}=window.markmap;e.transformPlugins=t.filter(e=>e.name!=="prism")}}}</script><script src=https://cdn.jsdelivr.net/npm/markmap-autoloader></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css integrity="sha512-r2+FkHzf1u0+SQbZOoIz2RxWOIWfdEzRuYybGjzKq18jG9zaSfEy9s3+jMqG/zPtRor/q4qaUCYQpmSjTw8M+g==" crossorigin=anonymous><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js integrity="sha512-INps9zQ2GUEMCQD7xiZQbGUVnqnzEvlynVy6eqcTcHN4+aQiLo9/uaQqckDpdJ8Zm3M0QBs+Pktg4pz0kEklUg==" crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/mhchem.min.js integrity="sha512-mxjNw/u1lIsFC09k/unscDRY3ofIYPVFbWkP8slrePcS36ht4d/OZ8rRu5yddB2uiqajhTcLD8+jupOWuYPebg==" crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js integrity="sha512-YJVxTjqttjsU3cSvaTRqsSl0wbRgZUNF+NGGCgto/MUbIvaLdXQzGTCQu4CvyJZbZctgflVB0PXw9LLmTWm5/w==" crossorigin=anonymous onload='renderMathInElement(document.body,{delimiters:[{display:!0,left:"$$",right:"$$"},{display:!1,left:"$",right:"$"},{display:!1,left:"\\(",right:"\\)"},{display:!0,left:"\\[",right:"\\]"}],errorcolor:"#CD5C5C",throwonerror:!1})'></script></body></html>

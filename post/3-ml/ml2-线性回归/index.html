@@ -1,0 +1,251 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta property="og:site_name" content="Xiangdi Blog"><meta property="og:type" content="article"><meta property="og:image" con ’tent=https://images.pexels.com/photos/220301/pexels-photo-220301.jpeg><meta property="twitter:image" content="https://images.pexels.com/photos/220301/pexels-photo-220301.jpeg"><meta name=title content="机器学习：线性回归"><meta property="og:title" content="机器学习：线性回归"><meta property="twitter:title" content="机器学习：线性回归"><meta name=description content="本文主要介绍线性回归模型。"><meta property="og:description" content="本文主要介绍线性回归模型。"><meta property="twitter:description" content="本文主要介绍线性回归模型。"><meta property="twitter:card" content="summary"><meta property="og:url" content="https://xiangdiwu.github.io/post/3-ml/ml2-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/"><meta name=keyword content="吴湘菂, WuXiangdi, XiangdiWu, 吴湘菂的网络日志, 吴湘菂的博客, Xiangdi Blog, 博客, 个人网站, Quant, 量化投资, 金融, 投资, 理财, 股票, 期货, 基金, 期权, 外汇, 比特币"><link rel="shortcut icon" href=/img/favicon.ico><title>机器学习：线性回归-吴湘菂的博客 | Xiangdi Blog</title><link rel=canonical href=/post/3-ml/ml2-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/><link rel=stylesheet href=/css/bootstrap.min.css><link rel=stylesheet href=/css/hugo-theme-cleanwhite.min.css><link rel=stylesheet href=/css/zanshang.min.css><link rel=stylesheet href=/css/font-awesome.all.min.css><script src=/js/jquery.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/hux-blog.min.js></script><script src=/js/lazysizes.min.js></script></head><script async src="https://www.googletagmanager.com/gtag/js?id=G-R757MDJ6Y6"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-R757MDJ6Y6")}</script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css integrity=sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV crossorigin=anonymous><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js integrity=sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8 crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js integrity=sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05 crossorigin=anonymous></script><script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"\\[",right:"\\]",display:!0},{left:"$$",right:"$$",display:!0},{left:"\\(",right:"\\)",display:!1}],throwOnError:!1})})</script><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css><script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type=text/javascript></script><nav class="navbar navbar-default navbar-custom navbar-fixed-top"><div class=container-fluid><div class="navbar-header page-scroll"><button type=button class=navbar-toggle>
+<span class=sr-only>Toggle navigation</span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+</button>
+<a class=navbar-brand href=/>Xiangdi Blog</a></div><div id=huxblog_navbar><div class=navbar-collapse><ul class="nav navbar-nav navbar-right"><li><a href=/>All Posts</a></li><li><a href=/categories/quant/>quant</a></li><li><a href=/categories/reading/>reading</a></li><li><a href=/categories/tech/>tech</a></li><li><a href=/archive//>ARCHIVE</a></li><li><a href=/vibe//>Vibe</a></li><li><a href=/travel//>TRAVEL</a></li><li><a href=/about//>ABOUT</a></li><li><a href=/search><i class="fa fa-search"></i></a></li></ul></div></div></div></nav><script>var $body=document.body,$toggle=document.querySelector(".navbar-toggle"),$navbar=document.querySelector("#huxblog_navbar"),$collapse=document.querySelector(".navbar-collapse");$toggle.addEventListener("click",handleMagic);function handleMagic(){$navbar.className.indexOf("in")>0?($navbar.className=" ",setTimeout(function(){$navbar.className.indexOf("in")<0&&($collapse.style.height="0px")},400)):($collapse.style.height="auto",$navbar.className+=" in")}</script><style type=text/css>header.intro-header{background-image:url(https://images.pexels.com/photos/220301/pexels-photo-220301.jpeg)}</style><header class=intro-header><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class=post-heading><div class=tags><a class=tag href=/tags/quant title=Quant>Quant
+</a><a class=tag href=/tags/model title=Model>Model
+</a><a class=tag href=/tags/machine-learning title="Machine Learning">Machine Learning</a></div><h1>机器学习：线性回归</h1><h2 class=subheading>Linear Regression</h2><span class=meta>Posted by
+XiangdiWu
+on
+Tuesday, September 29, 2020</span></div></div></div></div></header><article><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+post-container"><h1 id=线性回归模型>线性回归模型</h1><p><strong>线性回归(linear regression)</strong> 是机器学习和统计学中最基础和广泛应用的模型，是一种对自变量和隐变量之间关系进行建模的回归分析。自变量数量为1时称为<strong>简单线性回归</strong>，自变量数量大于1时称为<strong>多元线性回归</strong>。</p><p>从机器学习的角度看，输入就是样本的特征向量$\boldsymbol x\in \mathbb R^d$，其每一维对应一个自变量(数据的特征)；输出是标签$y$，这里$y\in \mathbb R$是连续值(实数或连续整数)。假设空间是一组参数化的线性函数$f(\boldsymbol x;\boldsymbol w;b)=\boldsymbol w^\text T \boldsymbol x+b$，其中<strong>权重向量</strong>$\boldsymbol w$与输入$\boldsymbol x$维度相同，<strong>偏置</strong>$b$是一个标量，二者都是<strong>可学习的参数</strong>。令$\boldsymbol x$再拼接一个常数$1$，$\boldsymbol w$再拼接一个偏置$b$，线性模型就可以更简洁地用$f(\boldsymbol x;\boldsymbol w)=\boldsymbol w^\text T \boldsymbol x$来表示。</p><p>线性回归的示意图如下：</p><div align=center><img src=/Kimages/2/image-20200416113414181.png style=zoom:35%></div><h1 id=线性回归经验风险最小化>线性回归经验风险最小化</h1><p>给定一组包含$N$个训练样本的训练集$\mathcal D=\{(\boldsymbol x^{(n)},y^{(n)})\},1\leq n\leq N$，我们希望能够学习一个最优的线性回归的模型参数$\boldsymbol w$。由于线性回归的标签$y$和模型输出都为连续实值，因此<strong>平方损失函数</strong>非常适合来衡量真实标签和预测标签之间的差异。根据经验风险最小化准则，训练集上的经验风险定义为：</p>$$
+\begin{aligned}
+\mathcal R(w)&=\sum_{n=1}^{N}L(y^{(n)},f(\boldsymbol x^{(n)};\boldsymbol w))\\
+&=\frac{1}{2}\sum_{n=1}^{N}(y^{(n)}-\boldsymbol w^\text T \boldsymbol x^{(n)})^2\\
+&=\frac{1}{2}\|\boldsymbol y-X^\text T \boldsymbol w\|^2
+\end{aligned}
+$$<p>其中，$\boldsymbol y \in \mathbb R^N$是由每个样本的真实标签$y^{(1)},y^{(2)},\cdots,y^{(N)}$组成的<strong>列向量</strong>，$X \in \mathbb R^{(d+1)\times N}$是所有输入列向量$x^{(1)},x^{(2)},\cdots,x^{(N)}$组成的矩阵，<strong>该矩阵一行表示一个输入特征，一列表示一个样本</strong>：</p>$$
+X = \begin{bmatrix}
+x_1^{(1)} & x_1^{(2)} & \cdots & x_1^{(N)} \\
+x_2^{(1)} & x_2^{(2)} & \cdots & x_2^{(N)} \\
+\vdots & \vdots & \ddots & \vdots \\
+x_d^{(1)} & x_d^{(2)} & \cdots & x_d^{(N)}\\
+1 & 1 & \cdots & 1
+\end{bmatrix}
+$$<p>风险函数$\mathcal R(\boldsymbol w)$是关于$\boldsymbol w$的<strong>凸函数</strong>，其对$\boldsymbol w$的偏导数为(此处涉及<strong>向量对向量求导</strong>，$a$维向量对$b$维向量求导，结果为$b\times a$大小的<strong>雅克比矩阵</strong>)：</p>$$
+\frac{\partial \mathcal R(\boldsymbol w)}{\partial \boldsymbol w}=\frac{1}{2}\frac{\partial \|\boldsymbol y-X^\text T \boldsymbol w\|^2}{\partial \boldsymbol w}=-X(\boldsymbol y-X^\text T \boldsymbol w)
+$$<p>令该导数值为0，即可得到最优参数$\boldsymbol w^*=(XX^\text T)^{-1}X\boldsymbol y$。这便是线性回归最优解的矩阵表示形式。这种求解线性回归参数的方法也称为<strong>最小二乘法(least square method, LSM)</strong>。</p><p>在最小二乘法中，$X X^{\mathrm{T}} \in \mathbb{R}^{(d+1) \times(d+1)}$<strong>必须存在逆矩阵</strong>，即$X X^{\mathrm{T}}$是<strong>满秩</strong>的，$rank(XX^\text T)=d+1$。也就是说，$X$中的<strong>行向量之间是线性不相关的</strong>，即每一个<strong>特征</strong>都和其他特征不相关。一种常见的$X X^{\mathrm{T}}$不可逆的情况是样本数量$N$小于特征数量$d+1$，这时其秩为$N$，会存在很多解$\boldsymbol w^*$，使得$\mathcal R(\boldsymbol w)=0$。</p><p>当$XX^\text T$不可逆时，可以使用<strong>主成分分析(principal components analysis)</strong> 来预处理数据，使特征独立，然后再使用最小二乘法进行求解。或者是<strong>通过梯度下降法来迭代求解</strong>，$\boldsymbol w$的更新公式为$\boldsymbol{w} \leftarrow \boldsymbol{w}+\alpha X\left(\boldsymbol{y}-X^{\mathrm{T}} \boldsymbol{w}\right)$。</p><div align=center><img src=/Kimages/2/image-20200416175139915.png alt=image-20200416175139915 style=zoom:50%></div><p>其中$\alpha$是学习率。这种利用梯度下降法来估计参数的方法也称为<strong>最小均方(least mean squares)</strong> 算法。由于风险函数$\mathcal R(\boldsymbol w)$是关于$\boldsymbol w$的<strong>凸函数</strong>，因此只要选取一个合适的学习率，最终风险函数总能收敛到全局最小值。</p><h1 id=线性回归结构风险最小化>线性回归结构风险最小化</h1><p>最小二乘法的基本要求是各个特征之间要互相独立，保证$XX^\text T$可逆。但即使$XX^\text T$可逆，如果特征之间有较大的<strong>多重共线性</strong>(即一个特征可以通过其他特征的线性组合来被较为准确地预测)，也会使得$XX^\text T$的逆<strong>在数值上无法准确计算</strong>。数据集$X$上一些小的扰就会导致$(XX^\text T)^{-1}$发生大的改变，进而使得最小二乘法的计算变得很不稳定。为了解决这个问题，Hoerl等人提出了<strong>岭回归(ridge regression)</strong>，给$XX^\text T$的对角线元素都加上一个常数$\lambda$使得$(XX^\text T+\lambda I)$满秩，即其行列式不为0,。最优的参数$\boldsymbol w^*$为：</p>$$
+\boldsymbol w^*=(XX^\text T+\lambda I)^{-1}X\boldsymbol y
+$$<p>其中$\lambda>0$为预先设置的超参数，$I$为单位矩阵。</p><p>岭回归的解可以看做是<strong>结构风险最小化准则下的最小二乘法估计</strong>，其目标函数可以写为：</p>$$
+\mathcal R(\boldsymbol w)=\frac{1}{2}\|\boldsymbol y-X^\text T\boldsymbol w\|^2+\frac{1}{2}\lambda\|\boldsymbol w\|^2
+$$<h1 id=最大似然估计与均方误差>最大似然估计与均方误差</h1><p>最小二乘法直接建模$\boldsymbol x$与$y$之间的函数关系$y=h(\boldsymbol x)$。线性回归还可以通过建模条件概率$p(y|\boldsymbol x)$来进行参数估计。</p><p>假设标签$y$为一个随机变量，其服从以均值为$f(\boldsymbol x;\boldsymbol w)=\boldsymbol w^\text T\boldsymbol x$，方差为$\sigma^2$的高斯分布：</p>$$
+\begin{aligned}
+p(y | \boldsymbol{x} ; \boldsymbol{w}, \sigma) &=\mathcal{N}\left(y ; \boldsymbol{w}^{\mathrm{T}} \boldsymbol{x}, \sigma^{2}\right) \\
+&=\frac{1}{\sqrt{2 \pi} \sigma} \exp \left(-\frac{\left(y-\boldsymbol{w}^{\mathrm{T}} \boldsymbol{x}\right)^{2}}{2 \sigma^{2}}\right)
+\end{aligned}
+$$<p>参数$\boldsymbol w$在训练集$\mathcal D$上的<strong>似然函数(likelihood)<strong>为：
+$$
+\begin{aligned}
+p(\boldsymbol{y} | X ; \boldsymbol{w}, \sigma) &=\prod_{n=1}^{N} p\left(y^{(n)} | \boldsymbol{x}^{(n)} ; \boldsymbol{w}, \sigma\right) \\
+&=\prod_{n=1}^{N} \mathcal{N}\left(y^{(n)} ; \boldsymbol{w}^{\mathrm{T}} \boldsymbol{x}^{(n)}, \sigma^{2}\right)
+\end{aligned}
+$$
+为了方便计算，对似然函数取对数得到</strong>对数似然函数(log likelihood)</strong>：</p>$$
+\log p(\boldsymbol{y} | X ; \boldsymbol{w}, \sigma)=\sum_{n=1}^{N} \log \mathcal{N}\left(y^{(n)} ; \boldsymbol{w}^{\mathrm{T}} \boldsymbol{x}^{(n)}, \sigma^{2}\right)
+$$<p><strong>最大似然估计(maximum likelihood estimation, MLE)</strong> 是指找到一组参数$\boldsymbol w$使得似然函数$p(\boldsymbol y|X;\boldsymbol w,\sigma)$最大，等价于对数似然函数$\log p(\boldsymbol y|X;\boldsymbol w,\sigma)$最大。令$\partial p(\boldsymbol y|X;\boldsymbol w,\sigma)/\partial \boldsymbol w=0$，得到$\boldsymbol{w}^{M L}=\left(X X^{\mathrm{T}}\right)^{-1} X \boldsymbol{y}$，这与最小二乘法的解相同。也可以将对数似然函数进行化简，显然得到了<strong>均方误差(MSE)损失函数</strong> 的形式。因此，均方误差损失函数并不是凭空创造出来的，而是通过最大似然估计来最大化似然函数得到的结果。</p><h1 id=最大后验估计与正则化>最大后验估计与正则化</h1><p>假设参数$\boldsymbol w$为一个随机向量，并服从一个先验分布$p(\boldsymbol{w} ; \nu)$。通常一般令$p(\boldsymbol{w} ; \nu)$为<strong>各向同性的高斯分布</strong>：</p>$$
+p(\boldsymbol{w} ; \nu)=\mathcal{N}\left(\boldsymbol{w} ; \mathbf{0}, \nu^{2} I\right)
+$$<p>其中$\nu^2$为每一维上的方差。</p><p>根据贝叶斯公式，参数$\boldsymbol w$的<strong>后验分布(posterior distribution)</strong> 为：</p>$$
+\begin{aligned}
+p(\boldsymbol{w} | X, \boldsymbol{y} ; \nu, \sigma) &=\frac{p(\boldsymbol{w}, \boldsymbol{y} | X ; \nu, \sigma)}{\sum_{\boldsymbol{w}} p(\boldsymbol{w}, \boldsymbol{y} | X ; \nu, \sigma)} \\
+& \propto p(\boldsymbol{y} | X, \boldsymbol{w} ; \sigma) p(\boldsymbol{w} ; \nu)
+\end{aligned}
+$$<p>其中，$p(\boldsymbol y|X;\boldsymbol w,\sigma)$为$\boldsymbol w$的似然函数，$p(\boldsymbol w;\nu)$为$\boldsymbol w$的先验。</p><p>这种参数估计方法称为<strong>贝叶斯估计(Bayesian estimation)</strong>，是一种统计推断问题。采用贝叶斯估计的线性回归也称为<strong>贝叶斯线性回归(Bayesian linear regression)</strong>。</p><p>贝叶斯估计是一种参数的区间估计，即参数在一个区间上的分布。如果我们希望得到一个最优的参数值(点估计)，可以使用最大后验估计。<strong>最大后验估计(maximum a posteriori estimation, MAP)</strong> 是指最优参数为后验分布$p(\boldsymbol w|X,\boldsymbol y;\nu,\sigma)$中概率密度最高的参数$\boldsymbol w$。</p>$$
+\boldsymbol{w}^{M A P}=\underset{\boldsymbol{w}}{\arg \max } p(\boldsymbol{y} | X, \boldsymbol{w} ; \sigma) p(\boldsymbol{w} ; \nu)
+$$<p>令似然函数为最大似然估计中的高斯密度函数，则后验分布$p(\boldsymbol w|X,\boldsymbol y;\nu,\sigma)$的对数为：</p>$$
+\begin{aligned}
+\log p(\boldsymbol{w} | X, \boldsymbol{y} ; \nu, \sigma) & \propto \log p(\boldsymbol{y} | X, \boldsymbol{w} ; \sigma)+\log p(\boldsymbol{w} ; \nu) \\
+& \propto-\frac{1}{2 \sigma^{2}} \sum_{n=1}^{N}\left(y^{(n)}-\boldsymbol{w}^{\mathrm{T}} \boldsymbol{x}^{(n)}\right)^{2}-\frac{1}{2 \nu^{2}} \boldsymbol{w}^{\mathrm{T}} \boldsymbol{w} \\
+&=-\frac{1}{2 \sigma^{2}}\left\|\boldsymbol{y}-X^{\mathrm{T}} \boldsymbol{w}\right\|^{2}-\frac{1}{2 \nu^{2}} \boldsymbol{w}^{\mathrm{T}} \boldsymbol{w}
+\end{aligned}
+$$<p>可以看出，最大后验概率等价于平方损失的<strong>结构风险最小化</strong>，其中正则化系数$\lambda=\sigma^2/\nu^2$。值得注意的是，这里假设参数$\boldsymbol w$的先验服从<strong>高斯分布</strong>，因而推导出了均方误差+$L_2$正则化的损失函数形式；若假设参数$\boldsymbol w$的先验服从<strong>拉普拉斯分布</strong>，则能够推导出均方误差+$L_1$正则化的损失函数形式。因此，最大后验估计其实是正则化的数学根源。</p><h1 id=基于numpy实现线性回归模型>基于numpy实现线性回归模型</h1><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#6272a4># 基于numpy实现线性回归模型</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> numpy <span style=color:#ff79c6>as</span> np
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> pandas <span style=color:#ff79c6>as</span> pd
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> sklearn.datasets <span style=color:#ff79c6>import</span> load_diabetes
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> sklearn.utils <span style=color:#ff79c6>import</span> shuffle
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 初始化模型参数</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>def</span> <span style=color:#50fa7b>initialize_params</span>(dims):
+</span></span><span style=display:flex><span>    w <span style=color:#ff79c6>=</span> np<span style=color:#ff79c6>.</span>zeros((dims, <span style=color:#bd93f9>1</span>))  <span style=color:#6272a4># 初始化权重参数为零矩阵</span>
+</span></span><span style=display:flex><span>    b <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>0</span>  <span style=color:#6272a4># 初始化偏差参数为零</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>return</span> w, b
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 定义模型主体部分，包括线性回归公式、均方损失和参数偏导三部分</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>def</span> <span style=color:#50fa7b>linear_loss</span>(X, y, w, b):
+</span></span><span style=display:flex><span>    num_train <span style=color:#ff79c6>=</span> X<span style=color:#ff79c6>.</span>shape[<span style=color:#bd93f9>0</span>]  <span style=color:#6272a4># 训练样本数量</span>
+</span></span><span style=display:flex><span>    num_feature <span style=color:#ff79c6>=</span> X<span style=color:#ff79c6>.</span>shape[<span style=color:#bd93f9>1</span>]  <span style=color:#6272a4># 训练特征数量</span>
+</span></span><span style=display:flex><span>    y_hat <span style=color:#ff79c6>=</span> np<span style=color:#ff79c6>.</span>dot(X, w) <span style=color:#ff79c6>+</span> b  <span style=color:#6272a4># 线性回归预测输出</span>
+</span></span><span style=display:flex><span>    loss <span style=color:#ff79c6>=</span> np<span style=color:#ff79c6>.</span>sum((y_hat <span style=color:#ff79c6>-</span> y) <span style=color:#ff79c6>**</span> <span style=color:#bd93f9>2</span>) <span style=color:#ff79c6>/</span> num_train  <span style=color:#6272a4># 计算预测输出与实际标签之间的均方损失</span>
+</span></span><span style=display:flex><span>    dw <span style=color:#ff79c6>=</span> np<span style=color:#ff79c6>.</span>dot(X<span style=color:#ff79c6>.</span>T, (y_hat <span style=color:#ff79c6>-</span> y)) <span style=color:#ff79c6>/</span> num_train  <span style=color:#6272a4># 基于均方损失对权重参数的一阶偏导数</span>
+</span></span><span style=display:flex><span>    db <span style=color:#ff79c6>=</span> np<span style=color:#ff79c6>.</span>sum((y_hat <span style=color:#ff79c6>-</span> y)) <span style=color:#ff79c6>/</span> num_train  <span style=color:#6272a4># 基于均方损失对偏差项的一阶偏导数</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>return</span> y_hat, loss, dw, db
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 定义线性回归模型训练过程</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>def</span> <span style=color:#50fa7b>linear_train</span>(X, y, learning_rate<span style=color:#ff79c6>=</span><span style=color:#bd93f9>0.01</span>, epochs<span style=color:#ff79c6>=</span><span style=color:#bd93f9>10000</span>):
+</span></span><span style=display:flex><span>    loss_his <span style=color:#ff79c6>=</span> []  <span style=color:#6272a4># 记录训练损失的空列表</span>
+</span></span><span style=display:flex><span>    w, b <span style=color:#ff79c6>=</span> initialize_params(X<span style=color:#ff79c6>.</span>shape[<span style=color:#bd93f9>1</span>])  <span style=color:#6272a4># 初始化模型参数</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>for</span> i <span style=color:#ff79c6>in</span> <span style=color:#8be9fd;font-style:italic>range</span>(<span style=color:#bd93f9>1</span>, epochs):  <span style=color:#6272a4># 迭代训练</span>
+</span></span><span style=display:flex><span>        <span style=color:#6272a4># 计算当前迭代的预测值、损失和梯度</span>
+</span></span><span style=display:flex><span>        y_hat, loss, dw, db <span style=color:#ff79c6>=</span> linear_loss(X, y, w, b)
+</span></span><span style=display:flex><span>        <span style=color:#6272a4># 基于梯度下降的参数更新</span>
+</span></span><span style=display:flex><span>        w <span style=color:#ff79c6>+=</span> <span style=color:#ff79c6>-</span>learning_rate <span style=color:#ff79c6>*</span> dw
+</span></span><span style=display:flex><span>        b <span style=color:#ff79c6>+=</span> <span style=color:#ff79c6>-</span>learning_rate <span style=color:#ff79c6>*</span> db
+</span></span><span style=display:flex><span>        loss_his<span style=color:#ff79c6>.</span>append(loss)  <span style=color:#6272a4># 记录当前迭代的损失</span>
+</span></span><span style=display:flex><span>        <span style=color:#ff79c6>if</span> i <span style=color:#ff79c6>%</span> <span style=color:#bd93f9>10000</span> <span style=color:#ff79c6>==</span> <span style=color:#bd93f9>0</span>:  <span style=color:#6272a4># 每1000次迭代打印当前损失信息</span>
+</span></span><span style=display:flex><span>            <span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#39;epoch </span><span style=color:#f1fa8c>%d</span><span style=color:#f1fa8c> loss </span><span style=color:#f1fa8c>%f</span><span style=color:#f1fa8c>&#39;</span> <span style=color:#ff79c6>%</span> (i, loss))
+</span></span><span style=display:flex><span>        <span style=color:#6272a4># 将当前迭代步优化后的参数保存到字典</span>
+</span></span><span style=display:flex><span>        params <span style=color:#ff79c6>=</span> {
+</span></span><span style=display:flex><span>            <span style=color:#f1fa8c>&#39;w&#39;</span>: w,
+</span></span><span style=display:flex><span>            <span style=color:#f1fa8c>&#39;b&#39;</span>: b
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>        <span style=color:#6272a4># 将当前迭代步的梯度保存到字典</span>
+</span></span><span style=display:flex><span>        grads <span style=color:#ff79c6>=</span> {
+</span></span><span style=display:flex><span>            <span style=color:#f1fa8c>&#39;dw&#39;</span>: dw,
+</span></span><span style=display:flex><span>            <span style=color:#f1fa8c>&#39;db&#39;</span>: db
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>return</span> loss_his, params, grads
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 从scikit-learn中读取数据</span>
+</span></span><span style=display:flex><span>diabetes <span style=color:#ff79c6>=</span> load_diabetes()  <span style=color:#6272a4># 获取diabetes数据集</span>
+</span></span><span style=display:flex><span>data, target <span style=color:#ff79c6>=</span> diabetes<span style=color:#ff79c6>.</span>data, diabetes<span style=color:#ff79c6>.</span>target  <span style=color:#6272a4># 获取输入和标签</span>
+</span></span><span style=display:flex><span>X, y <span style=color:#ff79c6>=</span> shuffle(data, target, random_state<span style=color:#ff79c6>=</span><span style=color:#bd93f9>13</span>)  <span style=color:#6272a4># 打乱数据集</span>
+</span></span><span style=display:flex><span>offset <span style=color:#ff79c6>=</span> <span style=color:#8be9fd;font-style:italic>int</span>(X<span style=color:#ff79c6>.</span>shape[<span style=color:#bd93f9>0</span>] <span style=color:#ff79c6>*</span> <span style=color:#bd93f9>0.8</span>)  <span style=color:#6272a4># 按照8/2划分训练集和测试集</span>
+</span></span><span style=display:flex><span>X_train, y_train <span style=color:#ff79c6>=</span> X[:offset], y[:offset]  <span style=color:#6272a4># 训练集</span>
+</span></span><span style=display:flex><span>X_test, y_test <span style=color:#ff79c6>=</span> X[offset:], y[offset:]  <span style=color:#6272a4># 测试集</span>
+</span></span><span style=display:flex><span>y_train <span style=color:#ff79c6>=</span> y_train<span style=color:#ff79c6>.</span>reshape((<span style=color:#ff79c6>-</span><span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>1</span>))  <span style=color:#6272a4># 将训练集改为列向量的形式</span>
+</span></span><span style=display:flex><span>y_test <span style=color:#ff79c6>=</span> y_test<span style=color:#ff79c6>.</span>reshape((<span style=color:#ff79c6>-</span><span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>1</span>))  <span style=color:#6272a4># 将验证集改为列向量的形式</span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 打印训练集和测试集维度</span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#34;X_train&#39;s shape: &#34;</span>, X_train<span style=color:#ff79c6>.</span>shape)
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#34;X_test&#39;s shape: &#34;</span>, X_test<span style=color:#ff79c6>.</span>shape)
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#34;y_train&#39;s shape: &#34;</span>, y_train<span style=color:#ff79c6>.</span>shape)
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#34;y_test&#39;s shape: &#34;</span>, y_test<span style=color:#ff79c6>.</span>shape)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 线性回归模型训练</span>
+</span></span><span style=display:flex><span>loss_his, params, grads <span style=color:#ff79c6>=</span> linear_train(X_train, y_train, <span style=color:#bd93f9>0.01</span>, <span style=color:#bd93f9>200000</span>)
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(params)  <span style=color:#6272a4># 打印训练后得到模型参数</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 定义线性回归预测函数</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>def</span> <span style=color:#50fa7b>predict</span>(X, params):
+</span></span><span style=display:flex><span>    w <span style=color:#ff79c6>=</span> params[<span style=color:#f1fa8c>&#39;w&#39;</span>]
+</span></span><span style=display:flex><span>    b <span style=color:#ff79c6>=</span> params[<span style=color:#f1fa8c>&#39;b&#39;</span>]
+</span></span><span style=display:flex><span>    y_pred <span style=color:#ff79c6>=</span> np<span style=color:#ff79c6>.</span>dot(X, w) <span style=color:#ff79c6>+</span> b
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>return</span> y_pred
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>y_pred <span style=color:#ff79c6>=</span> predict(X_test, params)
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(y_pred[:<span style=color:#bd93f9>5</span>])
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 定义R2函数</span>
+</span></span><span style=display:flex><span><span style=color:#ff79c6>def</span> <span style=color:#50fa7b>r2_score</span>(y_test, y_pred):
+</span></span><span style=display:flex><span>    y_avg <span style=color:#ff79c6>=</span> np<span style=color:#ff79c6>.</span>mean(y_test)  <span style=color:#6272a4># 测试标签均值</span>
+</span></span><span style=display:flex><span>    ss_tot <span style=color:#ff79c6>=</span> np<span style=color:#ff79c6>.</span>sum((y_test <span style=color:#ff79c6>-</span> y_avg) <span style=color:#ff79c6>**</span> <span style=color:#bd93f9>2</span>)  <span style=color:#6272a4># 总离差平方和</span>
+</span></span><span style=display:flex><span>    ss_res <span style=color:#ff79c6>=</span> np<span style=color:#ff79c6>.</span>sum((y_test <span style=color:#ff79c6>-</span> y_pred) <span style=color:#ff79c6>**</span> <span style=color:#bd93f9>2</span>)  <span style=color:#6272a4># 残差平方和</span>
+</span></span><span style=display:flex><span>    r2 <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>1</span> <span style=color:#ff79c6>-</span> (ss_res <span style=color:#ff79c6>/</span> ss_tot)  <span style=color:#6272a4># R2计算</span>
+</span></span><span style=display:flex><span>    <span style=color:#ff79c6>return</span> r2
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(r2_score(y_test, y_pred))
+</span></span></code></pre></div><h1 id=使用scikit-learn中的线性回归算法对波士顿房价进行预测>使用scikit-learn中的线性回归算法对波士顿房价进行预测</h1><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#ff79c6>import</span> numpy <span style=color:#ff79c6>as</span> np
+</span></span><span style=display:flex><span><span style=color:#ff79c6>import</span> matplotlib.pyplot <span style=color:#ff79c6>as</span> plt
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> sklearn.datasets <span style=color:#ff79c6>import</span> load_boston
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> sklearn.linear_model <span style=color:#ff79c6>import</span> LinearRegression
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> sklearn.model_selection <span style=color:#ff79c6>import</span> train_test_split
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> sklearn.preprocessing <span style=color:#ff79c6>import</span> PolynomialFeatures
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> sklearn.metrics <span style=color:#ff79c6>import</span> r2_score
+</span></span><span style=display:flex><span><span style=color:#ff79c6>from</span> sklearn.decomposition <span style=color:#ff79c6>import</span> PCA
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>boston_data <span style=color:#ff79c6>=</span> load_boston()  <span style=color:#6272a4># 载入波士顿房价数据</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>X <span style=color:#ff79c6>=</span> boston_data[<span style=color:#f1fa8c>&#39;data&#39;</span>]
+</span></span><span style=display:flex><span>y <span style=color:#ff79c6>=</span> boston_data[<span style=color:#f1fa8c>&#39;target&#39;</span>]
+</span></span><span style=display:flex><span>feature_names <span style=color:#ff79c6>=</span> boston_data[<span style=color:#f1fa8c>&#39;feature_names&#39;</span>]
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>X_train, X_test, y_train, y_test <span style=color:#ff79c6>=</span> train_test_split(X, y, test_size<span style=color:#ff79c6>=</span><span style=color:#bd93f9>0.2</span>)  <span style=color:#6272a4># 将数据划分为训练集和测试集</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(X_train<span style=color:#ff79c6>.</span>shape, X_test<span style=color:#ff79c6>.</span>shape, y_train<span style=color:#ff79c6>.</span>shape, y_test<span style=color:#ff79c6>.</span>shape)  <span style=color:#6272a4># 共506个样本，每个样本有13个特征</span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(feature_names)  <span style=color:#6272a4># [&#39;CRIM&#39; &#39;ZN&#39; &#39;INDUS&#39; &#39;CHAS&#39; &#39;NOX&#39; &#39;RM&#39; &#39;AGE&#39; &#39;DIS&#39;, ...]</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 线性回归模型</span>
+</span></span><span style=display:flex><span>lin_reg <span style=color:#ff79c6>=</span> LinearRegression()  <span style=color:#6272a4># 定义线性回归对象</span>
+</span></span><span style=display:flex><span>lin_reg<span style=color:#ff79c6>.</span>fit(X_train, y_train)  <span style=color:#6272a4># 训练</span>
+</span></span><span style=display:flex><span>y_pred <span style=color:#ff79c6>=</span> lin_reg<span style=color:#ff79c6>.</span>predict(X_test)  <span style=color:#6272a4># 测试</span>
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#39;r2 score in test set using 13 original features: &#39;</span>, r2_score(y_test, y_pred))  <span style=color:#6272a4># R2 score约为67.7</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 为原始数据添加多项式特征</span>
+</span></span><span style=display:flex><span>poly_feature <span style=color:#ff79c6>=</span> PolynomialFeatures(degree<span style=color:#ff79c6>=</span><span style=color:#bd93f9>2</span>)  <span style=color:#6272a4># 当degree&gt;2时，出现过拟合现象</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>X_train_poly <span style=color:#ff79c6>=</span> poly_feature<span style=color:#ff79c6>.</span>fit_transform(X_train)
+</span></span><span style=display:flex><span>X_test_poly <span style=color:#ff79c6>=</span> poly_feature<span style=color:#ff79c6>.</span>fit_transform(X_test)
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(X_train_poly<span style=color:#ff79c6>.</span>shape, X_test_poly<span style=color:#ff79c6>.</span>shape)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>lin_reg_poly <span style=color:#ff79c6>=</span> LinearRegression()
+</span></span><span style=display:flex><span>lin_reg_poly<span style=color:#ff79c6>.</span>fit(X_train_poly, y_train)
+</span></span><span style=display:flex><span>y_pred <span style=color:#ff79c6>=</span> lin_reg_poly<span style=color:#ff79c6>.</span>predict(X_test_poly)
+</span></span><span style=display:flex><span><span style=color:#8be9fd;font-style:italic>print</span>(<span style=color:#f1fa8c>&#39;r2 score in test set using polynomial features: &#39;</span>, r2_score(y_test, y_pred))  <span style=color:#6272a4># R2 score约为81.8</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 仅选择一个特征(5)对数据和模型进行可视化</span>
+</span></span><span style=display:flex><span>line_reg_one <span style=color:#ff79c6>=</span> LinearRegression()
+</span></span><span style=display:flex><span>line_reg_one<span style=color:#ff79c6>.</span>fit(X_train[:, <span style=color:#bd93f9>5</span>]<span style=color:#ff79c6>.</span>reshape(<span style=color:#ff79c6>-</span><span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>1</span>), y_train)
+</span></span><span style=display:flex><span>y_pred <span style=color:#ff79c6>=</span> line_reg_one<span style=color:#ff79c6>.</span>predict(X_test[:, <span style=color:#bd93f9>5</span>]<span style=color:#ff79c6>.</span>reshape(<span style=color:#ff79c6>-</span><span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>1</span>))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 绘制数据分布</span>
+</span></span><span style=display:flex><span>plt<span style=color:#ff79c6>.</span>scatter(X_train[:, <span style=color:#bd93f9>5</span>], y_train, label<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#39;training set&#39;</span>)
+</span></span><span style=display:flex><span>plt<span style=color:#ff79c6>.</span>scatter(X_test[:, <span style=color:#bd93f9>5</span>], y_test, label<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#39;test set&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 绘制训练得到的模型</span>
+</span></span><span style=display:flex><span>x_plot <span style=color:#ff79c6>=</span> np<span style=color:#ff79c6>.</span>linspace(<span style=color:#bd93f9>3</span>, <span style=color:#bd93f9>9</span>, <span style=color:#bd93f9>100</span>)
+</span></span><span style=display:flex><span>y_plot <span style=color:#ff79c6>=</span> line_reg_one<span style=color:#ff79c6>.</span>predict(x_plot<span style=color:#ff79c6>.</span>reshape(<span style=color:#ff79c6>-</span><span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>1</span>))
+</span></span><span style=display:flex><span>plt<span style=color:#ff79c6>.</span>plot(x_plot, y_plot, color<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#39;red&#39;</span>)
+</span></span><span style=display:flex><span>plt<span style=color:#ff79c6>.</span>title(<span style=color:#f1fa8c>&#39;linear regression with one feature&#39;</span>)
+</span></span><span style=display:flex><span>plt<span style=color:#ff79c6>.</span>legend()
+</span></span><span style=display:flex><span>plt<span style=color:#ff79c6>.</span>show()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#6272a4># 欠拟合、拟合和过拟合在线性回归中的的示例</span>
+</span></span><span style=display:flex><span>X_fit <span style=color:#ff79c6>=</span> np<span style=color:#ff79c6>.</span>linspace(<span style=color:#ff79c6>-</span><span style=color:#bd93f9>2</span>, <span style=color:#bd93f9>2</span>, <span style=color:#bd93f9>100</span>)
+</span></span><span style=display:flex><span>y_fit <span style=color:#ff79c6>=</span> X_fit <span style=color:#ff79c6>*</span> X_fit <span style=color:#ff79c6>+</span> np<span style=color:#ff79c6>.</span>random<span style=color:#ff79c6>.</span>normal(<span style=color:#bd93f9>0</span>, <span style=color:#bd93f9>0.5</span>, <span style=color:#bd93f9>100</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>lin_reg_fit <span style=color:#ff79c6>=</span> LinearRegression()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>poly_list <span style=color:#ff79c6>=</span> [<span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>2</span>, <span style=color:#bd93f9>50</span>]
+</span></span><span style=display:flex><span><span style=color:#ff79c6>for</span> i <span style=color:#ff79c6>in</span> <span style=color:#8be9fd;font-style:italic>range</span>(<span style=color:#8be9fd;font-style:italic>len</span>(poly_list)):
+</span></span><span style=display:flex><span>    poly_feature_fit <span style=color:#ff79c6>=</span> PolynomialFeatures(degree<span style=color:#ff79c6>=</span>poly_list[i])
+</span></span><span style=display:flex><span>    X_poly_fit <span style=color:#ff79c6>=</span> poly_feature_fit<span style=color:#ff79c6>.</span>fit_transform(X_fit<span style=color:#ff79c6>.</span>reshape(<span style=color:#ff79c6>-</span><span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>1</span>))
+</span></span><span style=display:flex><span>    <span style=color:#8be9fd;font-style:italic>print</span>(poly_list[i], X_poly_fit<span style=color:#ff79c6>.</span>shape)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    lin_reg_fit<span style=color:#ff79c6>.</span>fit(X_poly_fit, y_fit)
+</span></span><span style=display:flex><span>    y_pred_fit <span style=color:#ff79c6>=</span> lin_reg_fit<span style=color:#ff79c6>.</span>predict(poly_feature_fit<span style=color:#ff79c6>.</span>fit_transform(X_fit<span style=color:#ff79c6>.</span>reshape(<span style=color:#ff79c6>-</span><span style=color:#bd93f9>1</span>, <span style=color:#bd93f9>1</span>)))
+</span></span><span style=display:flex><span>    plt<span style=color:#ff79c6>.</span>plot(X_fit, y_pred_fit, label<span style=color:#ff79c6>=</span><span style=color:#f1fa8c>&#39;degree: </span><span style=color:#f1fa8c>{}</span><span style=color:#f1fa8c>&#39;</span><span style=color:#ff79c6>.</span>format(poly_list[i]))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>plt<span style=color:#ff79c6>.</span>scatter(X_fit, y_fit)
+</span></span><span style=display:flex><span>plt<span style=color:#ff79c6>.</span>title(<span style=color:#f1fa8c>&#39;under-fitting, fitting and over-fitting&#39;</span>)
+</span></span><span style=display:flex><span>plt<span style=color:#ff79c6>.</span>legend()
+</span></span><span style=display:flex><span>plt<span style=color:#ff79c6>.</span>show()
+</span></span></code></pre></div><h1 id=参考资料>参考资料</h1><ul><li>邱锡鹏. 神经网络与深度学习. 北京: 机械工业出版社, 2020.</li><li>鲁伟. 机器学习：公式推导与代码实现. 北京: 人民邮电出版社, 2022.</li><li>Stanford University机器学习笔记：https://stanford.edu/~shervine/teaching/</li></ul><hr><ul class=pager><li class=previous><a href=/post/3-ml/ml1-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/ data-toggle=tooltip data-placement=top title=机器学习基础>&larr;
+Previous Post</a></li><li class=next><a href=/post/3-ml/ml3-k%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/ data-toggle=tooltip data-placement=top title=机器学习：K近邻算法>Next
+Post &rarr;</a></li></ul><script src=https://giscus.app/client.js data-repo=XiangdiWu/XiangdiWu.github.io data-repo-id=R_kgDOP0pDUQ data-category=Announcements data-category-id=DIC_kwDOP0pDUc4CvwjG data-mapping=pathname data-reactions-enabled=1 data-emit-metadata=0 data-theme=light data-lang=zh-CN crossorigin=anonymous async></script></div><div class="col-lg-2 col-lg-offset-0
+visible-lg-block
+sidebar-container
+catalog-container"><div class=side-catalog><hr class="hidden-sm hidden-xs"><h5><a class=catalog-toggle href=#>CATALOG</a></h5><ul class=catalog-body></ul></div></div><div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
+sidebar-container"><section><hr class="hidden-sm hidden-xs"><h5><a href=/tags/>FEATURED TAGS</a></h5><div class=tags><a href=/tags/deep-learning title="deep learning">deep learning
+</a><a href=/tags/machine-learning title="machine learning">machine learning
+</a><a href=/tags/math title=math>math
+</a><a href=/tags/model title=model>model
+</a><a href=/tags/nlp title=nlp>nlp
+</a><a href=/tags/quant title=quant>quant</a></div></section><section><hr><h5>FRIENDS</h5><ul class=list-inline><li><a target=_blank href=https://www.factorwar.com/data/factor-models/>GetAstockFactors</a></li><li><a target=_blank href=https://datawhalechina.github.io/whale-quant/#/>Whale-Quant</a></li></ul></section></div></div></div></article><script type=module>  
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'; 
+    mermaid.initialize({ startOnLoad: true });  
+</script><script>Array.from(document.getElementsByClassName("language-mermaid")).forEach(e=>{e.parentElement.outerHTML=`<div class="mermaid">${e.innerHTML}</div>`})</script><style>.mermaid svg{display:block;margin:auto}</style><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center"><li><a href=mailto:bernicewu2000@outlook.com><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-envelope fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=/img/wechat_qrcode.jpg><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-weixin fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=https://github.com/xiangdiwu><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-github fa-stack-1x fa-inverse"></i></span></a></li><li><a href rel=alternate type=application/rss+xml title="Xiangdi Blog"><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-rss fa-stack-1x fa-inverse"></i></span></a></li></ul><p class="copyright text-muted">Copyright &copy; Xiangdi Blog 2025</p></div></div></div></footer><script>function loadAsync(e,t){var s=document,o="script",n=s.createElement(o),i=s.getElementsByTagName(o)[0];n.src=e,t&&n.addEventListener("load",function(e){t(null,e)},!1),i.parentNode.insertBefore(n,i)}</script><script>$("#tag_cloud").length!==0&&loadAsync("/js/jquery.tagcloud.js",function(){$.fn.tagcloud.defaults={color:{start:"#bbbbee",end:"#0085a1"}},$("#tag_cloud a").tagcloud()})</script><script>loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js",function(){var e=document.querySelector("nav");e&&FastClick.attach(e)})</script><script type=text/javascript>function generateCatalog(e){_containerSelector="div.post-container";var t,n,s,o,i,a=$(_containerSelector),r=a.find("h1,h2,h3,h4,h5,h6");return $(e).html(""),r.each(function(){n=$(this).prop("tagName").toLowerCase(),o="#"+$(this).prop("id"),t=$(this).text(),i=$('<a href="'+o+'" rel="nofollow" title="'+t+'">'+t+"</a>"),s=$('<li class="'+n+'_nav"></li>').append(i),$(e).append(s)}),!0}generateCatalog(".catalog-body"),$(".catalog-toggle").click(function(e){e.preventDefault(),$(".side-catalog").toggleClass("fold")}),loadAsync("/js/jquery.nav.js",function(){$(".catalog-body").onePageNav({currentClass:"active",changeHash:!1,easing:"swing",filter:"",scrollSpeed:700,scrollOffset:0,scrollThreshold:.2,begin:null,end:null,scrollChange:null,padding:80})})</script><style>.markmap>svg{width:100%;height:300px}</style><script>window.markmap={autoLoader:{manual:!0,onReady(){const{autoLoader:e,builtInPlugins:t}=window.markmap;e.transformPlugins=t.filter(e=>e.name!=="prism")}}}</script><script src=https://cdn.jsdelivr.net/npm/markmap-autoloader></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css integrity="sha512-r2+FkHzf1u0+SQbZOoIz2RxWOIWfdEzRuYybGjzKq18jG9zaSfEy9s3+jMqG/zPtRor/q4qaUCYQpmSjTw8M+g==" crossorigin=anonymous><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js integrity="sha512-INps9zQ2GUEMCQD7xiZQbGUVnqnzEvlynVy6eqcTcHN4+aQiLo9/uaQqckDpdJ8Zm3M0QBs+Pktg4pz0kEklUg==" crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/mhchem.min.js integrity="sha512-mxjNw/u1lIsFC09k/unscDRY3ofIYPVFbWkP8slrePcS36ht4d/OZ8rRu5yddB2uiqajhTcLD8+jupOWuYPebg==" crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js integrity="sha512-YJVxTjqttjsU3cSvaTRqsSl0wbRgZUNF+NGGCgto/MUbIvaLdXQzGTCQu4CvyJZbZctgflVB0PXw9LLmTWm5/w==" crossorigin=anonymous onload='renderMathInElement(document.body,{delimiters:[{display:!0,left:"$$",right:"$$"},{display:!1,left:"$",right:"$"},{display:!1,left:"\\(",right:"\\)"},{display:!0,left:"\\[",right:"\\]"}],errorcolor:"#CD5C5C",throwonerror:!1})'></script></body></html>

@@ -1,0 +1,739 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Xiangdi Blog</title><link>https://xiangdiwu.github.io/</link><description>Recent content on Xiangdi Blog</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Wed, 24 Sep 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://xiangdiwu.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>论文学习《基于NGAT模型的股票长期趋势与风险建模》</title><link>https://xiangdiwu.github.io/2025/09/24/ngat-a-node-level-graph-attention-network-for-long-term-stock-prediction/</link><pubDate>Wed, 24 Sep 2025 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/2025/09/24/ngat-a-node-level-graph-attention-network-for-long-term-stock-prediction/</guid><description>&lt;p&gt;
+ &lt;img src="https://xiangdiwu.github.io/img/2025/09/24/%e5%9f%ba%e4%ba%8eNGAT%e6%a8%a1%e5%9e%8b%e7%9a%84%e8%82%a1%e7%a5%a8%e9%95%bf%e6%9c%9f%e8%b6%8b%e5%8a%bf%e4%b8%8e%e9%a3%8e%e9%99%a9%e5%bb%ba%e6%a8%a1/NGAT-img1.webp" alt="Image"&gt;
+
+
+图表示学习方法，特别是图神经网络（GNNs），已成为金融领域的主流技术，其核心优势在于能够利用公司间的关联关系来增强对单个公司的理解和表示。通过将公司建模为图中的节点，将它们之间的关系（如供应链、新闻共现等）作为边，GNNs能够有效捕捉所谓的“动量溢出效应”，即一家公司的股价动向会影响到相关联的其他公司。&lt;/p&gt;</description></item><item><title>量化金融学习方案</title><link>https://xiangdiwu.github.io/2025/07/04/quantitative_finance_core_knowledge_system/</link><pubDate>Fri, 04 Jul 2025 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/2025/07/04/quantitative_finance_core_knowledge_system/</guid><description>&lt;h2 id="融理论基础"&gt;⾦融理论基础&lt;/h2&gt;
+&lt;p&gt;量化⾦融的学习离不开⾦融学基础，以下是关键知识点：&lt;/p&gt;
+&lt;h4 id="融市场与融具"&gt;⾦融市场与⾦融⼯具&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;股票、债券、期权、期货等⾦融产品的定义及特点。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;⾦融市场的运作机制，包括⼀级市场与⼆级市场。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id="资产定价理论"&gt;资产定价理论&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;资本资产定价模型（CAPM）：系统性⻛险与预期收益的关系。&lt;/p&gt;</description></item><item><title>45 个问题入门量化投资</title><link>https://xiangdiwu.github.io/2025/07/03/learn-quantitative-investing-with-45-questions/</link><pubDate>Thu, 03 Jul 2025 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/2025/07/03/learn-quantitative-investing-with-45-questions/</guid><description>&lt;h1 id="前言"&gt;前言&lt;/h1&gt;
+&lt;p&gt;很多人对量化感兴趣，但缺乏基础知识。这一系列科普文章会是很好的入门选择。&lt;/p&gt;
+&lt;p&gt;系列文章旨在提供一个全面而易于理解的入门指南。这些文章覆盖了量化投资的基本概念、策略构建、风险管理以及实际应用等多个方面，内容浅显易懂，无需任何先验知识。通过阅读这些文章，您还将了解到量化投资在现代金融市场中的重要性和应用前景。&lt;/p&gt;</description></item><item><title>Learn Quantitative Investing with 45 Questions</title><link>https://xiangdiwu.github.io/2025/07/03/learn-quantitative-investing-with-45-questions-english/</link><pubDate>Thu, 03 Jul 2025 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/2025/07/03/learn-quantitative-investing-with-45-questions-english/</guid><description>&lt;h1 id="q1-similarities-and-differences-between-quantitative-investment-and-discretionary-investment"&gt;Q1: Similarities and Differences Between Quantitative Investment and Discretionary Investment?&lt;/h1&gt;
+&lt;p&gt;Broadly speaking, &lt;strong&gt;Quantitative Investment&lt;/strong&gt; is an investment methodology based on data, centered around models, and often utilizing programmatic trading as a tool.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Data-driven:&lt;/strong&gt; Generally, more data points and more structured data are more conducive to modeling. If an event has never happened historically or has only occurred a few times, it is difficult to find suitable data for training. &amp;ldquo;Patterns&amp;rdquo; derived from past experiences may not be effective in such scenarios.&lt;/p&gt;</description></item><item><title>量化学习常见误区</title><link>https://xiangdiwu.github.io/2025/07/02/common-misconceptions-in-quantitative-learning/</link><pubDate>Wed, 02 Jul 2025 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/2025/07/02/common-misconceptions-in-quantitative-learning/</guid><description>&lt;p&gt;量化投资的学习之路布满陷阱，许多聪明人在这里栽了跟头，不是因为他们不够努力，而是因为踩了那些看似诱人实则危险的误区。&lt;/p&gt;
+&lt;h2 id="误区一认为会编程会量化投资"&gt;&lt;strong&gt;误区一：认为“会编程=会量化投资”&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;表现：&lt;/strong&gt; 过度沉迷于学习Python、Pandas、NumPy、各种库（如backtrader, zipline）甚至机器学习框架（TensorFlow, PyTorch），认为掌握了这些工具就等于掌握了赚钱的钥匙。&lt;/p&gt;</description></item><item><title>量化学习计划</title><link>https://xiangdiwu.github.io/2025/07/01/quantitative-learning-plan/</link><pubDate>Tue, 01 Jul 2025 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/2025/07/01/quantitative-learning-plan/</guid><description>&lt;h2 id="量化入门"&gt;量化入门&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;思想和逻辑层面了解量化投资&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;编程语言入门：Python和Packages&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;编程语言入门：金融数据处理、SQL 数据库&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;经典策略入门：双均线、动量/反转、均值回归、配对交易、风险平价入门实现与评价等&lt;/p&gt;</description></item><item><title>量化投资系统的五大核心模型</title><link>https://xiangdiwu.github.io/2023/05/23/five-core-models-of-quantitative-investment-systems/</link><pubDate>Tue, 23 May 2023 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/2023/05/23/five-core-models-of-quantitative-investment-systems/</guid><description>&lt;blockquote&gt;
+&lt;p&gt;本文系统介绍了量化投资系统的五大核心模型，旨在通过数据驱动和理论驱动的方法优化投资决策。&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;量化投资系统包括五大模型：&lt;/p&gt;
+&lt;p&gt;1、超额收益模型 Alpha Models&lt;br&gt;
+2、风险管理模型 Risk Model&lt;br&gt;
+3、交易成本模型 Transaction Cost Models&lt;br&gt;
+4、投资组合构建模型 Portfolio Construction Models&lt;br&gt;
+5、执行模型 Execution Models&lt;br&gt;&lt;/p&gt;</description></item><item><title>《置身事内》读后感</title><link>https://xiangdiwu.github.io/2022/02/03/reflections-on-inside-the-system/</link><pubDate>Thu, 03 Feb 2022 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/2022/02/03/reflections-on-inside-the-system/</guid><description>&lt;p&gt;本书着重阐述了政府在中国经济发展过程中所起的作用。之所以强调政府的作用，是因为我国的市场经济是由计划经济时代过渡而来的，因此在发展过程中保留了许多计划经济时代的印记。其中最突出的特色就在于政府在发展经济的过程中始终扮演着非常重要的参与者、甚至是主导者的角色。因此，要了解我国的经济发展，必须首先理解政府的运作方式，读懂政策的隐含意义。本书通过微观和宏观两个层面达到这一目的。微观层面，本书从经济学的视角介绍了地方政府的运行逻辑，以及按照这一逻辑，政府如何获取和利用财政资源，从而推动经济发展；宏观层面，则论述了地方政府推动经济发展的模式所造成的宏观后果，包括城市化、债务、国际国内风险等，并对现行经济政策进行解读与展望。&lt;/p&gt;</description></item><item><title>《尤利西斯》读后感</title><link>https://xiangdiwu.github.io/2022/01/07/reflections-on-ulysses/</link><pubDate>Fri, 07 Jan 2022 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/2022/01/07/reflections-on-ulysses/</guid><description>&lt;blockquote&gt;
+&lt;p&gt;意识流手法的内在性和象征性成就了乔伊斯。由于历史、宗教、政治、语言、文体的创新与错综复杂的交织，使得《尤利西斯》內部形成了两个独立且相关的文本。它就像是一本百科全书式的文字游戏，需要我们借助其它的文本信息，才能破译其中的密码。&lt;/p&gt;</description></item><item><title>Hugo Theme: CleanWhite</title><link>https://xiangdiwu.github.io/post/6-tech/hugo-theme-clean-white/</link><pubDate>Sun, 26 Sep 2021 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/post/6-tech/hugo-theme-clean-white/</guid><description>&lt;h1 id="clean-white-theme-for-hugo"&gt;Clean White Theme for Hugo&lt;/h1&gt;
+&lt;p&gt;CleanWhite is a clean, elegant, but fully functional blog theme for Hugo. Here is a live &lt;a href="https://zhaohuabing.com"&gt;demo site&lt;/a&gt; using this theme.&lt;/p&gt;
+&lt;p&gt;It is based on &lt;a href="https://github.com/Huxpro/huxpro.github.io"&gt;huxblog Jekyll Theme&lt;/a&gt;
+and &lt;a href="https://github.com/BlackrockDigital/startbootstrap-clean-blog-jekyll"&gt;Clean Blog Jekyll Theme&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;These two upstream projects have done awesome jobs to create a blog theme, what I&amp;rsquo;m doing here is porting it to Hugo, of which I like the simplicity and the much faster compiling speed. Some other features which I think could be useful, such as site search with algolia and proxy for Disqus access in China, have also been built in the CleanWhite theme. Other fancy features of upstream projects are not supported by this Hugo theme, I&amp;rsquo;d like to make it as simple as possible and only focus on blog purpose, at least for now.
+While I created this theme, I followed the Hugo theme best practice and tried to make every part of the template as a replaceable partial html, so it could be much easier for you to make your customization based on it.&lt;/p&gt;</description></item><item><title>量化编程基础： Python</title><link>https://xiangdiwu.github.io/2021/07/06/quant-python-basics/</link><pubDate>Mon, 05 Jul 2021 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/2021/07/06/quant-python-basics/</guid><description>&lt;h2 id="一python-基本数据类型"&gt;一、Python 基本数据类型&lt;/h2&gt;
+&lt;p&gt;Python 的三大基本数据类型，是量化分析的起点：&lt;/p&gt;
+&lt;h3 id="整数int"&gt;整数（int）&lt;/h3&gt;
+&lt;p&gt;整数是没有小数部分的数字，在金融中常用于记录 “数量”—— 比如股票的持仓股数（1000 股）、交易日天数（252 天 / 年）、订单编号（10086）等。&lt;/p&gt;</description></item><item><title>《见证失衡》读后感</title><link>https://xiangdiwu.github.io/2021/05/13/reflections-on-witnessing-imbalance/</link><pubDate>Thu, 13 May 2021 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/2021/05/13/reflections-on-witnessing-imbalance/</guid><description>&lt;p&gt;论及中国宏观经济与金融领域的学者，余永定是非常耀眼的一位，他主持的中国社会科学院世界经济政治所，是中国宏观经济涉外政策认识与决策的主要影响者。自1996年中国“双顺差”格局显现以来，国际收支失衡已成中国宏观经济决策和经济增长模式转变的主要障碍。余先生的新文集《见证失衡》即显示了他对这一问题的思考历程。&lt;/p&gt;</description></item><item><title>自然语言处理：自然语言处理应用</title><link>https://xiangdiwu.github.io/post/5-nlp/nlp6-%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E5%BA%94%E7%94%A8/</link><pubDate>Sun, 25 Oct 2020 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/post/5-nlp/nlp6-%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E5%BA%94%E7%94%A8/</guid><description>&lt;p&gt;自然语言处理的应用（即NLP任务）分布非常广泛。本章节以任务的形式进行划分，主要介绍三类具有代表性的自然语言处理应用，包括文本分类（序列-编码-类别）、文本摘要（序列-编码-解码-序列）、以及机器阅读理解（序列-编码-同步序列）。每个部分首先介绍了应用的概念及挑战，然后介绍了一些具有代表性的论文工作。&lt;strong&gt;注意，从接触一个领域的具体任务开始，已经初步进入到了对该科研领域的探索之中。每个领域都有一些具体的任务，而确定一个任务往往就是着手开展一项研究工作的第一步。&lt;/strong&gt;&lt;/p&gt;</description></item><item><title>自然语言处理：预训练模型</title><link>https://xiangdiwu.github.io/post/5-nlp/nlp5-%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/</link><pubDate>Sat, 24 Oct 2020 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/post/5-nlp/nlp5-%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/</guid><description>&lt;h1 id="elmo"&gt;ELMo&lt;/h1&gt;
+&lt;p&gt;预训练词向量(如word2vec和GloVe等)通常只能为一个单词产生一个特定的词向量，而忽略了该单词的&lt;strong&gt;上下文(context)&lt;/strong&gt; 关系，因而无法解决&lt;strong&gt;一词多义&lt;/strong&gt;或&lt;strong&gt;一义多词&lt;/strong&gt;的问题。&lt;strong&gt;ELMo(embeddings from language models)&lt;/strong&gt; 本质上是一个深度双向LSTM模型，用于为一个句子中的每个单词生成上下文相关的词向量。将这些上下文相关词向量编码了单词的深层次语义和句法信息，因此当ELMo应用到许多NLP任务中，这些任务的效果相对于使用静态的词向量往往能得到很大的提升。&lt;/p&gt;</description></item><item><title>自然语言处理：“序列到序列”与“注意力机制”</title><link>https://xiangdiwu.github.io/post/5-nlp/nlp4-seq2seq%E4%B8%8Eattention/</link><pubDate>Fri, 23 Oct 2020 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/post/5-nlp/nlp4-seq2seq%E4%B8%8Eattention/</guid><description>&lt;h1 id="序列到序列模型"&gt;序列到序列模型&lt;/h1&gt;
+&lt;p&gt;许多单输出问题得以解决，比如命名实体识别、单词预测等。然而许多任务的输出是一个&lt;strong&gt;序列&lt;/strong&gt;，比如机器翻译、对话系统以及自动摘要等。这种问题应当使用seq2seq实现。&lt;/p&gt;</description></item><item><title>自然语言处理：语言模型</title><link>https://xiangdiwu.github.io/post/5-nlp/nlp3-%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/</link><pubDate>Thu, 22 Oct 2020 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/post/5-nlp/nlp3-%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/</guid><description>&lt;h1 id="n元语法"&gt;N元语法&lt;/h1&gt;
+&lt;p&gt;N元语言模型可以用来&lt;strong&gt;预测一个句子的下一个单词的概率&lt;/strong&gt;，或者&lt;strong&gt;计算一个句子的概率&lt;/strong&gt;。该模型常用于语音识别、拼写检查以及语法检查等领域。&lt;/p&gt;
+&lt;p&gt;首先，&lt;strong&gt;一个句子“its water is so transparent that”后出现某一单词“the”的概率&lt;/strong&gt;为：&lt;/p&gt;</description></item><item><title>自然语言处理：词向量</title><link>https://xiangdiwu.github.io/post/5-nlp/nlp2-%E8%AF%8D%E5%90%91%E9%87%8F/</link><pubDate>Wed, 21 Oct 2020 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/post/5-nlp/nlp2-%E8%AF%8D%E5%90%91%E9%87%8F/</guid><description>&lt;h1 id="词向量概述"&gt;词向量概述&lt;/h1&gt;
+&lt;p&gt;在自然语言处理领域，词的&lt;strong&gt;表示(representation)&lt;/strong&gt; 是一个核心问题。我们希望将单词通过某种嵌入的形式表示，以捕获词的&lt;strong&gt;含义(meaning)&lt;strong&gt;以及词和词之间的&lt;/strong&gt;关系(relationship)&lt;/strong&gt;。一个解决方法是，使用wordnet(a thesaurus containing lists of &lt;strong&gt;synonym sets&lt;/strong&gt; and &lt;strong&gt;hypernyms&lt;/strong&gt;)，如下所示：&lt;/p&gt;</description></item><item><title>自然语言处理概述</title><link>https://xiangdiwu.github.io/post/5-nlp/nlp1-%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E6%A6%82%E8%BF%B0/</link><pubDate>Tue, 20 Oct 2020 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/post/5-nlp/nlp1-%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E6%A6%82%E8%BF%B0/</guid><description>&lt;h1 id="自然语言与编程语言"&gt;自然语言与编程语言&lt;/h1&gt;
+&lt;p&gt;&lt;strong&gt;自然语言处理(natural language processing, NLP)&lt;/strong&gt; 是一门融合了计算机科学、人工智能以及语言学的交叉学科(interdisciplinary field)。这门学科研究的是如何通过机器学习等技术，让计算机学会处理人类语言，乃至实现最终目标：&lt;strong&gt;理解人类语言或人工智能&lt;/strong&gt;。&lt;/p&gt;</description></item><item><title>深度学习：图神经网络</title><link>https://xiangdiwu.github.io/post/4-dl/dl9-%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</link><pubDate>Mon, 19 Oct 2020 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/post/4-dl/dl9-%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</guid><description>&lt;h1 id="图神经网络概述"&gt;图神经网络概述&lt;/h1&gt;
+&lt;p&gt;近年来，深度学习领域关于&lt;strong&gt;图神经网络(graph neural network, GNN)&lt;/strong&gt; 的研究热情日益高涨，图神经网络已经成为各大深度学习顶会的研究热点。GNN处理非结构化数据时的出色能力使其在网络数据分析、推荐系统、物理建模、自然语言处理和图上的组合优化问题方面都取得了新的突破。&lt;/p&gt;</description></item><item><title>深度学习：注意力机制与外部记忆</title><link>https://xiangdiwu.github.io/post/4-dl/dl8-%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6%E4%B8%8E%E5%A4%96%E9%83%A8%E8%AE%B0%E5%BF%86/</link><pubDate>Sun, 18 Oct 2020 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/post/4-dl/dl8-%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6%E4%B8%8E%E5%A4%96%E9%83%A8%E8%AE%B0%E5%BF%86/</guid><description>&lt;p&gt;根据通用近似定理，前馈网络和循环网络都有很强的能力。但由于优化算法和计算能力的限制，在实践中很难达到通用近似的能力。特别是在处理复杂任务时，比如需要处理大量的输入信息或者复杂的计算流程时，目前计算机的计算能力依然是限制神经网络发展的瓶颈。&lt;/p&gt;</description></item><item><title>深度学习：深度生成模型</title><link>https://xiangdiwu.github.io/post/4-dl/dl7-%E6%B7%B1%E5%BA%A6%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/</link><pubDate>Sat, 17 Oct 2020 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/post/4-dl/dl7-%E6%B7%B1%E5%BA%A6%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/</guid><description>&lt;h1 id="概率生成模型"&gt;概率生成模型&lt;/h1&gt;
+&lt;p&gt;概率生成模型，简称&lt;strong&gt;生成模型(generative model)&lt;/strong&gt;，是概率统计和机器学习中的一类重要模型，指一系列用于&lt;strong&gt;随机生成&lt;/strong&gt;可观测数据的模型。假设在一个连续的或离散的高维空间$\mathcal X$中，存在一个随机向量$\boldsymbol X$服从一个未知的数据分布$p_r(\boldsymbol x),\boldsymbol x \in \mathcal X$。生成模型是根据一些可观测的样本$\boldsymbol x^{(1)},\boldsymbol x^{(2)},\cdots,\boldsymbol x^{(N)}$来学习一个参数化的模型$p_\theta(\boldsymbol x)$来近似未知分布$p_r(\boldsymbol x)$，并可以用这个模型来生成一些样本，使得&lt;strong&gt;生成样本和真实样本尽可能地相似&lt;/strong&gt;。&lt;/p&gt;</description></item><item><title>深度学习：自编码器</title><link>https://xiangdiwu.github.io/post/4-dl/dl6-%E8%87%AA%E7%BC%96%E7%A0%81%E5%99%A8/</link><pubDate>Fri, 16 Oct 2020 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/post/4-dl/dl6-%E8%87%AA%E7%BC%96%E7%A0%81%E5%99%A8/</guid><description>&lt;h1 id="自编码器"&gt;自编码器&lt;/h1&gt;
+&lt;p&gt;&lt;strong&gt;自编码器(auto-encoder, AE)&lt;/strong&gt; 是通过&lt;strong&gt;无监督&lt;/strong&gt;的方式来学习&lt;strong&gt;一组数据的有效编码(或表示)&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;假设有一组$d$维的样本$\boldsymbol{x}^{(n)} \in \mathbb{R}^{d}, 1 \leqslant n \leqslant N$，自编码器将这组数据映射到$p$维的&lt;strong&gt;特征空间&lt;/strong&gt;得到每个样本的编码$\boldsymbol{z}^{(n)} \in \mathbb{R}^{p}, 1 \leqslant n \leqslant N$，并且希望&lt;strong&gt;这组编码可以重构出原来的样本&lt;/strong&gt;。自编码器的结构可分为两部分：&lt;/p&gt;</description></item><item><title>深度学习：神经网络的优化</title><link>https://xiangdiwu.github.io/post/4-dl/dl5-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9A%84%E4%BC%98%E5%8C%96/</link><pubDate>Thu, 15 Oct 2020 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/post/4-dl/dl5-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9A%84%E4%BC%98%E5%8C%96/</guid><description>&lt;h1 id="网络优化的难点"&gt;网络优化的难点&lt;/h1&gt;
+&lt;h2 id="网络结构多样性"&gt;网络结构多样性&lt;/h2&gt;
+&lt;p&gt;神经网络的种类非常多，比如卷积网络、循环网络等，其结构也非常不同。有些比较深，有些比较宽。不同参数在网络中的作用也有很大的差异，比如连接权重和偏置的不同，以及循环网络中循环连接上的权重和其它权重的不同。由于网络结构的多样性，我们很难找到一种通用的优化方法。&lt;strong&gt;不同的优化方法在不同网络结构上的差异也都比较大&lt;/strong&gt;。此外，网络的超参数一般也比较多，这也给优化带来很大的挑战。&lt;/p&gt;</description></item><item><title>深度学习：循环神经网络</title><link>https://xiangdiwu.github.io/post/4-dl/dl4-%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</link><pubDate>Wed, 14 Oct 2020 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/post/4-dl/dl4-%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</guid><description>&lt;h1 id="序列数据和语言模型"&gt;序列数据和语言模型&lt;/h1&gt;
+&lt;p&gt;全连接神经网络和卷积神经网络只能单独处理一个个的输入，&lt;strong&gt;前一个输入和后一个输入是完全没有关系的&lt;/strong&gt;。但是，某些任务需要能够更好的处理序列的信息，即前面的输入和后面的输入是有关系的。比如，当我们在理解一句话意思时，孤立的理解这句话的每个词是不够的，我们需要处理这些词连接起来的整个序列；当我们处理视频的时候，我们也不能只单独的去分析每一帧，而要&lt;strong&gt;分析这些帧连接起来的整个序列&lt;/strong&gt;。这时，就需要用到深度学习领域中另一类非常重要神经网络：&lt;strong&gt;循环神经网络(recurrent neural network)&lt;/strong&gt;。&lt;/p&gt;</description></item><item><title>深度学习：卷积神经网络</title><link>https://xiangdiwu.github.io/post/4-dl/dl3-%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</link><pubDate>Tue, 13 Oct 2020 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/post/4-dl/dl3-%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</guid><description>&lt;p&gt;&lt;strong&gt;卷积神经网络(convolutional neural network, CNN)&lt;/strong&gt; 是一种具有局部连接、权重共享等特性的前馈神经网络。&lt;/p&gt;
+&lt;p&gt;卷积神经网络最早是主要用来处理图像信息。在用全连接前馈网络来处理图像时，会存在参数太多、局部特征不变形等缺陷。卷积神经网络利用&lt;strong&gt;局部连接、权重共享以及汇聚&lt;/strong&gt;三大结构上的特性，使得数据具有一定程度上的平移、缩放和旋转不变性。和前馈神经网络相比，卷积神经网络的参数更少。&lt;/p&gt;</description></item><item><title>深度学习：神经网络</title><link>https://xiangdiwu.github.io/post/4-dl/dl2-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</link><pubDate>Mon, 12 Oct 2020 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/post/4-dl/dl2-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</guid><description>&lt;p&gt;&lt;strong&gt;人工神经网络(artificial neural network, ANN)&lt;/strong&gt; 是指一系列受生物学和神经科学启发的数学模型. 这些模型主要是通过对人脑的神经元网络进行抽象，构建&lt;strong&gt;人工神经元&lt;/strong&gt;，并按照一定拓扑结构来建立人工神经元之间的连接，来模拟生物神经网络。在人工智能领域，人工神经网络也常常简称为&lt;strong&gt;神经网络(neural network, NN)&lt;/strong&gt;。&lt;/p&gt;</description></item><item><title>深度学习概述</title><link>https://xiangdiwu.github.io/post/4-dl/dl1-%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A6%82%E8%BF%B0/</link><pubDate>Sun, 11 Oct 2020 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/post/4-dl/dl1-%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A6%82%E8%BF%B0/</guid><description>&lt;h1 id="表示学习"&gt;表示学习&lt;/h1&gt;
+&lt;p&gt;为了提高机器学习系统的准确率，需要将输入信息转换为有效的特征，或者更一般称为&lt;strong&gt;表示(representation)&lt;/strong&gt;。如果有一种算法可以自动地学习出有效的特征，并提高最终机器学习模型的性能，那么这种学习就是可以叫做&lt;strong&gt;表示学习(representation learning)&lt;/strong&gt;。&lt;/p&gt;</description></item><item><title>机器学习：概率图模型</title><link>https://xiangdiwu.github.io/post/3-ml/ml15-%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B/</link><pubDate>Sat, 10 Oct 2020 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/post/3-ml/ml15-%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B/</guid><description>&lt;h1 id="概率图模型概述"&gt;概率图模型概述&lt;/h1&gt;
+&lt;div align="center"&gt;
+&lt;img src="https://xiangdiwu.github.io/Kimages/2/image-20200818114353404.png" style="zoom:40%;" /&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;概率图模型(probabilistic graphical model, PGM)&lt;/strong&gt;，简称图模型(graphical model, GM)，是指一种&lt;strong&gt;用图结构来描述多元随机变量之间条件独立关系的概率模型&lt;/strong&gt;，从而给研究&lt;strong&gt;高维空间中的概率模型&lt;/strong&gt;带来了很大的便捷性。&lt;/p&gt;</description></item><item><title>机器学习：话题模型</title><link>https://xiangdiwu.github.io/post/3-ml/ml14-%E8%AF%9D%E9%A2%98%E6%A8%A1%E5%9E%8B/</link><pubDate>Fri, 09 Oct 2020 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/post/3-ml/ml14-%E8%AF%9D%E9%A2%98%E6%A8%A1%E5%9E%8B/</guid><description>&lt;h1 id="单词向量空间与话题向量空间"&gt;单词向量空间与话题向量空间&lt;/h1&gt;
+&lt;p&gt;&lt;strong&gt;潜在语义分析(latent semantic analysis, LSA)&lt;/strong&gt; 是一种无监督学习方法，主要用于文本的话题分析，其特点是通过&lt;strong&gt;矩阵分解&lt;/strong&gt;发现&lt;strong&gt;文本与单词之间基于话题的语义关系&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;文本信息处理中，传统的方法以&lt;strong&gt;单词向量&lt;/strong&gt;表示文本的语义内容，以&lt;strong&gt;单词向量空间的度量&lt;/strong&gt;表示&lt;strong&gt;文本之间的语义相似度&lt;/strong&gt;。潜在语义分析旨在解决这种方法不能准确表示语义的问题，试图从大量的文本数据中发现&lt;strong&gt;潜在的话题&lt;/strong&gt;，以话题向量表示文本的语义内容，以话题向量空间的度量更准确地表示文本之间的语义相似度。这也是&lt;strong&gt;话题分析(topic modeling)的基本想法&lt;/strong&gt;。&lt;/p&gt;</description></item><item><title>机器学习：特征选择</title><link>https://xiangdiwu.github.io/post/3-ml/ml13-%E7%89%B9%E5%BE%81%E9%80%89%E6%8B%A9/</link><pubDate>Thu, 08 Oct 2020 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/post/3-ml/ml13-%E7%89%B9%E5%BE%81%E9%80%89%E6%8B%A9/</guid><description>&lt;h1 id="子集搜索与评价"&gt;子集搜索与评价&lt;/h1&gt;
+&lt;p&gt;给定属性集，其中有些属性可能很关键、很有用，另一些属性则可能没什么用。对当前学习任务有用的属性称为&lt;strong&gt;相关特征(relevant feature)&lt;/strong&gt;，无用的属性称为&lt;strong&gt;无关特征(irrelevant feature)&lt;/strong&gt;。&lt;strong&gt;特征选择(feature selection)&lt;/strong&gt; 是一个重要的数据预处理过程，指从给定的特征集合中选择出相关特征的子集的过程。特征选择能够减少维数灾难问题，同时降低学习任务的难度。&lt;/p&gt;</description></item><item><title>机器学习：聚类</title><link>https://xiangdiwu.github.io/post/3-ml/ml11-%E8%81%9A%E7%B1%BB/</link><pubDate>Wed, 07 Oct 2020 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/post/3-ml/ml11-%E8%81%9A%E7%B1%BB/</guid><description>&lt;h1 id="聚类的基本概念"&gt;聚类的基本概念&lt;/h1&gt;
+&lt;p&gt;在&lt;strong&gt;无监督学习(unsupervised learning)&lt;/strong&gt; 中，训练样本的标记信息是未知的，目标是通过对无标记样本的学习来揭示数据的内在性质及规律，为进一步的数据分析提供基础。聚类(clustering)任务是一种常见的无监督学习方法。&lt;/p&gt;</description></item><item><title>机器学习：降维</title><link>https://xiangdiwu.github.io/post/3-ml/ml12-%E9%99%8D%E7%BB%B4/</link><pubDate>Wed, 07 Oct 2020 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/post/3-ml/ml12-%E9%99%8D%E7%BB%B4/</guid><description>&lt;h1 id="主成分分析"&gt;主成分分析&lt;/h1&gt;
+&lt;p&gt;&lt;strong&gt;主成分分析(principal component analysis, PCA)&lt;/strong&gt; 是一种最常用的数据降维方法，使得在转换后的空间中数据的方差最大。如下图所示的二维数据，如果将这些数据投影到一维空间，选择数据方差最大的方向进行投影(蓝轴)，才能最大化数据的差异性，保留更多的原始数据信息。&lt;/p&gt;</description></item><item><title>机器学习：EM算法</title><link>https://xiangdiwu.github.io/post/3-ml/ml10-em%E7%AE%97%E6%B3%95/</link><pubDate>Tue, 06 Oct 2020 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/post/3-ml/ml10-em%E7%AE%97%E6%B3%95/</guid><description>&lt;h1 id="em算法的引入"&gt;EM算法的引入&lt;/h1&gt;
+&lt;p&gt;概率模型有时既含观测变量，又含隐变量。如果概率模型的变量都是观测变量，那么给定数据，可以直接用极大似然估计法，或贝叶斯估计法估计模型参数。但是，当模型含有隐变量时，就不能简单地使用这些估计方法。&lt;strong&gt;EM算法&lt;/strong&gt;就是&lt;strong&gt;含有隐变量的概率模型参数的极大似然估计法&lt;/strong&gt;，或&lt;strong&gt;极大后验概率估计法&lt;/strong&gt;。我们仅讨论极大似然估计，极大后验概率估计与其类似。&lt;/p&gt;</description></item><item><title>机器学习：集成学习</title><link>https://xiangdiwu.github.io/post/3-ml/ml9-%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0/</link><pubDate>Mon, 05 Oct 2020 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/post/3-ml/ml9-%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0/</guid><description>&lt;h1 id="个体与集成"&gt;个体与集成&lt;/h1&gt;
+&lt;p&gt;&lt;strong&gt;集成学习(ensemble learning)&lt;/strong&gt; 通过构建并结合多个学习期来完成学习任务，有时也被称为&lt;strong&gt;多分类器系统(multi-classifier system)&lt;/strong&gt;、&lt;strong&gt;基于委员会的学习(committee-based learning)&lt;/strong&gt; 等。&lt;/p&gt;</description></item><item><title>机器学习：决策树</title><link>https://xiangdiwu.github.io/post/3-ml/ml8-%E5%86%B3%E7%AD%96%E6%A0%91/</link><pubDate>Sun, 04 Oct 2020 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/post/3-ml/ml8-%E5%86%B3%E7%AD%96%E6%A0%91/</guid><description>&lt;h1 id="决策树模型"&gt;决策树模型&lt;/h1&gt;
+&lt;p&gt;&lt;strong&gt;决策树(decision tree)&lt;/strong&gt; 是一种基本的&lt;strong&gt;分类&lt;/strong&gt;与&lt;strong&gt;回归&lt;/strong&gt;算法。决策树呈树形结构，在分类问题中表示基于特征对实例进行分类的过程，它可以认为是&lt;strong&gt;if-then规则&lt;/strong&gt;的集合，也可以认为是定义在特征空间与类空间上的&lt;strong&gt;条件概率分布&lt;/strong&gt;。其主要优点是模型具有可读性，分类速度快。学习时，利用训练数据，根据损失函数最小化的原则建立决策树模型。预测时，对新的数据，利用训练好的决策模型进行分类。&lt;/p&gt;</description></item><item><title>机器学习：支持向量机</title><link>https://xiangdiwu.github.io/post/3-ml/ml7-%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/</link><pubDate>Sat, 03 Oct 2020 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/post/3-ml/ml7-%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/</guid><description>&lt;h1 id="线性支持向量机与硬间隔最大化"&gt;线性支持向量机与硬间隔最大化&lt;/h1&gt;
+&lt;p&gt;&lt;strong&gt;支持向量机(support vector machine, SVM)&lt;/strong&gt; 是一个经典的机器学习二分类算法，其找到的分割超平面具有更好的鲁棒性，因此广泛使用在很多任务上，并表现出了很强的优势。&lt;/p&gt;</description></item><item><title>机器学习：逻辑回归与最大熵模型</title><link>https://xiangdiwu.github.io/post/3-ml/ml6-%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92%E4%B8%8E%E6%9C%80%E5%A4%A7%E7%86%B5%E6%A8%A1%E5%9E%8B/</link><pubDate>Fri, 02 Oct 2020 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/post/3-ml/ml6-%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92%E4%B8%8E%E6%9C%80%E5%A4%A7%E7%86%B5%E6%A8%A1%E5%9E%8B/</guid><description>&lt;h1 id="逻辑回归模型"&gt;逻辑回归模型&lt;/h1&gt;
+&lt;p&gt;&lt;strong&gt;逻辑回归(logistic regression, LR)&lt;/strong&gt; 模型是一种处理&lt;strong&gt;二分类&lt;/strong&gt;问题的线性模型。逻辑回归模型由logistic分布(logistic distribution)导出。设$X$是连续随机变量，$X$服从logistic分布是指$X$具有下列&lt;strong&gt;分布函数&lt;/strong&gt;和&lt;strong&gt;密度函数&lt;/strong&gt;：
+&lt;/p&gt;</description></item><item><title>机器学习：感知机</title><link>https://xiangdiwu.github.io/post/3-ml/ml4-%E6%84%9F%E7%9F%A5%E6%9C%BA/</link><pubDate>Thu, 01 Oct 2020 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/post/3-ml/ml4-%E6%84%9F%E7%9F%A5%E6%9C%BA/</guid><description>&lt;h1 id="感知机算法"&gt;感知机算法&lt;/h1&gt;
+&lt;p&gt;&lt;strong&gt;感知机(perceptron)&lt;/strong&gt; 由Frank Rosenblatt于1957年提出，是一种广泛使用的线性分类器。感知器可谓是最简单的人工神经网络，只有一个神经元，是对生物神经元的简单数学模拟，有与生物神经元相对应的部件，如&lt;strong&gt;权重(突触)、偏置(阈值)及激活函数(细胞体)&lt;/strong&gt;，输出为+1或-1。&lt;/p&gt;</description></item><item><title>机器学习：贝叶斯分类器</title><link>https://xiangdiwu.github.io/post/3-ml/ml5-%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB%E5%99%A8/</link><pubDate>Thu, 01 Oct 2020 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/post/3-ml/ml5-%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB%E5%99%A8/</guid><description>&lt;h1 id="朴素贝叶斯的学习与分类"&gt;朴素贝叶斯的学习与分类&lt;/h1&gt;
+&lt;p&gt;&lt;strong&gt;朴素贝叶斯(naive Bayse)&lt;/strong&gt; 算法是基于&lt;strong&gt;贝叶斯定理&lt;/strong&gt;与&lt;strong&gt;特征条件独立假设&lt;/strong&gt;的分类方法。设输入空间$\mathcal X \subseteq \mathbb R^n$为$n$维向量的集合，输出空间为类标记集合$\mathcal Y={c_1,c_2,\cdots,c_K}$。输入为特征向量$x \in \mathcal X$，输出为类标记$y \in \mathcal Y$。$P(X,Y)$是输入空间和输出空间上的随机变量$X$和$Y$的联合概率分布，训练数据集(含$N$个数据)由$P(X,Y)$独立同分布产生。朴素贝叶斯在数据集上学习&lt;strong&gt;联合概率分布&lt;/strong&gt;$P(X,Y)$。具体地，先学习以下先验概率分布及条件概率分布：&lt;/p&gt;</description></item><item><title>机器学习：K近邻算法</title><link>https://xiangdiwu.github.io/post/3-ml/ml3-k%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/</link><pubDate>Wed, 30 Sep 2020 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/post/3-ml/ml3-k%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/</guid><description>&lt;h1 id="近邻算法原理"&gt;$\boldsymbol k$近邻算法原理&lt;/h1&gt;
+&lt;p&gt;$k$近邻($k$-nearest neighbor, $k$NN)算法是一种常用的监督学习方法。其基本思想为：给定一组数据，基于某种距离度量找出训练集中与其最靠近的$k$个训练样本，然后基于这$k$个邻居的信息来进行预测。通常，在&lt;strong&gt;分类任务&lt;/strong&gt;中可使用&lt;strong&gt;投票法&lt;/strong&gt;，即选择$k$个样本中&lt;strong&gt;出现最多的类别标记&lt;/strong&gt;作为预测结果；在&lt;strong&gt;回归任务&lt;/strong&gt;中可使用平均法，即将$k$个样本的实值输出标记的平均值作为预测结果。该算法属于“&lt;strong&gt;惰性学习(lazy learning)&lt;/strong&gt;”方法之一，没有显式的学习过程。相应的，那些在训练阶段就对样本进行学习处理的方法，称为“&lt;strong&gt;急切学习(eager learning)&lt;/strong&gt;”。&lt;/p&gt;</description></item><item><title>机器学习：线性回归</title><link>https://xiangdiwu.github.io/post/3-ml/ml2-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/</link><pubDate>Tue, 29 Sep 2020 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/post/3-ml/ml2-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/</guid><description>&lt;h1 id="线性回归模型"&gt;线性回归模型&lt;/h1&gt;
+&lt;p&gt;&lt;strong&gt;线性回归(linear regression)&lt;/strong&gt; 是机器学习和统计学中最基础和广泛应用的模型，是一种对自变量和隐变量之间关系进行建模的回归分析。自变量数量为1时称为&lt;strong&gt;简单线性回归&lt;/strong&gt;，自变量数量大于1时称为&lt;strong&gt;多元线性回归&lt;/strong&gt;。&lt;/p&gt;</description></item><item><title>机器学习基础</title><link>https://xiangdiwu.github.io/post/3-ml/ml1-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/</link><pubDate>Mon, 28 Sep 2020 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/post/3-ml/ml1-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/</guid><description>&lt;h1 id="人工智能"&gt;人工智能&lt;/h1&gt;
+&lt;p&gt;&lt;b&gt;智能(intelligence)&lt;/b&gt;是现代生活中很常见的一个词，比如智能手机、智能家居、智能驾驶等。在不同使用场合中，智能的含义也不太一样。比如“智能手机”中的“智能”一般是指由计算机控制并具有某种智能行为的意思。这里的“计算机控制”+“智能行为”隐含了对人工智能的简单定义。&lt;/p&gt;</description></item><item><title>量化数学基础：信息论</title><link>https://xiangdiwu.github.io/post/2-math/math5-%E4%BF%A1%E6%81%AF%E8%AE%BA/</link><pubDate>Sun, 27 Sep 2020 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/post/2-math/math5-%E4%BF%A1%E6%81%AF%E8%AE%BA/</guid><description>&lt;p&gt;&lt;strong&gt;信息论(information theory)&lt;/strong&gt; 是数学、物理、计算机科学等多个学科的交叉领域。信息论是由Claude Shannon最早提出的，主要研究信息的量化、存储和通信等方法。这里，&lt;strong&gt;“信息”是指一组消息的集合&lt;/strong&gt;。假设在一个噪声通道上发送消息，我们需要考虑如何对每一个信息进行编码、传输以及解码，使得接收者可以尽可能准确地重构出消息。在机器学习相关领域，信息论也有着大量的应用。比如&lt;strong&gt;特征抽取、统计推断、自然语言处理&lt;/strong&gt;等。&lt;/p&gt;</description></item><item><title>量化数学基础：概率统计</title><link>https://xiangdiwu.github.io/post/2-math/math4-%E6%A6%82%E7%8E%87%E7%BB%9F%E8%AE%A1/</link><pubDate>Sat, 26 Sep 2020 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/post/2-math/math4-%E6%A6%82%E7%8E%87%E7%BB%9F%E8%AE%A1/</guid><description>&lt;h1 id="概率统计的基本概念"&gt;概率统计的基本概念&lt;/h1&gt;
+&lt;h2 id="样本空间与随机事件"&gt;样本空间与随机事件&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;样本空间(sample space)&lt;strong&gt;是一个随机试验&lt;/strong&gt;所有可能结果的集合&lt;/strong&gt;。例如，如果抛一枚硬币，那么样本空间的集合就是{正面, 反面}；如果抛一个骰子，那么样本空间就是{1, 2, 3, 4, 5, 6}。随机试验中的每个可能结果称为&lt;strong&gt;样本点&lt;/strong&gt;。&lt;/p&gt;</description></item><item><title>量化数学基础：数学优化</title><link>https://xiangdiwu.github.io/post/2-math/math3-%E6%95%B0%E5%AD%A6%E4%BC%98%E5%8C%96/</link><pubDate>Fri, 25 Sep 2020 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/post/2-math/math3-%E6%95%B0%E5%AD%A6%E4%BC%98%E5%8C%96/</guid><description>&lt;p&gt;&lt;b&gt;数学优化(mathematical optimization)&lt;/b&gt;问题也叫最优化问题，指在一定约束条件下，求解一个目标函数的最大值或最小值问题。数学优化问题的定义为：给定一个目标函数(也叫代价函数)$f:A\rightarrow\mathbb R$，寻找一个变量$\boldsymbol x^* \in \mathcal D$，使得对于所有$\mathcal D$中的$\boldsymbol x$，$f(\boldsymbol{x}^{*}) \leqslant f(\boldsymbol{x})$(最小化)；或者$f(\boldsymbol{x}^{*}) \geqslant f(\boldsymbol{x})$(最大化)，其中$\mathcal D$为变量$\boldsymbol x$的&lt;strong&gt;约束集&lt;/strong&gt;，也叫&lt;strong&gt;可行域&lt;/strong&gt;；$\mathcal D$中的变量被称为&lt;strong&gt;可行解&lt;/strong&gt;。&lt;/p&gt;</description></item><item><title>量化数学基础：微积分</title><link>https://xiangdiwu.github.io/post/2-math/math2-%E5%BE%AE%E7%A7%AF%E5%88%86/</link><pubDate>Thu, 24 Sep 2020 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/post/2-math/math2-%E5%BE%AE%E7%A7%AF%E5%88%86/</guid><description>&lt;p&gt;&lt;strong&gt;微积分(calculus)&lt;/strong&gt;是研究函数的&lt;strong&gt;微分(differentiation)&lt;/strong&gt;、&lt;strong&gt;积分(integration)&lt;/strong&gt;及其相关应用的数学分支。&lt;/p&gt;
+&lt;h1 id="微分"&gt;微分&lt;/h1&gt;
+&lt;h2 id="导数"&gt;导数&lt;/h2&gt;
+&lt;p&gt;对于定义域和值域都是实数域的函数$f: \mathbb R \rightarrow \mathbb R$，若$f(x)$在点$x_0$的某个邻域$\Delta x$内，极限
+&lt;/p&gt;</description></item><item><title>量化数学基础：线性代数</title><link>https://xiangdiwu.github.io/post/2-math/math1-%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/</link><pubDate>Wed, 23 Sep 2020 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/post/2-math/math1-%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/</guid><description>&lt;h1 id="向量和向量空间"&gt;向量和向量空间&lt;/h1&gt;
+&lt;h2 id="向量"&gt;向量&lt;/h2&gt;
+&lt;p&gt;&lt;b&gt;标量(scalar)&lt;/b&gt;是一个实数，一般用斜体小写字母$a,b,c$来表示。&lt;b&gt;向量(vector)&lt;/b&gt;是由一组实数组成的有序数组，一个&lt;em&gt;n&lt;/em&gt;维向量$\boldsymbol a$由&lt;em&gt;n&lt;/em&gt;个有序实数组成，表示为$\boldsymbol{a}=\left[a_{1}, a_{2}, \cdots, a_{n}\right]$，其中$a_{i}$称为向量$\boldsymbol{a}$的第$i$个分量(第$i$维)。&lt;/p&gt;</description></item><item><title>基础统计学名词解释</title><link>https://xiangdiwu.github.io/post/2-math/math0-%E5%9F%BA%E7%A1%80%E7%BB%9F%E8%AE%A1%E5%AD%A6%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A/</link><pubDate>Tue, 22 Sep 2020 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/post/2-math/math0-%E5%9F%BA%E7%A1%80%E7%BB%9F%E8%AE%A1%E5%AD%A6%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A/</guid><description>&lt;h2 id="统计数据和计算机"&gt;统计、数据和计算机&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;统计学（Statistics）：收集、整理、分析并解释数据以支持决策的科学。&lt;/li&gt;
+&lt;li&gt;描述统计（Descriptive Statistics）：用图表和概括量描述数据基本特征的方法。&lt;/li&gt;
+&lt;li&gt;推断统计（Inferential Statistics）：利用样本数据对总体进行估计与假设检验的技术。&lt;/li&gt;
+&lt;li&gt;变量（Variable）：可以取不同数值或类别的观测特征。&lt;/li&gt;
+&lt;li&gt;无序类别变量（Nominal Categorical Variable）：仅有名称而无内在顺序的分类特征。&lt;/li&gt;
+&lt;li&gt;有序类别变量（Ordinal Categorical Variable）：类别间存在自然顺序但间距未知的特征，比如：很好、好、一般、差、很差。&lt;/li&gt;
+&lt;li&gt;数值变量（Numerical Variable）：又称为定量变量，以数值表示并可进行算术运算的特征。&lt;/li&gt;
+&lt;li&gt;无序类别数据（Nominal Data）：属于无序类别的观察结果集合。&lt;/li&gt;
+&lt;li&gt;有序类别数据（Ordinal Data）：属于有序类别的观察结果集合。&lt;/li&gt;
+&lt;li&gt;数值数据（Numerical Data）：由数值构成的观察结果集合。&lt;/li&gt;
+&lt;li&gt;总体（Population）：研究对象的全部个体（数据）的集合。&lt;/li&gt;
+&lt;li&gt;样本（Sample）：从总体中抽取用于研究的子集。&lt;/li&gt;
+&lt;li&gt;样本量（Sample Size）：样本中个体的数量。&lt;/li&gt;
+&lt;li&gt;简单随机抽样（Simple Random Sampling）：每个个体等概率被抽中的抽样方法。&lt;/li&gt;
+&lt;li&gt;分层抽样（Stratified Sampling）：将总体分层后在各层内随机抽样的方法。&lt;/li&gt;
+&lt;li&gt;系统抽样（Systematic Sampling）：按固定间隔从有序总体中抽取个体的抽样方法。&lt;/li&gt;
+&lt;li&gt;整群抽样（Cluster Sampling）：以自然群体为单位整群抽取的抽样方法。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="用图表展示数据"&gt;用图表展示数据&lt;/h2&gt;
+&lt;ol start="18"&gt;
+&lt;li&gt;频数分布（Frequency Distribution）：展示各取值或区间出现次数的表格或图形。&lt;/li&gt;
+&lt;li&gt;频数（Frequency）：某取值或区间在数据集中出现的次数。&lt;/li&gt;
+&lt;li&gt;比例（Proportion）：部分在全体中所占的相对份额。&lt;/li&gt;
+&lt;li&gt;比率（Ratio）：两个数值间的对比关系。&lt;/li&gt;
+&lt;li&gt;条形图（Bar Chart）：用等宽条形高度表示类别频数的图形。&lt;/li&gt;
+&lt;li&gt;帕累托图（Pareto Chart）：按频数降序排列并叠加累积比例的条形图。&lt;/li&gt;
+&lt;li&gt;饼图（Pie Chart）：用扇形面积表示类别比例的圆形图。&lt;/li&gt;
+&lt;li&gt;环形图（Donut Chart）：中间留空的饼图，用于展示多系列比例。&lt;/li&gt;
+&lt;li&gt;直方图（Histogram）：用相邻矩形面积表示数值数据区间频数的图形。&lt;/li&gt;
+&lt;li&gt;茎叶图（Stem-and-Leaf Plot）：保留原始数据形态的同时展示分布形状的图形。&lt;/li&gt;
+&lt;li&gt;箱线图（Boxplot）：用五数概括展示数据分布与异常值的图形。&lt;/li&gt;
+&lt;li&gt;离群值（Outlier）：在数据集中显著偏离其余观测、与整体模式不符的极端值。&lt;/li&gt;
+&lt;li&gt;垂线图（Drop-Line Plot）：在分类轴上用垂线表示数值大小的图形。&lt;/li&gt;
+&lt;li&gt;误差图（Error Bar Plot）：展示均值及变异或不确定性的图形。&lt;/li&gt;
+&lt;li&gt;散点图（Scatter Plot）：用点的位置表示两个数值变量观测值的图形。&lt;/li&gt;
+&lt;li&gt;重叠散点图（Overlaid Scatter Plot）：在同一坐标系中绘制多组散点以比较关系。&lt;/li&gt;
+&lt;li&gt;雷达图（Radar Chart）：用多轴多边形展示多变量综合表现的图形。&lt;/li&gt;
+&lt;li&gt;轮廓图（Contour Plot）：用等高线表示三维数据在二维平面上分布的图形。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="用统计量描述数据"&gt;用统计量描述数据&lt;/h2&gt;
+&lt;ol start="36"&gt;
+&lt;li&gt;简单平均值（Mean）：所有观测值之和除以观测个数的结果。&lt;/li&gt;
+&lt;li&gt;中位数（Median）：排序后处于中间位置的观测值。&lt;/li&gt;
+&lt;li&gt;四分位数（Quartile）：将排序数据四等分的三个分割点。&lt;/li&gt;
+&lt;li&gt;众数（Mode）：数据集中出现次数最多的观测值。&lt;/li&gt;
+&lt;li&gt;极差（Range）：最大值与最小值之差。&lt;/li&gt;
+&lt;li&gt;四分位差（Interquartile Range）：第三四分位数与第一四分位数之差。&lt;/li&gt;
+&lt;li&gt;方差（Variance）：观测值与均值偏差平方的平均，衡量数据离散度。&lt;/li&gt;
+&lt;li&gt;标准差（Standard Deviation）：方差的正平方根，度量数据离散程度。&lt;/li&gt;
+&lt;li&gt;标准分数（Z-score）：观测值与均值之差除以标准差后的无量纲结果。&lt;/li&gt;
+&lt;li&gt;离散系数（Coefficient of Variation）：标准差与均值之比的无量纲相对变异指标。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;
+&lt;p&gt;当需要比较不同单位或量级数据集的相对离散程度时使用离散系数。&lt;/p&gt;</description></item><item><title>Kubernetes 知识图谱</title><link>https://xiangdiwu.github.io/post/6-tech/k8s-mindmap/</link><pubDate>Sat, 22 Feb 2020 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/post/6-tech/k8s-mindmap/</guid><description>&lt;p&gt;&lt;a href="https://xiangdiwu.github.io/mindmap/k8s.html"&gt;Mind Map&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Kubernetes
+&lt;ul&gt;
+&lt;li&gt;基本理念
+&lt;ul&gt;
+&lt;li&gt;自动化部署，缩扩容和管理容器应用&lt;/li&gt;
+&lt;li&gt;预期状态管理(Desired State Management)
+&lt;ul&gt;
+&lt;li&gt;Kubernetes API 对象（声明预期状态）&lt;/li&gt;
+&lt;li&gt;Kubernetes Control Plane（确保集群当前状态匹配预期状态）
+&lt;ul&gt;
+&lt;li&gt;Kubernetes Master
+&lt;ul&gt;
+&lt;li&gt;kube-apiserver（API Server）
+&lt;ul&gt;
+&lt;li&gt;对外提供各种对象的CRUD REST接口&lt;/li&gt;
+&lt;li&gt;对外提供Watch机制，通知对象变化&lt;/li&gt;
+&lt;li&gt;将对象存储到Etcd中&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;kube-controller-manager（守护进程）
+&lt;ul&gt;
+&lt;li&gt;功能：通过apiserver监视集群的状态，并做出相应更改，以使得集群的当前状态向预期状态靠拢&lt;/li&gt;
+&lt;li&gt;controllers
+&lt;ul&gt;
+&lt;li&gt;replication controller&lt;/li&gt;
+&lt;li&gt;endpoints controller&lt;/li&gt;
+&lt;li&gt;namespace controller&lt;/li&gt;
+&lt;li&gt;serviceaccounts controller&lt;/li&gt;
+&lt;li&gt;&amp;hellip;&amp;hellip;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;kube-scheduler（调度器）
+&lt;ul&gt;
+&lt;li&gt;功能：将Pod调度到合适的工作节点上运行&lt;/li&gt;
+&lt;li&gt;调度的考虑因素
+&lt;ul&gt;
+&lt;li&gt;资源需求&lt;/li&gt;
+&lt;li&gt;服务治理要求&lt;/li&gt;
+&lt;li&gt;硬件/软件/策略限制&lt;/li&gt;
+&lt;li&gt;亲和以及反亲和要求&lt;/li&gt;
+&lt;li&gt;数据局域性&lt;/li&gt;
+&lt;li&gt;负载间的干扰&lt;/li&gt;
+&lt;li&gt;&amp;hellip;&amp;hellip;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Work Node
+&lt;ul&gt;
+&lt;li&gt;Kubelet（节点代理）
+&lt;ul&gt;
+&lt;li&gt;接受通过各种机制（主要是通过apiserver）提供的一组PodSpec&lt;/li&gt;
+&lt;li&gt;确保PodSpec中描述的容器处于运行状态且运行状况良好&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Kube-proxy（节点网络代理）
+&lt;ul&gt;
+&lt;li&gt;在节点上提供Kubernetes API中定义Service&lt;/li&gt;
+&lt;li&gt;设置Service对应的IPtables规则&lt;/li&gt;
+&lt;li&gt;进行流量转发（userspace模式）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;部署模式
+&lt;ul&gt;
+&lt;li&gt;Single node&lt;/li&gt;
+&lt;li&gt;Single head node，multiple workers
+&lt;ul&gt;
+&lt;li&gt;API Server，Scheduler，and Controller Manager run on a single node&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Single etcd，HA heade nodes，multiple workers
+&lt;ul&gt;
+&lt;li&gt;Multiple API Server instances fronted by a load balancer&lt;/li&gt;
+&lt;li&gt;Multiple Scheduler and Controller Manager instances with leader election&lt;/li&gt;
+&lt;li&gt;Single etcd node&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;HA etcd，HA head nodes，multiple workers
+&lt;ul&gt;
+&lt;li&gt;Multiple API Server instances fronted by a load balancer&lt;/li&gt;
+&lt;li&gt;Multiple Scheduler and Controller Manager instances with leader election&lt;/li&gt;
+&lt;li&gt;Etcd cluster run on nodes seperate from the Kubernetes head nodes&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Kubernetes Federation&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;商业模式
+&lt;ul&gt;
+&lt;li&gt;云服务用户：避免使用单一云提供商导致的厂商锁定，避免技术和成本风险&lt;/li&gt;
+&lt;li&gt;云服务厂商：使用Kubernetes来打破AWS的先入垄断地位，抢夺市场份额&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Workload
+&lt;ul&gt;
+&lt;li&gt;Pod
+&lt;ul&gt;
+&lt;li&gt;Smalleset deployable computing unit
+- Consist of one or more containers
+- All containers in a pod share &lt;a href="https://kubernetes.io/docs/concepts/storage/volumes/"&gt;storage&lt;/a&gt;, &lt;a href="https://zhaohuabing.com/post/2020-03-12-linux-network-virtualization/#network-namespace"&gt;network namespacem&lt;/a&gt; and &lt;a href="https://man7.org/linux/man-pages/man7/cgroups.7.html"&gt;cgroup&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Workload resources(Controllers)
+&lt;ul&gt;
+&lt;li&gt;Deployment &amp;amp; RelicaSet
+&lt;ul&gt;
+&lt;li&gt;Deployment is used to deploy stateless appliations.&lt;/li&gt;
+&lt;li&gt;ReplicaSet ensured a specified numbers of pod replicas are running at a given time.&lt;/li&gt;
+&lt;li&gt;Deployment is used to rollout/update/rollback ReplicaSet.&lt;/li&gt;
+&lt;li&gt;ReplicaSet is not supposed to be used directly, it should be managed by Deployments.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;StatefulSet
+&lt;ul&gt;
+&lt;li&gt;StatefulSet is used to deploy stateful applications.&lt;/li&gt;
+&lt;li&gt;SetatefSet require a Headless Service to provide network identity for the pods.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;DaemonSet
+&lt;ul&gt;
+&lt;li&gt;DaemonSet ensures that all(or some) Nodes run a copy of a Pod.&lt;/li&gt;
+&lt;li&gt;Use cases: cluster storage daemon, logs collection daemon, node monitoring daemon.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Job &amp;amp; CronJob
+&lt;ul&gt;
+&lt;li&gt;Job runs pods until a specified number of them have been succcessfully executed.&lt;/li&gt;
+&lt;li&gt;CronJob runs a job periodically on a given schedule.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Storage
+&lt;ul&gt;
+&lt;li&gt;Volume
+&lt;ul&gt;
+&lt;li&gt;purpose
+&lt;ul&gt;
+&lt;li&gt;Persist data across the life span of a Pod
+&lt;ul&gt;
+&lt;li&gt;Data won&amp;rsquo;t lost when a container is restarted&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Share data between containers running together in a Pod
+&lt;ul&gt;
+&lt;li&gt;Volume can be mounted to mutiple containers inside a Pod&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;type
+&lt;ul&gt;
+&lt;li&gt;configMap&lt;/li&gt;
+&lt;li&gt;emptyDir&lt;/li&gt;
+&lt;li&gt;hostPath&lt;/li&gt;
+&lt;li&gt;local&lt;/li&gt;
+&lt;li&gt;persistentVolumeClaim&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Policies
+&lt;ul&gt;
+&lt;li&gt;ResourceQuota
+&lt;ul&gt;
+&lt;li&gt;purpose
+&lt;ul&gt;
+&lt;li&gt;Limit the aggregated resource consumption of a Namespace&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Scope
+&lt;ul&gt;
+&lt;li&gt;Namespaced: ResourceQuota is enforced in a Namespace scope, different Namespaces have different Resouce limit&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Type
+&lt;ul&gt;
+&lt;li&gt;Compute Resource Quota
+&lt;ul&gt;
+&lt;li&gt;CPU (limits.cpu requests.cpu)&lt;/li&gt;
+&lt;li&gt;Memory (limits.memory requets.memory)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Storage Resource Quota
+&lt;ul&gt;
+&lt;li&gt;Persistent Storage (storage)&lt;/li&gt;
+&lt;li&gt;Ephemeral Storage (ephermal-storage)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Object Count Quota
+&lt;ul&gt;
+&lt;li&gt;Limit of total number of Namespaced resources (count/services)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Request and Limit
+&lt;ul&gt;
+&lt;li&gt;Request: Resources that are guaranteed to get&lt;/li&gt;
+&lt;li&gt;Limit: The maximum amount of resources that one can get&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Network
+&lt;ul&gt;
+&lt;li&gt;Linux Network Virtualization
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://zhaohuabing.com/post/2020-02-24-linux-taptun/"&gt;Linux tun/tap&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://zhaohuabing.com/post/2020-03-12-linux-network-virtualization/#network-namespace"&gt;Network Namespace&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://zhaohuabing.com/post/2020-03-12-linux-network-virtualization/#veth"&gt;Veth Pair&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://zhaohuabing.com/post/2020-03-12-linux-network-virtualization/#bridge"&gt;Linux bridge&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Vlan&lt;/li&gt;
+&lt;li&gt;Vxlan
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://cizixs.com/2017/09/25/vxlan-protocol-introduction/"&gt;Vxlan原理&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://cizixs.com/2017/09/28/linux-vxlan/"&gt;Linux 上实现 vxlan 网络&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Routing Protocol
+&lt;ul&gt;
+&lt;li&gt;Distance Vector Protocol
+&lt;ul&gt;
+&lt;li&gt;BGP&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Link-State Protocol
+&lt;ul&gt;
+&lt;li&gt;OSPF&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;K8s Network
+&lt;ul&gt;
+&lt;li&gt;Service
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://zhaohuabing.com/post/2019-03-29-how-to-choose-ingress-for-service-mesh/#cluster-ip"&gt;Cluster IP&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;Provides access in the cluster internally&lt;/li&gt;
+&lt;li&gt;The ClusterIP range is defined in API server startup option &lt;code&gt;-service-cluster-ip-range&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Service port is defined in the Service Manifest&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://zhaohuabing.com/post/2019-03-29-how-to-choose-ingress-for-service-mesh/#nodeport"&gt;NodePort&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;Provides access at the node level&lt;/li&gt;
+&lt;li&gt;The NodePort range is defined in API server startup option &lt;code&gt;--service-node-port-range&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://zhaohuabing.com/post/2019-03-29-how-to-choose-ingress-for-service-mesh/#loadbalancer"&gt;LoadBalancer&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;Provides an external IP to allow access from outside of the cluster&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://kubernetes.io/docs/concepts/services-networking/service/#externalname"&gt;ExternalName&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;An alias to an external service&lt;/li&gt;
+&lt;li&gt;DNS redirection&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://zhaohuabing.com/post/2020-09-11-headless-mtls/#%E4%BB%80%E4%B9%88%E6%98%AF%E6%97%A0%E5%A4%B4%E6%9C%8D%E5%8A%A1"&gt;Headless&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;Define a Headless service: specify &amp;ldquo;None&amp;rdquo; in for the cluster IP(.spec.clusterIP)&lt;/li&gt;
+&lt;li&gt;No cluster IP allocated to Headless services&lt;/li&gt;
+&lt;li&gt;No load balancing and proxying for Headless service&lt;/li&gt;
+&lt;li&gt;Kube dns returns the IP of the pods backing the service&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#proxy"&gt;Kube Proxy&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;Provides a proxy server or appliction-level gateway between localhost and the K8s API server&lt;/li&gt;
+&lt;li&gt;Handles locating the apiserver and authenticating (uses cluster configuration and user credential in .kube/config)&lt;/li&gt;
+&lt;li&gt;Can send requests to API server (for example: get the list of services in default namespace &lt;code&gt;localhost:proxy-port/api/v1/namespaces/default/services&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;Can send requests to services via url &lt;code&gt;localhost:proxy-port/api/v1/namespaces/namespace_name/services/service_name[:port_name]/proxy/[application url] &lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Kubectl port-forward
+&lt;ul&gt;
+&lt;li&gt;Forward local ports to a pod&lt;/li&gt;
+&lt;li&gt;kebectl port-forward deployment/mydeployment localport:port&lt;/li&gt;
+&lt;li&gt;kebectl port-forward service/myservice localport:port&lt;/li&gt;
+&lt;li&gt;kebectl port-forward pod/mypod localport:port&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Ingress
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://zhaohuabing.com/post/2019-03-29-how-to-choose-ingress-for-service-mesh/#k8s-ingress"&gt;K8s Ingress&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://zhaohuabing.com/post/2019-03-29-how-to-choose-ingress-for-service-mesh/#istio-gateway"&gt;Istio Ingress Gateway&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;DNS
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#services"&gt;Service&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;Normal Service
+&lt;ul&gt;
+&lt;li&gt;A/AAA record which resolves name to the Cluster IP
+&lt;ul&gt;
+&lt;li&gt;Name: &lt;code&gt;my-svc.my-namespace.svc.cluster-domain.example&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Example: &lt;code&gt;kubernetes.default.svc.cluster.local. 30 IN A	172.20.252.11&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;SRV record for each named service port
+&lt;ul&gt;
+&lt;li&gt;Name: &lt;code&gt;_my-port-name._my-port-protocol.my-svc.my-namespace.svc.cluster-domain.&lt;/code&gt;example&lt;/li&gt;
+&lt;li&gt;Example: &lt;code&gt;_https._tcp.kubernetes.default.svc.cluster.local. 5 IN SRV 0 100 443 kubernetes.default.svc.cluster.local.&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;A PTR record which resolves Cluster IP to domain name
+&lt;ul&gt;
+&lt;li&gt;Example &lt;code&gt;1.252.20.172.in-addr.arpa. 5	IN	PTR	kubernetes.default.svc.cluster.local.&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Headless Service
+&lt;ul&gt;
+&lt;li&gt;A/AAA record which resolves to the set of IPs of the pods selected by the service&lt;/li&gt;
+&lt;li&gt;N*M SRV records (N pods, M named ports in service)&lt;/li&gt;
+&lt;li&gt;A PTR record which resolves pod IP to domain name of each pod&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;ExternalName
+&lt;ul&gt;
+&lt;li&gt;A CNAME pointing to the domain name of the external service&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Pod
+&lt;ul&gt;
+&lt;li&gt;A/AAA record which resolves name to the pod IP&lt;/li&gt;
+&lt;li&gt;General name
+&lt;ul&gt;
+&lt;li&gt;Name: &lt;code&gt;pod-ip-address.my-namespace.pod.cluster-domain.example&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Example: &lt;code&gt;172-20-0-57.default.pod.cluster.local. 3 IN A	172.20.0.57&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Pod created by Deployment or DaemonSet exposed by a Service
+&lt;ul&gt;
+&lt;li&gt;
+&lt;table&gt;
+ &lt;thead&gt;
+ &lt;tr&gt;
+ &lt;th&gt;&lt;code&gt;pod-ip-address.deployment-name.my-namespace.svc.cluster-domain.example&lt;/code&gt;&lt;/th&gt;
+ &lt;/tr&gt;
+ &lt;/thead&gt;
+ &lt;tbody&gt;
+ &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://kubernetes.io/docs/tasks/administer-cluster/dns-custom-nameservers/#coredns"&gt;CoreDNS&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;Plugins
+&lt;ul&gt;
+&lt;li&gt;errors: Erros are logged to stdout&lt;/li&gt;
+&lt;li&gt;prometheus: Metrics of CoreDNS are available at &lt;code&gt;http://localhost:9153/metrics&lt;/code&gt; in Prometheus format&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://coredns.io/plugins/kubernetes/"&gt;kubernetes&lt;/a&gt;: CoreDNS will reply to DNS queries based on IP of the services and pods of Kubernetes.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;腾讯云
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://zhaohuabing.com/post/2021-03-24-tke-network-mode/#global-router-%E6%A8%A1%E5%BC%8F"&gt;Global Router&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://zhaohuabing.com/post/2021-03-24-tke-network-mode/#vpc-cni-%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%BC%8F"&gt;VPC-CNI&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://zhaohuabing.com/post/2019-03-29-how-to-choose-ingress-for-service-mesh/#api-gateway--sidecar-proxy"&gt;API Gateway+Service Mesh&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Kubernetes CNI插件
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.lijiaocn.com/%E9%A1%B9%E7%9B%AE/2017/04/11/calico-usage.html"&gt;Calico&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Scheduling
+&lt;ul&gt;
+&lt;li&gt;Algorithm: Predicate find a set of available nodes -&amp;gt; Priority select the best suitable node
+&lt;ul&gt;
+&lt;li&gt;Predicates: find available nodes through some conditions: check memory, cpu, disk, etc.&lt;/li&gt;
+&lt;li&gt;Priorities: select a node to run the scheduled pod: select the node with the least amount of pods by default&lt;/li&gt;
+&lt;li&gt;Policy: specify a number of predicates and priorities&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Run a customscheduler
+&lt;ul&gt;
+&lt;li&gt;Policy: &lt;code&gt;--policy-config-file&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Name: &lt;code&gt;--scheduler-name&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Pod Specification: hits for pod scheduling
+&lt;ul&gt;
+&lt;li&gt;NodeName: assign pods to the named node&lt;/li&gt;
+&lt;li&gt;NodeSelector: assign pods to a group of nodes with particular labels&lt;/li&gt;
+&lt;li&gt;Affinity and anti-affinity:
+&lt;ul&gt;
+&lt;li&gt;Node
+&lt;ul&gt;
+&lt;li&gt;Node affinity: has the same ability to constrain pods to particular nodes, but is more expressive and powerful&lt;/li&gt;
+&lt;li&gt;Node anti-affinity: use &lt;code&gt;NotIn&lt;/code&gt; and &lt;code&gt;DoesNotExist&lt;/code&gt; to achieve node anti-affinity&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Inter-Pod
+&lt;ul&gt;
+&lt;li&gt;Inter-Pod affinity: co-locate some pods in the same nodes&lt;/li&gt;
+&lt;li&gt;Inter-Pod anti-affinity: distribute some pods in different nodes&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;taints and tolerations
+&lt;ul&gt;
+&lt;li&gt;allow a node to repel a set of pods&lt;/li&gt;
+&lt;li&gt;allow pods to be scheduled onto nodes with matching taints&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;SchedulerName: choose a specific scheduler to schedule a pod&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Security
+&lt;ul&gt;
+&lt;li&gt;Background Knowledge
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://zhaohuabing.com/post/2020-03-19-pki/"&gt;Certificate and PKI&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://zhaohuabing.com/post/2020-05-19-k8s-certificate/"&gt;Kubernetes 中使用到的证书&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;User Type
+&lt;ul&gt;
+&lt;li&gt;Service Account
+&lt;ul&gt;
+&lt;li&gt;Managed by Kubernetes&lt;/li&gt;
+&lt;li&gt;Represent workloads in the cluster&lt;/li&gt;
+&lt;li&gt;Bound to a specific namespace&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/#normal-user"&gt;Normal User&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;Managed out side of Kubernetes&lt;/li&gt;
+&lt;li&gt;Authenticated with a valid certicated signed by the cluster&amp;rsquo;s CA
+&lt;ul&gt;
+&lt;li&gt;User name: Certificate subject &lt;a href="https://docs.oracle.com/cd/E24191_01/common/tutorials/authz_cert_attributes.html"&gt;Common Name&lt;/a&gt; field&lt;/li&gt;
+&lt;li&gt;Group: Certificate subject &lt;a href="https://docs.oracle.com/cd/E24191_01/common/tutorials/authz_cert_attributes.html"&gt;Organization&lt;/a&gt; field&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Authentication
+&lt;ul&gt;
+&lt;li&gt;Service account tokens for service accounts&lt;/li&gt;
+&lt;li&gt;Client certifications for normal users&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://zhaohuabing.com/post/2020-05-19-k8s-certificate/#service-account--%E8%AF%81%E4%B9%A6"&gt;Certifications for control plane components communication&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://zhaohuabing.com/post/2020-05-19-k8s-certificate/#%E4%BD%BF%E7%94%A8-tls-bootstrapping-%E7%AE%80%E5%8C%96-kubelet-%E8%AF%81%E4%B9%A6%E5%88%B6%E4%BD%9C"&gt;Bootstrap Token&lt;/a&gt; for clusters and nodes bootstrapping&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Authorization
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://kubernetes.io/docs/reference/access-authn-authz/rbac/"&gt;RBAC&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;Namespace Scope
+&lt;ul&gt;
+&lt;li&gt;Role&lt;/li&gt;
+&lt;li&gt;RoleBinding (Associate users retrived from authentication process to Roles)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Cluster Scope
+&lt;ul&gt;
+&lt;li&gt;ClusterRole&lt;/li&gt;
+&lt;li&gt;CluseterRoleBinding (Associate users retrived from authentication process to ClusteRoles)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Helm: package management tool for K8s applications
+&lt;ul&gt;
+&lt;li&gt;Chart: package all k8s manifests as a single tarball
+&lt;ul&gt;
+&lt;li&gt;Chart.yaml: this files contains metadata about this Chart: name, version, keywords&lt;/li&gt;
+&lt;li&gt;templeates: this directorey contains the resource manifests that makes up this application
+&lt;ul&gt;
+&lt;li&gt;deployment&lt;/li&gt;
+&lt;li&gt;services&lt;/li&gt;
+&lt;li&gt;secretes&lt;/li&gt;
+&lt;li&gt;&amp;hellip;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;values.yaml: this files contains keys and values that are used to generate the release. These values are replaced in the resource manifests using the Go template syntax&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Repository: HTTP servers that contains charts&lt;/li&gt;
+&lt;li&gt;Helm commands
+&lt;ul&gt;
+&lt;li&gt;helm search hub redis: find redis chart and its repository in helm hub&lt;/li&gt;
+&lt;li&gt;helm sarch repo redis: find redis chart in repositories&lt;/li&gt;
+&lt;li&gt;helm install redis bitnami/redis: install redis chart&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Extending the Kubernetes API
+&lt;ul&gt;
+&lt;li&gt;Custom Resource
+&lt;ul&gt;
+&lt;li&gt;CRD: Define custom resources&lt;/li&gt;
+&lt;li&gt;Custom Resources/Ojbects: Declare the desired spec of a custom resource&lt;/li&gt;
+&lt;li&gt;Custom Controllers: watch-loop to make sure the actual state meet the declared spec&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/apiserver-aggregation/"&gt;Aggregated API Server&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;Deploy an extension API server&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://kubernetes.io/docs/tasks/extend-kubernetes/configure-aggregation-layer/"&gt;Register APIService objects&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;Group: API groups this extension API server hosts&lt;/li&gt;
+&lt;li&gt;Version: API version this extension API server hosts&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;kube-apiserver proxies client requests to the extension API server&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;</description></item><item><title>Git内部存储原理</title><link>https://xiangdiwu.github.io/post/6-tech/git/</link><pubDate>Mon, 21 Jan 2019 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/post/6-tech/git/</guid><description>&lt;p&gt;Git是程序员工作中使用频率非常高的工具，要提高日常的工作效率，就需要熟练掌握Git的使用方法。相对于传统的版本控制系统而言，Git更为强大和灵活，其各种命令和命令参数也非常多，如果不了解Git的内部原理，要把Git使用得顺手的话非常困难。本文将用一个具体的例子来帮助理解Git的内部存储原理,加深对Git的理解，从掌握各种Git命令，以在使用Git进行工作时得心应手。&lt;/p&gt;</description></item><item><title>《伪善是邪恶向美德的致敬》读后感</title><link>https://xiangdiwu.github.io/2017/08/03/reflections-on-maximes-et-reflections-morales/</link><pubDate>Thu, 03 Aug 2017 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/2017/08/03/reflections-on-maximes-et-reflections-morales/</guid><description>&lt;p&gt;有人说这不过是拉罗什福科这位法国落魄贵族的经验教训总结，人皆可写之。这个评价过于轻蔑和傲慢。&lt;/p&gt;
+&lt;p&gt;这本《伪善是邪恶向美德的致敬》仿佛痴人梦呓一般的道德箴言集，不像蒙田那样动辄引用优美的诗句，也不像帕斯卡尔用宗教来武装自己，不作规训，用观察视角把对人类行为动机的洞察写出，粗暴地扯下人性的虚伪面具。&lt;/p&gt;</description></item><item><title>《新教伦理与资本主义精神》读后感</title><link>https://xiangdiwu.github.io/2017/04/08/reflections-on-the-protestant-ethic-and-the-spirit-of-capitalism/</link><pubDate>Sat, 08 Apr 2017 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/2017/04/08/reflections-on-the-protestant-ethic-and-the-spirit-of-capitalism/</guid><description>&lt;blockquote&gt;
+&lt;p&gt;马克思•韦伯是德国著名的社会学家、经济学家和历史学家，也是现代社会学的创始人之一。在其代表作品《新教伦理与资本主义精神》中，他采用独特的研究视角，从宗教和文化的角度探寻了资本主义经济发展背后隐藏在文化深处的精神动力问题。他通过比较东西方国家的不同宗教及其资本主义的现实发展得出结论：新教伦理及资本主义精神是推动西方资本主义经济产生和发展的精神动力，为西方资本主义的发展提供了道德依托和价值呵护。同时，在资本主义发展一定阶段之后，资本主义已经脱离出了新教伦理成为了占据世界的价值体系。正如作者所说“The Puritan wanted to work in calling; we are forced to do so.”。&lt;/p&gt;</description></item><item><title>《消费社会》读后感</title><link>https://xiangdiwu.github.io/2016/12/09/reflections-on-la-societe-de-consommation/</link><pubDate>Fri, 09 Dec 2016 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/2016/12/09/reflections-on-la-societe-de-consommation/</guid><description>&lt;p&gt;&lt;strong&gt;《消费社会》：鲍德里亚与消费社会的符号牢笼&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;法国思想家让·鲍德里亚犀利地指出，现代消费社会已经超越了单纯满足需求的阶段，进入了一个全新的符号秩序。当我们购买一款最新型号的智能手机时，我们购买的不仅是通讯工具，更是某种社会身份、生活方式的象征。那些铺天盖地的广告从不告诉我们产品的基本功能，而是精心编织着关于成功、爱情、自由的神话。消费不再是手段，而成为了目的本身，一种现代人的“公民义务”。&lt;/p&gt;</description></item><item><title>《乌合之众》读书笔记</title><link>https://xiangdiwu.github.io/2016/06/21/the-crowd-reading-notes/</link><pubDate>Tue, 21 Jun 2016 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/2016/06/21/the-crowd-reading-notes/</guid><description>&lt;p&gt;勒庞的《乌合之众》，“是一部以阅读法国大革命时间为基础的群体行为的社会心理学著作”。罗伯特•墨顿的序“勒庞《乌合之众》的得与失”写得很好，他提到一点，“《乌合之众》的当代意义，在于它发现问题的功能而非解决问题的功能。”&lt;/p&gt;</description></item><item><title>English Practice Topic: Name</title><link>https://xiangdiwu.github.io/2016/05/06/IELTS-speaking-part-1-name/</link><pubDate>Fri, 06 May 2016 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/2016/05/06/IELTS-speaking-part-1-name/</guid><description>&lt;p&gt;&lt;strong&gt;Does your name have a special meaning?&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Funny you ask. My name is made up of three Chinese characters. The second character is actually the abbreviation for Hunan, which is my dad&amp;rsquo;s hometown.&lt;/p&gt;
+&lt;p&gt;The third character linked to lotus seeds. You konw, Hunan is known as the home of the lotus flower.&lt;/p&gt;
+&lt;p&gt;In Chinese culture, lotus seeds stand for purity and strength, like a lotus blooming through muddy waters while staying flawless.&lt;/p&gt;</description></item><item><title>《美国大城市的死与生》读后感</title><link>https://xiangdiwu.github.io/2015/10/11/reflections-on-the-death-and-life-of-great-american-cities/</link><pubDate>Sun, 11 Oct 2015 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/2015/10/11/reflections-on-the-death-and-life-of-great-american-cities/</guid><description>&lt;p&gt;《美国大城市的死与生（the Death and Life of Great American Cities）》出版于1961年，从此后就变成建筑界、城市规划领域最著名的书之一。&lt;/p&gt;
+&lt;p&gt;这本书所探讨的问题，和它成书之中所处的时代背景是分不开的。美国经历了20世纪30年代的经济大萧条，其间为了解决人力过剩问题，进行了大量城市建设。这个方法正是罗斯福从当时主持纽约建设的罗伯特•摩西（Robert Moses）那儿学来的。那几年，曾有84000人为摩西建设过在书中被雅各布斯强烈批判的纽约公园。二战之后美国建筑与城市规划界的思路发生了一些变化，一方面是经济上升期对城市建设的需求，一方面是原先欧洲的现代主义建筑“旗手”纷纷移居美国，现代主义设计手法、现代主义城市规划，正是多快好省建设世界的“良方”。&lt;/p&gt;</description></item><item><title>《别闹了，费曼先生》读后感</title><link>https://xiangdiwu.github.io/2015/07/26/surely-youre-joking-mr-feynman/</link><pubDate>Sun, 26 Jul 2015 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/2015/07/26/surely-youre-joking-mr-feynman/</guid><description>&lt;p&gt;在《物理大牛的八卦》中，费曼被狠狠吐槽：“他有个最大的毛病，就是喜欢装牛B，明明自己也是费尽九牛二虎之力才作出来的，非得装着一晚上想出来的，用来打击别人。”&lt;/p&gt;</description></item><item><title>MIT 推荐提高审美必看的 150 部电影</title><link>https://xiangdiwu.github.io/2015/07/07/mit-recommend-150-movies-for-improving-the-art-of-beauty/</link><pubDate>Tue, 07 Jul 2015 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/2015/07/07/mit-recommend-150-movies-for-improving-the-art-of-beauty/</guid><description>&lt;p&gt;在光影交织的艺术长廊中，电影不仅是时间的切片，更是人类情感与思想的镜像。当镜头聚焦于那些被精心雕琢的叙事与画面时，我们得以窥见导演的哲思、时代的脉搏，以及人性深处的复杂光谱。&lt;/p&gt;</description></item><item><title>《万物静默如谜》读后感</title><link>https://xiangdiwu.github.io/2014/02/17/poems-new-and-collected/</link><pubDate>Mon, 17 Feb 2014 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/2014/02/17/poems-new-and-collected/</guid><description>&lt;blockquote&gt;
+&lt;p&gt;人生，无论有多长，始终短暂。 短得让你来不及添加任何东西。—— 辛波斯卡&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;不知所云，知所云却不知诗意何在的诗歌非常多。辛波斯卡的诗歌则不存在这种问题，正如诺贝尔文学奖授奖辞中对她的评价一样：看似单纯，却富有意义。她的诗有时近乎白话。&lt;/p&gt;</description></item><item><title>《时间简史》读后感</title><link>https://xiangdiwu.github.io/2014/01/15/reflections-on-a-brief-history-of-time/</link><pubDate>Wed, 15 Jan 2014 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/2014/01/15/reflections-on-a-brief-history-of-time/</guid><description>&lt;blockquote&gt;
+&lt;p&gt;不管多少回实验的结果和某一理论相一致，你永远不可能断定下一次结果不会和它矛盾。——霍金&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;随着科学在19和20世纪变得日益专门化和数学化，哲学家们已经无法理解科学的最新发展，从而“语言分析成为哲学唯一剩下的研究领域（维根斯坦）”。而普通人大概更是只能看个热闹。对于普通人，既不知道我们的问题是否有道理，也不知道找谁能够获得靠谱的回答，只能把问题记录在读书笔记中。&lt;/p&gt;</description></item><item><title/><link>https://xiangdiwu.github.io/about/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/about/</guid><description>&lt;p&gt;Hi，我是吴湘菂，一个金融量化投资相关技术布道者及实践者。&lt;/p&gt;
+&lt;h2 id="about-me"&gt;About Me&lt;/h2&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Xiangdi Wu&lt;/em&gt;&lt;/strong&gt; is a quant researcher. She has a solid experience in the quantitative investment and financial industry for more than 8 years.&lt;/p&gt;
+&lt;p&gt;Throughout her career, she has built a number of quantitative investment strategies and has been involved in the development of quantitative investment tools.&lt;/p&gt;</description></item><item><title/><link>https://xiangdiwu.github.io/search/placeholder/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/search/placeholder/</guid><description/></item><item><title>Posts Archive</title><link>https://xiangdiwu.github.io/archive/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/archive/</guid><description/></item><item><title>Vibe</title><link>https://xiangdiwu.github.io/vibe/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/vibe/</guid><description>&lt;h1 id="2025"&gt;——2025——&lt;/h1&gt;
+&lt;h2 id="延迟"&gt;延迟&lt;/h2&gt;
+&lt;p&gt;统计文件读取速度、因子值计算和回测所需的时间是重要的。如果一个算子每计算一次要花费3-5分钟，可能等计算完毕，行情 bar 已经接近走完，那么回测层面可能意味着回测结果不准确，交易层面可能意味着错失机会。通常我们会去计算“从数据获取到产生交易信号”与“实时行情”的时间差（delay）。对于 15 分钟的模型，这个延迟至少要控制在 10 秒内（大概 4 秒左右），如果使用 C++ 编写，这个延迟可以控制到 20 毫秒内。从另一个角度来说，如果我们想知道做出来的模型能在什么分钟级别去实盘，不仅仅是看那些回测指标，还要看回测延迟占 bar 的时间比例。比如策略是在一分钟上，而模型的延迟是十秒。那很可能这个模型就是不能使用的。再具体一点，要去观察每个一分钟的 bar 上，它的前十秒是不是已经把这一分钟的行情走完？剩下的行情在这个一分钟 bar 上又占了多少？&lt;/p&gt;</description></item><item><title>旅行日志</title><link>https://xiangdiwu.github.io/travel/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://xiangdiwu.github.io/travel/</guid><description>&lt;blockquote&gt;
+&lt;p&gt;“Do not go gentle into that good night”&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h1 id="in-n-out-burger---milpitas-usa-202405"&gt;In-N-Out Burger - Milpitas, USA, 2024.05&lt;/h1&gt;
+&lt;p&gt;In-N-Out 是加州才有的快餐连锁店，加州人对 In-N-Out 有着特殊的感情。在疫情之后，其他的快餐店都涨价了，In-N-Out 仍然保持着之前的价格，并且其食材新鲜，口味独特，是加州人的最爱。其装修风格也很有特色，简洁明快的红白色调，再加上墙上加州风格的装饰画，让人感觉心情愉悦。&lt;/p&gt;</description></item></channel></rss>
